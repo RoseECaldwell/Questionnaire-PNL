@@ -1,419 +1,400 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>MetaLove · Test de métaprogrammes (v2 – aléatoire + email seulement)</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MetaLove · Test de métaprogrammes (v3)</title>
+<meta name="robots" content="noindex,nofollow">
 <style>
-  :root {
-    --bg:#0b0d12;--card:#151925;--ink:#e7ebf5;--muted:#9aa4bf;--accent:#ff79c6;--accent2:#50fa7b;--warn:#f1fa8c;--bad:#ff5555;--ok:#8be9fd;
+  :root{
+    --bg:#0b0d12;--card:#161b2a;--ink:#e7ebf5;--muted:#9aa4bf;--accent:#ff79c6;--accent2:#50fa7b;
   }
-  *{ box-sizing: border-box; }
-  html,body{ height:100%; }
-  body{
-    margin:0;
-    background: linear-gradient(180deg,#0b0d12,#0f1220 30%,#0b0d12);
-    color: var(--ink);
-    font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  }
-  .wrap{ max-width:1100px; margin:24px auto; padding:0 16px 48px; }
-  header{ display:flex; gap:14px; align-items:center; margin:12px 0 24px; }
-  .logo{ width:38px; height:38px; border-radius:10px; background: radial-gradient(circle at 30% 25%,#ff91d2,transparent 55%),radial-gradient(circle at 70% 70%,#71ffbe,transparent 55%),linear-gradient(135deg,#2a2f45,#171b2a); box-shadow:0 0 0 1px #ffffff1a,0 10px 30px #0007; }
-  h1{ font-size:22px; margin:0; }
-  .card{ background: linear-gradient(180deg,#161b2a,#121724); border:1px solid #ffffff1a; border-radius:14px; box-shadow:0 12px 30px #0006; }
-  .p16{ padding:16px; }
-  .p24{ padding:24px; }
-  .grid{ display:grid; gap:16px; }
-  .grid.cols-2{ grid-template-columns: repeat(2,minmax(0,1fr)); }
-  @media (max-width:880px){ .grid.cols-2{ grid-template-columns: 1fr; } }
-  .q{ padding:12px; border-radius:10px; border:1px solid #ffffff14; background:#111526; margin-bottom:12px; }
-  .q legend{ font-weight:600; margin-bottom:8px; }
-  .opts{ display:flex; flex-wrap:wrap; gap:10px; }
-  .opt{ display:flex; align-items:center; gap:8px; background:#0d1220; border:1px solid #ffffff1a; padding:8px 10px; border-radius:10px; }
-  .sticky-actions{ position:sticky; top:0; z-index:10; background: linear-gradient(180deg,#0b0d12 60%,#0b0d1200); padding-top:8px; margin:-8px -8px 8px; }
-  .actions{ display:flex; gap:10px; flex-wrap:wrap; }
-  button{ appearance:none; border:1px solid #ffffff20; color:var(--ink); background:#1b2133; border-radius:10px; padding:10px 14px; font-weight:600; cursor:pointer; }
-  button.primary{ background: linear-gradient(180deg,#2b3554,#212942); border-color:#ffffff2a; }
-  button.ghost{ background:#0d1220; }
-  button:disabled{ opacity:.55; cursor:not-allowed; }
-  .pill{ display:inline-block; padding:3px 8px; border-radius:999px; background:#ffffff14; border:1px solid #ffffff22; font-size:12px; }
-  .muted{ color:var(--muted); }
-  .small{ font-size:13px; }
-  .bar{ height:12px; border-radius:999px; background:#ffffff17; overflow:hidden; }
-  .bar > i{ display:block; height:100%; background: linear-gradient(90deg,var(--accent),var(--accent2)); width:0%; }
-  .res{ padding:16px; background:#0f1424; border-radius:12px; border:1px solid #ffffff18; }
-  .hr{ height:1px; background:#ffffff18; margin:14px 0; }
-  label.inline{ display:flex; gap:8px; align-items:center; }
-  input[type=email], input[type=text]{ width:100%; padding:10px; border-radius:10px; border:1px solid #ffffff28; background:#0d1220; color:var(--ink); }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+  .wrap{max-width:1000px;margin:24px auto;padding:0 16px 40px}
+  header{display:flex;gap:12px;align-items:center;margin-bottom:18px}
+  .logo{width:36px;height:36px;border-radius:10px;background:radial-gradient(circle at 30% 25%,#ff91d2,transparent 55%),radial-gradient(circle at 70% 70%,#71ffbe,transparent 55%),linear-gradient(135deg,#2a2f45,#171b2a);box-shadow:0 0 0 1px #ffffff20,0 10px 30px #0007}
+  h1{font-size:22px;margin:0}
+  .card{background:linear-gradient(180deg,#161b2a,#121724);border:1px solid #ffffff20;border-radius:14px;box-shadow:0 12px 30px #0008}
+  .p16{padding:16px}.p24{padding:24px}
+  .muted{color:var(--muted)}.small{font-size:13px}
+  .hr{height:1px;background:#ffffff22;margin:14px 0}
+  .btn{appearance:none;border:1px solid #ffffff30;color:var(--ink);background:#1b2133;border-radius:10px;padding:10px 14px;font-weight:600;cursor:pointer}
+  .btn.primary{background:linear-gradient(180deg,#2b3554,#212942)}
+  .btn:disabled{opacity:.55;cursor:not-allowed}
+  fieldset{border:none;margin:0;padding:0}
+  legend{font-weight:600;margin-bottom:8px}
+  .question{padding:16px;border:1px solid #ffffff20;border-radius:10px;background:#111526;margin-bottom:16px}
+  .options{display:flex;flex-wrap:wrap;gap:10px}
+  label.option{display:flex;align-items:center;gap:8px;background:#0d1220;border:1px solid #ffffff2a;padding:8px 10px;border-radius:10px;cursor:pointer}
+  input[type="radio"]{margin:0}
+  input[type=email]{width:100%;padding:10px;border-radius:10px;border:1px solid #ffffff35;background:#0d1220;color:var(--ink)}
+  .progress-bar{width:100%;height:8px;background:#ffffff17;border-radius:999px;overflow:hidden;margin:12px 0}
+  .progress-bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <div class="logo" aria-hidden="true"></div>
+    <div class="logo"></div>
     <div>
-      <h1>MetaLove · Test de métaprogrammes (v2)</h1>
-      <div class="muted small">100 items • ordre aléatoire • résultats envoyés <strong>exclusivement par e‑mail</strong>. Aucune donnée n’est affichée à l’écran. Stockage local pour progresser, envoi final à votre backend.</div>
+      <h1>MetaLove · Test de métaprogrammes (v3)</h1>
+      <div class="muted small">100 items • ordre totalement mélangé • réponse en pages de 5 questions • résultats envoyés par e‑mail (collecte à la fin)</div>
     </div>
   </header>
 
-  <!-- Écran de démarrage / collecte email / consentement -->
-  <section id="gate" class="card p24">
-    <h2 style="margin-top:0">Démarrer le test</h2>
-    <div class="grid cols-2">
-      <div>
-        <label class="small">Votre e‑mail (obligatoire pour recevoir votre analyse)
-          <input id="email" type="email" placeholder="prenom.nom@email.com" required />
-        </label>
-        <div class="small muted" style="margin-top:6px">Nous n’affichons pas les résultats à l’écran ; ils sont envoyés par mail et tagués par métaprogrammes pour vos campagnes qualifiées.</div>
-        <div style="margin-top:10px">
-          <label class="inline small"><input id="consent" type="checkbox"/> J’accepte l’envoi de mon analyse par e‑mail et la conservation de mon e‑mail avec les segments de métaprogrammes (usage marketing MetaLove). Je peux demander la suppression à tout moment.</label>
-        </div>
-      </div>
-      <div>
-        <div class="card p16 small" style="background:#0f1424;border:1px dashed #ffffff2a">
-          <strong>Info confidentialité (RGPD)</strong><br/>Votre e‑mail et vos résultats ne quittent pas votre appareil tant que vous n’avez pas cliqué sur « Envoyer ». L’envoi se fait vers votre propre point de collecte (configurable) et n’est visible de personne d’autre.
-        </div>
-      </div>
-    </div>
-    <div class="sticky-actions">
-      <div class="actions">
-        <button class="primary" id="btnStart">Commencer (ordre aléatoire)</button>
-        <span class="pill" id="progressPill">Progression : 0 / 100</span>
-      </div>
+  <!-- Section Quiz -->
+  <section id="quiz" class="card p24">
+    <h2 id="quizTitle">Répondez aux questions</h2>
+    <div id="quizBody"></div>
+    <div class="progress-bar"><i id="progressBar" style="width:0%"></i></div>
+    <div style="display:flex;gap:10px;justify-content:space-between">
+      <button id="btnPrev" class="btn">Précédent</button>
+      <button id="btnNext" class="btn primary">Suivant</button>
     </div>
   </section>
 
-  <!-- Formulaire de test -->
-  <section id="quiz" class="card p24" hidden>
-    <h2 style="margin-top:0">Répondez aux questions</h2>
-    <div id="questions"></div>
+  <!-- Section Email / Final -->
+  <section id="collectEmail" class="card p24" hidden>
+    <h2>Dernière étape</h2>
+    <p>Pour recevoir votre analyse personnalisée, veuillez indiquer votre e‑mail :</p>
+    <label class="small">Votre e‑mail
+      <input id="email" type="email" placeholder="prenom.nom@email.com" required>
+    </label>
+    <div style="margin-top:10px">
+      <label style="display:flex;gap:8px;align-items:start" class="small">
+        <input id="consent" type="checkbox">
+        <span>J’accepte de recevoir mon analyse par e‑mail et que mon adresse soit utilisée pour les segments de métaprogrammes (usage marketing MetaLove). Je peux demander la suppression à tout moment.</span>
+      </label>
+    </div>
     <div class="hr"></div>
-    <div class="actions">
-      <button id="btnSubmit" class="primary">Terminer et recevoir l’analyse par e‑mail</button>
-      <button id="btnReset" class="ghost">Réinitialiser</button>
-      <span class="pill" id="progressPill2">Progression : 0 / 100</span>
-    </div>
+    <button id="btnSend" class="btn primary">Envoyer mon analyse</button>
   </section>
 
-  <!-- Confirmation -->
+  <!-- Section Merci -->
   <section id="thanks" class="card p24" hidden>
-    <h2 style="margin-top:0">Merci !</h2>
-    <p>Votre test est terminé. Votre analyse personnalisée a été envoyée à <span id="toEmail"></span>. Surveillez votre boîte de réception.</p>
-    <p class="small muted">Rappel : par conception, les résultats ne sont pas affichés dans cette page.</p>
+    <h2>Merci !</h2>
+    <p>Votre analyse personnalisée a été envoyée à <span id="toEmail"></span>.</p>
+    <p class="small muted">Par conception, les résultats ne sont pas affichés sur cette page.</p>
   </section>
+
 </div>
 
 <script>
-/***********************************
- * CONFIG – À PERSONNALISER
- ***********************************/
-// URL de réception (ex : Netlify Function, Cloudflare Worker, Supabase Edge, Firebase, etc.)
-const SUBMIT_URL = "https://votre-domaine.tld/api/metaprogrammes/submit";
-// Clé publique (facultative) si vous validez côté serveur – sinon laissez ""
-const PUBLIC_KEY = "";
+/* Configuration server / email */
+const SUBMIT_URL = ""; // si vous avez un backend pour enregistrer / envoyer
+const EMAILJS = { ENABLED:false, USER_ID:"", SERVICE_ID:"", TEMPLATE_ID:"" };
+if(window.emailjs && EMAILJS.ENABLED){ emailjs.init(EMAILJS.USER_ID); }
 
-/***********************************
- * BANQUE DE QUESTIONS
- ***********************************/
-const CATS = [
-  {key:"intro_extra", label:"Introverti · Extraverti", type:"binary", options:[{v:"Introverti"},{v:"Extraverti"}],
-   questions:[
-    "Pour reprendre de l’énergie, préférez‑vous vous isoler ou voir du monde ?",
-    "En fin de journée, vous rechargez plutôt en lisant seul(e) ou en échangeant avec d’autres ?",
-    "Lors d’un week‑end libre, choisissez‑vous un moment solitaire ou une activité sociale ?",
-    "Dans une nouvelle équipe, observez‑vous d’abord en retrait ou allez‑vous spontanément vers les autres ?",
-    "Préférez‑vous des réunions courtes en tête‑à‑tête ou des ateliers collectifs animés ?",
-    "Au téléphone, allez‑vous à l’essentiel ou aimez‑vous prolonger l’échange ?",
-    "Dans une salle d’attente, écoutez‑vous un podcast ou engagez‑vous la conversation ?",
-    "Au déjeuner, mangez‑vous seul(e) ou avec un groupe ?",
-    "Dans une conférence, restez‑vous discret(ète) ou intervenez‑vous volontiers en public ?",
-    "Quand vous découvrez un lieu, préférez‑vous l’explorer seul(e) ou accompagné(e) ?"
-   ]},
-  {key:"p_o_a", label:"Pouvoir · Accomplissement · Affiliation", type:"tri", options:[{v:"Pouvoir"},{v:"Accomplissement"},{v:"Affiliation"}],
-   questions:[
-    "Dans un projet, vous cherchez d’abord à influencer, à réussir un défi, ou à créer une bonne cohésion ?",
-    "Votre plus grande satisfaction : diriger, atteindre, ou être bien relié(e) aux autres ?",
-    "En réunion, vous visez surtout l’orientation, le résultat, ou le climat relationnel ?",
-    "Face à un désaccord, privilégiez‑vous convaincre, prouver par l’action, ou préserver le lien ?",
-    "Quand vous déléguez, compte pour vous : l’autorité, l’exigence de résultat, ou la confiance mutuelle ?",
-    "Votre style préféré : prendre le lead, relever un challenge, ou fédérer le groupe ?",
-    "Dans un succès, ce qui compte : l’influence acquise, l’objectif atteint, ou la reconnaissance du groupe ?",
-    "En entretien, parlez‑vous surtout d’initiative, de réalisations, ou d’esprit d’équipe ?",
-    "Dans un conflit, votre priorité : recadrer, résoudre efficacement, ou rétablir l’harmonie ?",
-    "Pour vous motiver, est‑ce l’impact, la performance, ou l’appartenance ?"
-   ]},
-  {key:"self_other", label:"Tourné vers soi · Tourné vers les autres", type:"binary", options:[{v:"Soi"},{v:"Autres"}],
-   questions:[
-    "Dans vos décisions, pesez‑vous d’abord vos propres besoins ou ceux des autres ?",
-    "En planifiant, commencez‑vous par votre agenda ou celui de votre entourage ?",
-    "Dans un choix difficile, écoutez‑vous prioritairement votre ressenti ou la convenance collective ?",
-    "En cas d’imprévu, vous adaptez‑vous selon vos priorités ou selon l’impact sur autrui ?",
-    "Quand vous dites non, est‑ce pour vous respecter d’abord, ou pour ménager l’autre ?",
-    "Au travail, optimisez‑vous votre efficacité ou celle de l’équipe avant tout ?",
-    "Dans un achat, privilégiez‑vous votre préférence ou l’avis de proches ?",
-    "En communication, exprimez‑vous vos attentes ou questionnez‑vous d’abord les autres ?",
-    "Dans la gestion du temps, gardez‑vous vos plages à vous ou les laissez‑vous au service du collectif ?",
-    "Pour résoudre un conflit, cherchez‑vous d’abord à être juste envers vous‑même ou envers l’autre ?"
-   ]},
-  {key:"global_detail", label:"Global · Détails", type:"binary", options:[{v:"Global"},{v:"Détails"}],
-   questions:[
-    "Pour commencer un sujet, préférez‑vous la vision d’ensemble ou les faits précis ?",
-    "Dans un brief, attendez‑vous un objectif global ou une checklist détaillée ?",
-    "En lecture, allez‑vous aux idées fortes ou à l’annotation minutieuse ?",
-    "En design, visez‑vous le concept général ou l’exécution pixel‑perfect ?",
-    "En formation, souhaitez‑vous un panorama synthétique ou un mode d’emploi pas‑à‑pas ?",
-    "En audit, regardez‑vous d’abord les tendances ou les écarts ligne par ligne ?",
-    "Dans un compte‑rendu, préférez‑vous 1 page de key points ou un rapport complet ?",
-    "Pour planifier, faites‑vous un macro‑planning ou un Gantt détaillé ?",
-    "Quand vous expliquez, partez‑vous du pourquoi général ou du comment précis ?",
-    "En prise de notes, écrivez‑vous les grandes idées ou chaque élément important ?"
-   ]},
-  {key:"ref_int_ext", label:"Référence interne · Référence externe", type:"binary", options:[{v:"Interne"},{v:"Externe"}],
-   questions:[
-    "Comment savez‑vous qu’un travail est bien fait : selon vos critères ou via des retours ?",
-    "Avant de trancher, vous fiez‑vous à votre jugement ou aux avis extérieurs ?",
-    "Pour progresser, comptez‑vous d’abord sur votre auto‑évaluation ou sur le feedback ?",
-    "En cas de doute, suivez‑vous votre boussole interne ou consultez‑vous des références ?",
-    "À la réussite, vous validez par votre satisfaction ou par une validation formelle ?",
-    "En recrutement, priorisez‑vous votre intuition ou des recommandations/notes ?",
-    "Au quotidien, vous ajustez‑vous par ressenti ou selon des indicateurs externes ?",
-    "En sécurité, décidez‑vous par appréciation personnelle ou par procédures officielles ?",
-    "En apprentissage, testez‑vous par vous‑même ou cherchez‑vous l’aval d’un mentor ?",
-    "Pour choisir un produit, vous basez‑vous sur vos critères ou sur les avis/labels ?"
-   ]},
-  {key:"tow_away", label:"Motivation : Aller vers · Éviter", type:"binary", options:[{v:"Aller vers"},{v:"Éviter"}],
-   questions:[
-    "Quand vous fixez un objectif, pensez‑vous d’abord à ce que vous voulez obtenir ou à ce que vous ne voulez pas ?",
-    "Face à un changement, voyez‑vous surtout les opportunités ou les risques ?",
-    "En sport/santé, visez‑vous les gains désirés ou la prévention des problèmes ?",
-    "En carrière, vous courez vers ce que vous souhaitez ou fuyez ce que vous redoutez ?",
-    "Dans un choix, vous valorisez la récompense potentielle ou minimisez la perte ?",
-    "En gestion du temps, vous avancez pour terminer ou vous évitez les retards ?",
-    "En négociation, cherchez‑vous le meilleur deal ou à éviter le pire scénario ?",
-    "En investissement, ciblez‑vous la performance ou limitez‑vous le risque ?",
-    "En études, apprenez‑vous pour maîtriser un sujet ou pour éviter les lacunes ?",
-    "Dans votre langage, dites‑vous plus « obtenir » que « éviter » (ou l’inverse) ?"
-   ]},
-  {key:"opt_proc", label:"Options · Procédure", type:"binary", options:[{v:"Options"},{v:"Procédure"}],
-   questions:[
-    "Pour une tâche, préférez‑vous explorer des manières différentes ou suivre un processus établi ?",
-    "En cuisine, improvisez‑vous ou suivez‑vous la recette à la lettre ?",
-    "En logiciel, testez‑vous divers chemins ou appliquez‑vous un SOP ?",
-    "En conduite de projet, adaptez‑vous en route ou tenez‑vous strictement le plan ?",
-    "Pour apprendre, expérimentez‑vous librement ou suivez‑vous un cursus structuré ?",
-    "En conformité, privilégiez‑vous l’esprit d’initiative ou la procédure écrite ?",
-    "Quand vous êtes pressé(e), inventez‑vous un raccourci ou suivez‑vous les étapes ?",
-    "Au dépannage, tentez‑vous plusieurs pistes ou appliquez‑vous un arbre de décision ?",
-    "En qualité, ajustez‑vous vite ou vous conformez‑vous au mode opératoire ?",
-    "Dans les loisirs, aimez‑vous improviser ou planifier précisément ?"
-   ]},
-  {key:"pro_rea", label:"Proactif · Réactif", type:"binary", options:[{v:"Proactif"},{v:"Réactif"}],
-   questions:[
-    "Face à un problème, lancez‑vous l’action ou attendez‑vous d’avoir tout analysé ?",
-    "En équipe, initiez‑vous les démarches ou répondez‑vous aux sollicitations ?",
-    "Au quotidien, anticipez‑vous ou intervenez‑vous surtout après coup ?",
-    "Dans une crise, prenez‑vous tout de suite des mesures ou observez‑vous d’abord ?",
-    "Sur un objectif, créez‑vous l’élan ou suivez‑vous la dynamique existante ?",
-    "Avec un client, proposez‑vous proactivement des améliorations ou attendez‑vous la demande ?",
-    "En apprentissage, cherchez‑vous activement des ressources ou attendez‑vous un cadre ?",
-    "Dans vos mails, traitez‑vous en avance ou répondez‑vous quand ça arrive ?",
-    "Sur les risques, mettez‑vous des garde‑fous en amont ou gérez‑vous lorsqu’ils se présentent ?",
-    "En réseau, créez‑vous les opportunités ou profitez‑vous de celles qui viennent ?"
-   ]},
-  {key:"same_diff", label:"Ressemblances · Différences", type:"binary", options:[{v:"Ressemblances"},{v:"Différences"}],
-   questions:[
-    "Quand vous comparez, remarquez‑vous d’abord ce qui se ressemble ou ce qui diverge ?",
-    "Au fil du temps, percevez‑vous la continuité ou les ruptures ?",
-    "Dans un feedback, relevez‑vous les points communs ou ce qui cloche ?",
-    "En innovation, améliorez‑vous l’existant ou remettez‑vous tout à plat ?",
-    "Dans un nouveau poste, voyez‑vous la similarité avec l’ancien ou la nouveauté ?",
-    "En art/design, appréciez‑vous les variations sur un thème ou la disruption ?",
-    "En débat, cherchez‑vous l’accord ou soulignez‑vous les désaccords ?",
-    "En routine, aimez‑vous l’habitude ou avez‑vous besoin de variété ?",
-    "En analyse, partez‑vous de patrons communs ou d’écarts significatifs ?",
-    "Dans la résolution de problème, commencez‑vous par analogies ou par différences ?"
-   ]},
-  {key:"people_task_system", label:"Personnes · Tâche · Système", type:"tri", options:[{v:"Personnes"},{v:"Tâche"},{v:"Système"}],
-   questions:[
-    "En pilotage, votre priorité : relations, résultats, ou cadre/processus ?",
-    "En réunion, soignez‑vous l’ambiance, l’efficacité, ou la structure du plan ?",
-    "Dans un rôle idéal, préférez‑vous animer l’humain, livrer des KPI, ou architecturer des méthodes ?",
-    "Pour décider, considérez‑vous d’abord l’impact humain, l’impact chiffré, ou l’alignement au système ?",
-    "Dans un incident, gérez‑vous l’émotionnel, la résolution rapide, ou la cause‑racine et les règles ?",
-    "Dans la doc, privilégiez‑vous consignes aux équipes, objectifs/ROIs, ou référentiels et workflows ?",
-    "Dans un bilan, regardez‑vous engagement, performance, ou maturité des processus ?",
-    "Pour améliorer, agissez‑vous via culture d’équipe, to‑do opératoire, ou refonte de système ?",
-    "Dans votre discours, utilisez‑vous des histoires humaines, des faits chiffrés, ou des schémas et cadres ?",
-    "En priorisation, choisissez‑vous ce qui sert le lien, ce qui fait avancer, ou ce qui s’intègre au système ?"
-   ]}
-];
+/* Question bank with human labels and meta values */
+const QUESTIONS = [];
+(function buildQuestions(){
+  // Introverti/Extraverti
+  [
+    {q:"Pour reprendre de l’énergie, préférez‑vous…", a1:"vous isoler", v1:"Introverti", a2:"voir du monde", v2:"Extraverti"},
+    {q:"En fin de journée, vous rechargez plutôt en…", a1:"lisant seul(e)", v1:"Introverti", a2:"échangeant avec d’autres", v2:"Extraverti"},
+    {q:"Lors d’un week‑end libre, choisissez‑vous…", a1:"un moment solitaire", v1:"Introverti", a2:"une activité sociale", v2:"Extraverti"},
+    {q:"Dans une nouvelle équipe, êtes‑vous plutôt…", a1:"observateur en retrait", v1:"Introverti", a2:"proactif avec les autres", v2:"Extraverti"},
+    {q:"Préférez‑vous des réunions…", a1:"courtes en tête‑à‑tête", v1:"Introverti", a2:"des ateliers collectifs animés", v2:"Extraverti"},
+    {q:"Au téléphone, vous allez…", a1:"à l’essentiel", v1:"Introverti", a2:"vers de longues discussions", v2:"Extraverti"},
+    {q:"Dans une salle d’attente, vous…", a1:"écoutez un podcast", v1:"Introverti", a2:"engagez la conversation", v2:"Extraverti"},
+    {q:"Au déjeuner, vous mangez…", a1:"seul(e)", v1:"Introverti", a2:"avec un groupe", v2:"Extraverti"},
+    {q:"Dans une conférence, vous…", a1:"restez discret(ète)", v1:"Introverti", a2:"intervenez volontiers", v2:"Extraverti"},
+    {q:"Quand vous découvrez un lieu, vous préférez…", a1:"l’explorer seul(e)", v1:"Introverti", a2:"être accompagné(e)", v2:"Extraverti"}
+  ].forEach(x=>{
+    QUESTIONS.push({cat:"Introverti/Extraverti", text:x.q, options:[{label:x.a1, value:x.v1},{label:x.a2, value:x.v2}]});
+  });
+  // Pouvoir/Accomplissement/Affiliation
+  [
+    {q:"Dans un projet, vous cherchez d’abord à…", opts:[{l:"influencer",v:"Pouvoir"},{l:"réussir un défi",v:"Accomplissement"},{l:"créer une cohésion",v:"Affiliation"}]},
+    {q:"Votre plus grande satisfaction :", opts:[{l:"diriger",v:"Pouvoir"},{l:"atteindre un objectif",v:"Accomplissement"},{l:"être relié(e) aux autres",v:"Affiliation"}]},
+    {q:"En réunion, vous visez surtout…", opts:[{l:"l’orientation/influence",v:"Pouvoir"},{l:"le résultat",v:"Accomplissement"},{l:"le climat relationnel",v:"Affiliation"}]},
+    {q:"Face à un désaccord, vous privilégiez…", opts:[{l:"convaincre",v:"Pouvoir"},{l:"prouver par l’action",v:"Accomplissement"},{l:"préserver le lien",v:"Affiliation"}]},
+    {q:"Quand vous déléguez, ce qui compte :", opts:[{l:"l’autorité",v:"Pouvoir"},{l:"l’exigence de résultat",v:"Accomplissement"},{l:"la confiance",v:"Affiliation"}]},
+    {q:"Votre style préféré :", opts:[{l:"prendre le lead",v:"Pouvoir"},{l:"relever un challenge",v:"Accomplissement"},{l:"fédérer le groupe",v:"Affiliation"}]},
+    {q:"Dans un succès, ce qui compte :", opts:[{l:"l’influence acquise",v:"Pouvoir"},{l:"l’objectif atteint",v:"Accomplissement"},{l:"la reconnaissance du groupe",v:"Affiliation"}]},
+    {q:"En entretien, vous parlez surtout…", opts:[{l:"d’initiative",v:"Pouvoir"},{l:"de réalisations",v:"Accomplissement"},{l:"d’esprit d’équipe",v:"Affiliation"}]},
+    {q:"Dans un conflit, votre priorité :", opts:[{l:"recadrer",v:"Pouvoir"},{l:"résoudre efficacement",v:"Accomplissement"},{l:"rétablir l’harmonie",v:"Affiliation"}]},
+    {q:"Pour vous motiver, est‑ce :", opts:[{l:"l’impact",v:"Pouvoir"},{l:"la performance",v:"Accomplissement"},{l:"l’appartenance",v:"Affiliation"}]}
+  ].forEach(x=>{
+    QUESTIONS.push({cat:"Pouvoir/Accomplissement/Affiliation", text:x.q, options:x.opts.map(o=>({label:o.l, value:o.v}))});
+  });
+  // Soi/Autres
+  [
+    {q:"Dans vos décisions, vous pesez d’abord…", a1:"vos propres besoins", v1:"Soi", a2:"les besoins des autres", v2:"Autres"},
+    {q:"En planifiant, vous commencez par…", a1:"votre agenda", v1:"Soi", a2:"celui de votre entourage", v2:"Autres"},
+    {q:"Dans un choix difficile, vous écoutez d’abord…", a1:"votre ressenti", v1:"Soi", a2:"la convenance collective", v2:"Autres"},
+    {q:"En cas d’imprévu, vous adaptez selon…", a1:"vos priorités", v1:"Soi", a2:"l’impact sur autrui", v2:"Autres"},
+    {q:"Quand vous dites non, est‑ce pour…", a1:"vous respecter", v1:"Soi", a2:"ménager l’autre", v2:"Autres"},
+    {q:"Au travail, vous optimisez avant tout…", a1:"votre efficacité", v1:"Soi", a2:"celle de l’équipe", v2:"Autres"},
+    {q:"Dans un achat, vous privilégiez…", a1:"votre préférence", v1:"Soi", a2:"l’avis de proches", v2:"Autres"},
+    {q:"En communication, vous exprimez…", a1:"vos attentes", v1:"Soi", a2:"vous questionnez les autres", v2:"Autres"},
+    {q:"Dans la gestion du temps, vous gardez…", a1:"vos plages à vous", v1:"Soi", a2:"les laissez au collectif", v2:"Autres"},
+    {q:"Pour résoudre un conflit, vous cherchez d’abord…", a1:"à être juste envers vous-même", v1:"Soi", a2:"à être juste envers l’autre", v2:"Autres"}
+  ].forEach(x=>{
+    QUESTIONS.push({cat:"Soi/Autres", text:x.q, options:[{label:x.a1, value:x.v1},{label:x.a2, value:x.v2}]});
+  });
+  // Global/Détails
+  [
+    {q:"Pour commencer un sujet, préférez‑vous…", a1:"la vision d’ensemble", v1:"Global", a2:"les faits précis", v2:"Détails"},
+    {q:"Dans un brief, attendez‑vous…", a1:"un objectif global", v1:"Global", a2:"une checklist détaillée", v2:"Détails"},
+    {q:"En lecture, allez‑vous…", a1:"aux idées fortes", v1:"Global", a2:"à l’annotation minutieuse", v2:"Détails"},
+    {q:"En design, visez‑vous…", a1:"le concept général", v1:"Global", a2:"l’exécution pixel‑perfect", v2:"Détails"},
+    {q:"En formation, souhaitez‑vous…", a1:"un panorama synthétique", v1:"Global", a2:"un mode d’emploi pas‑à‑pas", v2:"Détails"},
+    {q:"En audit, regardez‑vous d’abord…", a1:"les tendances", v1:"Global", a2:"les écarts ligne par ligne", v2:"Détails"},
+    {q:"Dans un compte‑rendu, préférez‑vous…", a1:"1 page de points clés", v1:"Global", a2:"un rapport complet", v2:"Détails"},
+    {q:"Pour planifier, faites‑vous…", a1:"un macro‑planning", v1:"Global", a2:"un Gantt détaillé", v2:"Détails"},
+    {q:"Quand vous expliquez, partez‑vous…", a1:"du pourquoi général", v1:"Global", a2:"du comment précis", v2:"Détails"},
+    {q:"En prise de notes, écrivez‑vous…", a1:"les grandes idées", v1:"Global", a2:"chaque élément important", v2:"Détails"}
+  ].forEach(x=>{
+    QUESTIONS.push({cat:"Global/Détails", text:x.q, options:[{label:x.a1,value:x.v1},{label:x.a2,value:x.v2}]});
+  });
+  // Référence interne/externe
+  [
+    {q:"Comment savez‑vous qu’un travail est bien fait :", a1:"selon vos critères", v1:"Interne", a2:"via des retours", v2:"Externe"},
+    {q:"Avant de trancher, vous fiez‑vous…", a1:"à votre jugement", v1:"Interne", a2:"aux avis extérieurs", v2:"Externe"},
+    {q:"Pour progresser, comptez‑vous…", a1:"sur votre auto‑évaluation", v1:"Interne", a2:"sur le feedback", v2:"Externe"},
+    {q:"En cas de doute, vous suivez…", a1:"votre boussole interne", v1:"Interne", a2:"des références extérieures", v2:"Externe"},
+    {q:"À la réussite, vous validez par…", a1:"votre satisfaction", v1:"Interne", a2:"une validation formelle", v2:"Externe"},
+    {q:"En recrutement, priorisez‑vous…", a1:"votre intuition", v1:"Interne", a2:"des recommandations", v2:"Externe"},
+    {q:"Au quotidien, vous ajustez‑vous…", a1:"par ressenti", v1:"Interne", a2:"selon des indicateurs", v2:"Externe"},
+    {q:"En sécurité, décidez‑vous…", a1:"par appréciation personnelle", v1:"Interne", a2:"par procédures officielles", v2:"Externe"},
+    {q:"En apprentissage, testez‑vous…", a1:"par vous‑même", v1:"Interne", a2:"chercher l’aval d’un mentor", v2:"Externe"},
+    {q:"Pour choisir un produit, vous basez‑vous…", a1:"sur vos propres critères", v1:"Interne", a2:"sur les avis/labels", v2:"Externe"}
+  ].forEach(x=>{
+    QUESTIONS.push({cat:"Référence interne/externe", text:x.q, options:[{label:x.a1,value:x.v1},{label:x.a2,value:x.v2}]});
+  });
+  // Motivation Aller vers / Éviter
+  [
+    {q:"Quand vous fixez un objectif, pensez‑vous d’abord…", a1:"à ce que vous voulez obtenir", v1:"Aller vers", a2:"à ce que vous voulez éviter", v2:"Éviter"},
+    {q:"Face à un changement, voyez‑vous surtout…", a1:"les opportunités", v1:"Aller vers", a2:"les risques", v2:"Éviter"},
+    {q:"En sport/santé, visez‑vous…", a1:"les gains désirés", v1:"Aller vers", a2:"la prévention des problèmes", v2:"Éviter"},
+    {q:"En carrière, vous courez vers…", a1:"ce que vous souhaitez", v1:"Aller vers", a2:"ce que vous redoutez", v2:"Éviter"},
+    {q:"Dans un choix, vous valorisez…", a1:"la récompense potentielle", v1:"Aller vers", a2:"minimiser la perte", v2:"Éviter"},
+    {q:"En gestion du temps, vous avancez pour…", a1:"terminer", v1:"Aller vers", a2:"éviter les retards", v2:"Éviter"},
+    {q:"En négociation, vous cherchez…", a1:"le meilleur deal", v1:"Aller vers", a2:"à éviter le pire scénario", v2:"Éviter"},
+    {q:"En investissement, vous ciblez…", a1:"la performance", v1:"Aller vers", a2:"limiter le risque", v2:"Éviter"},
+    {q:"En études, apprenez‑vous…", a1:"pour maîtriser un sujet", v1:"Aller vers", a2:"pour éviter les lacunes", v2:"Éviter"},
+    {q:"Dans votre langage, dites‑vous plus…", a1:"obtenir", v1:"Aller vers", a2:"éviter", v2:"Éviter"}
+  ].forEach(x=>{
+    QUESTIONS.push({cat:"Aller vers/Éviter", text:x.q, options:[{label:x.a1,value:x.v1},{label:x.a2,value:x.v2}]});
+  });
+  // Options / Procédure
+  [
+    {q:"Pour une tâche, préférez‑vous…", a1:"explorer des manières différentes", v1:"Options", a2:"suivre un processus établi", v2:"Procédure"},
+    {q:"En cuisine, improvisez‑vous ou suivez‑vous…", a1:"improviser", v1:"Options", a2:"la recette à la lettre", v2:"Procédure"},
+    {q:"En logiciel, testez‑vous divers chemins ou…", a1:"tester plusieurs chemins", v1:"Options", a2:"appliquer un SOP", v2:"Procédure"},
+    {q:"En conduite de projet, adaptez‑vous en route ou…", a1:"vous adapter en route", v1:"Options", a2:"tenir strictement le plan", v2:"Procédure"},
+    {q:"Pour apprendre, expérimentez‑vous librement ou…", a1:"expérimenter librement", v1:"Options", a2:"suivre un cursus structuré", v2:"Procédure"},
+    {q:"En conformité, privilégiez‑vous…", a1:"l’esprit d’initiative", v1:"Options", a2:"la procédure écrite", v2:"Procédure"},
+    {q:"Quand vous êtes pressé(e), inventez‑vous…", a1:"un raccourci", v1:"Options", a2:"suivre les étapes", v2:"Procédure"},
+    {q:"Au dépannage, tentez‑vous plusieurs pistes ou…", a1:"tenter plusieurs pistes", v1:"Options", a2:"appliquer un arbre de décision", v2:"Procédure"},
+    {q:"En qualité, ajustez‑vous vite ou…", a1:"vous ajuster rapidement", v1:"Options", a2:"vous conformer au mode opératoire", v2:"Procédure"},
+    {q:"Dans les loisirs, aimez‑vous…", a1:"improviser", v1:"Options", a2:"planifier précisément", v2:"Procédure"}
+  ].forEach(x=>{
+    QUESTIONS.push({cat:"Options/Procédure", text:x.q, options:[{label:x.a1,value:x.v1},{label:x.a2,value:x.v2}]});
+  });
+  // Proactif / Réactif
+  [
+    {q:"Face à un problème, vous…", a1:"lancez l’action", v1:"Proactif", a2:"attendez d’avoir tout analysé", v2:"Réactif"},
+    {q:"En équipe, vous…", a1:"initiez les démarches", v1:"Proactif", a2:"répondez aux sollicitations", v2:"Réactif"},
+    {q:"Au quotidien, vous…", a1:"anticipez", v1:"Proactif", a2:"intervenez après coup", v2:"Réactif"},
+    {q:"Dans une crise, vous…", a1:"prenez tout de suite des mesures", v1:"Proactif", a2:"observez d’abord", v2:"Réactif"},
+    {q:"Sur un objectif, vous…", a1:"créez l’élan", v1:"Proactif", a2:"suivez la dynamique existante", v2:"Réactif"},
+    {q:"Avec un client, vous…", a1:"proposez proactivement des améliorations", v1:"Proactif", a2:"attendez la demande", v2:"Réactif"},
+    {q:"En apprentissage, vous…", a1:"cherchez activement des ressources", v1:"Proactif", a2:"attendez un cadre", v2:"Réactif"},
+    {q:"Dans vos mails, vous…", a1:"traitez en avance", v1:"Proactif", a2:"répondez quand ça arrive", v2:"Réactif"},
+    {q:"Sur les risques, vous…", a1:"mettez des garde‑fous en amont", v1:"Proactif", a2:"gérez lorsqu’ils se présentent", v2:"Réactif"},
+    {q:"En réseau, vous…", a1:"créez les opportunités", v1:"Proactif", a2:"profitez des opportunités", v2:"Réactif"}
+  ].forEach(x=>{
+    QUESTIONS.push({cat:"Proactif/Réactif", text:x.q, options:[{label:x.a1,value:x.v1},{label:x.a2,value:x.v2}]});
+  });
+  // Ressemblances / Différences
+  [
+    {q:"Quand vous comparez, remarquez‑vous d’abord…", a1:"ce qui se ressemble", v1:"Ressemblances", a2:"ce qui diverge", v2:"Différences"},
+    {q:"Au fil du temps, percevez‑vous…", a1:"la continuité", v1:"Ressemblances", a2:"les ruptures", v2:"Différences"},
+    {q:"Dans un feedback, relevez‑vous…", a1:"les points communs", v1:"Ressemblances", a2:"ce qui cloche", v2:"Différences"},
+    {q:"En innovation, vous…", a1:"améliorez l’existant", v1:"Ressemblances", a2:"remettez tout à plat", v2:"Différences"},
+    {q:"Dans un nouveau poste, vous voyez…", a1:"la similarité", v1:"Ressemblances", a2:"la nouveauté", v2:"Différences"},
+    {q:"En art/design, vous appréciez…", a1:"les variations sur un thème", v1:"Ressemblances", a2:"la disruption", v2:"Différences"},
+    {q:"En débat, vous cherchez…", a1:"l’accord", v1:"Ressemblances", a2:"les désaccords", v2:"Différences"},
+    {q:"En routine, vous aimez…", a1:"l’habitude", v1:"Ressemblances", a2:"la variété", v2:"Différences"},
+    {q:"En analyse, vous partez…", a1:"des patrons communs", v1:"Ressemblances", a2:"des écarts", v2:"Différences"},
+    {q:"Dans la résolution de problème, vous commencez par…", a1:"des analogies", v1:"Ressemblances", a2:"des différences", v2:"Différences"}
+  ].forEach(x=>{
+    QUESTIONS.push({cat:"Ressemblances/Différences", text:x.q, options:[{label:x.a1,value:x.v1},{label:x.a2,value:x.v2}]});
+  });
+  // Personnes / Tâche / Système
+  [
+    {q:"En pilotage, votre priorité :", opts:[{l:"les relations humaines",v:"Personnes"},{l:"les résultats",v:"Tâche"},{l:"le cadre/processus",v:"Système"}]},
+    {q:"En réunion, vous soignez…", opts:[{l:"l’ambiance",v:"Personnes"},{l:"l’efficacité",v:"Tâche"},{l:"la structure du plan",v:"Système"}]},
+    {q:"Dans un rôle idéal, vous préférez…", opts:[{l:"animer l’humain",v:"Personnes"},{l:"livrer des KPI",v:"Tâche"},{l:"architecturer des méthodes",v:"Système"}]},
+    {q:"Pour décider, vous considérez d’abord…", opts:[{l:"l’impact humain",v:"Personnes"},{l:"l’impact chiffré",v:"Tâche"},{l:"l’alignement au système",v:"Système"}]},
+    {q:"Dans un incident, vous gérez…", opts:[{l:"l’émotionnel",v:"Personnes"},{l:"la résolution rapide",v:"Tâche"},{l:"la cause‑racine et les règles",v:"Système"}]},
+    {q:"Dans la documentation, vous privilégiez…", opts:[{l:"les consignes aux équipes",v:"Personnes"},{l:"les objectifs/ROIs",v:"Tâche"},{l:"les référentiels/workflows",v:"Système"}]},
+    {q:"Dans un bilan, vous regardez…", opts:[{l:"l’engagement",v:"Personnes"},{l:"la performance",v:"Tâche"},{l:"la maturité des processus",v:"Système"}]},
+    {q:"Pour améliorer, vous agissez via…", opts:[{l:"la culture d’équipe",v:"Personnes"},{l:"une to‑do opératoire",v:"Tâche"},{l:"une refonte de système",v:"Système"}]},
+    {q:"Dans votre discours, vous utilisez…", opts:[{l:"des histoires humaines",v:"Personnes"},{l:"des faits chiffrés",v:"Tâche"},{l:"des schémas/cadres",v:"Système"}]},
+    {q:"En priorisation, vous choisissez…", opts:[{l:"ce qui sert le lien",v:"Personnes"},{l:"ce qui fait avancer",v:"Tâche"},{l:"ce qui s’intègre au système",v:"Système"}]}
+  ].forEach(x=>{
+    QUESTIONS.push({cat:"Personnes/Tâche/Système", text:x.q, options:x.opts.map(o=>({label:o.l,value:o.v}))});
+  });
+})();
 
-/***********************************
- * OUTILS
- ***********************************/
-const KEY = 'metalove_meta_answers_v2';
-function loadAll(){ try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } }
-function saveAll(obj){ localStorage.setItem(KEY, JSON.stringify(obj)); }
-function clearAll(){ localStorage.removeItem(KEY); }
-function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+/* Shuffle entire list to randomize completely */
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
-/***********************************
- * CONSTRUCTION LISTE ALÉATOIRE de 100 items
- ***********************************/
-function buildRandomItems(){
-  const cats = shuffle(CATS.map(c => ({ ...c, questions: shuffle(c.questions) })));
-  const items = [];
-  cats.forEach(cat => {
-    cat.questions.forEach(q => {
-      items.push({ catKey: cat.key, catLabel: cat.label, type: cat.type, question: q, options: cat.options.map(o => o.v) });
-    });
-  });
-  return items;
-}
+const TOTAL_QUESTIONS = QUESTIONS.length;
+const QUESTIONS_PER_PAGE = 5;
+let shuffledItems = shuffle(QUESTIONS);
+let answers = new Array(TOTAL_QUESTIONS).fill(null); // store selected values
+let pageIndex = 0;
 
-/***********************************
- * CALCUL SCORES + SEGMENTS
- ***********************************/
-function calcScores(answers){
-  const byCat = {};
-  CATS.forEach(c => {
-    byCat[c.key] = { label: c.label, type: c.type, counts: {}, total: 0 };
-    c.options.forEach(o => byCat[c.key].counts[o.v] = 0);
-  });
-  answers.forEach(a => {
-    if(!a.value) return;
-    const b = byCat[a.catKey];
-    if(!b) return;
-    if(a.value in b.counts){ b.counts[a.value]++; b.total++; }
-  });
-  const results = Object.entries(byCat).map(([key,info]) => {
-    const scores = Object.entries(info.counts).map(([label,n]) => ({ label, n, pct: info.total ? Math.round(n*1000/info.total)/10 : 0 }));
-    return { key, label: info.label, type: info.type, total: info.total, scores };
-  });
-  const segments = [];
-  results.forEach(r => {
-    if(r.scores.length === 0) return;
-    const top = [...r.scores].sort((a,b) => b.pct - a.pct)[0];
-    r.scores.forEach(s => { if(s.pct >= 75) segments.push(`${r.key}:${s.label}`); });
-    if(segments.filter(x => x.startsWith(r.key + ':')).length === 0 && top){ segments.push(`${r.key}:${top.label}`); }
-  });
-  return { results, segments };
-}
-
-/***********************************
- * RENDU & ÉTAT
- ***********************************/
-const gateEl = document.getElementById('gate');
-const quizEl = document.getElementById('quiz');
-const thanksEl = document.getElementById('thanks');
-const questionsEl = document.getElementById('questions');
-const progressPillEl = document.getElementById('progressPill');
-const progressPill2El = document.getElementById('progressPill2');
-const emailInput = document.getElementById('email');
-const consentInput = document.getElementById('consent');
+const quizBody = document.getElementById('quizBody');
+const progressBar = document.getElementById('progressBar');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const collectEmail = document.getElementById('collectEmail');
+const quizSection = document.getElementById('quiz');
+const thanksSection = document.getElementById('thanks');
 const toEmailEl = document.getElementById('toEmail');
 
-let ITEMS = [];
-let ANSWERS = [];
-
-function updateProgress(){
-  const done = ANSWERS.filter(a => !!a.value).length;
-  const total = ITEMS.length;
-  progressPillEl.textContent = `Progression : ${done} / ${total}`;
-  progressPill2El.textContent = `Progression : ${done} / ${total}`;
-}
-
-function renderQuestions(){
-  questionsEl.innerHTML = '';
-  ITEMS.forEach((it, idx) => {
+function renderPage(){
+  quizBody.innerHTML = '';
+  const start = pageIndex * QUESTIONS_PER_PAGE;
+  const end = Math.min(start + QUESTIONS_PER_PAGE, TOTAL_QUESTIONS);
+  for(let i=start;i<end;i++){
+    const item = shuffledItems[i];
     const fs = document.createElement('fieldset');
-    fs.className = 'q';
+    fs.className = 'question';
     const lg = document.createElement('legend');
-    lg.textContent = `${idx+1}. ${it.question}`;
+    lg.textContent = `${i+1}. ${item.text}`;
     fs.appendChild(lg);
     const opts = document.createElement('div');
-    opts.className = 'opts';
-    it.options.forEach(op => {
-      const id = `q_${idx}_${op}`;
+    opts.className = 'options';
+    item.options.forEach((op, idx) => {
       const lab = document.createElement('label');
-      lab.className = 'opt';
+      lab.className = 'option';
+      const id = `q${i}_o${idx}`;
       lab.setAttribute('for', id);
-      const input = document.createElement('input');
-      input.type = 'radio';
-      input.name = `q_${idx}`;
-      input.id = id;
-      input.value = op;
-      input.addEventListener('change', () => {
-        ANSWERS[idx].value = input.value;
-        saveAll({ email: emailInput.value, answers: ANSWERS });
-        updateProgress();
+      const inp = document.createElement('input');
+      inp.type = 'radio';
+      inp.name = `q${i}`;
+      inp.id = id;
+      inp.value = op.value;
+      inp.checked = answers[i] === op.value;
+      inp.addEventListener('change', ()=>{
+        answers[i] = inp.value;
+        updateProgressBar();
       });
+      lab.appendChild(inp);
       const span = document.createElement('span');
-      span.textContent = op;
-      lab.appendChild(input);
+      span.textContent = op.label;
       lab.appendChild(span);
       opts.appendChild(lab);
     });
     fs.appendChild(opts);
-    questionsEl.appendChild(fs);
-  });
+    quizBody.appendChild(fs);
+  }
+  // update buttons
+  btnPrev.disabled = pageIndex === 0;
+  if(end >= TOTAL_QUESTIONS){
+    btnNext.textContent = 'Terminer';
+  } else {
+    btnNext.textContent = 'Suivant';
+  }
+  updateProgressBar();
 }
 
-/***********************************
- * ACTIONS
- ***********************************/
-document.getElementById('btnStart').addEventListener('click', () => {
-  const email = (emailInput.value || '').trim();
-  const ok = consentInput.checked;
-  if(!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return alert('Merci de saisir un e‑mail valide.');
-  if(!ok) return alert('Merci de cocher la case de consentement (RGPD).');
-  ITEMS = buildRandomItems();
-  ANSWERS = ITEMS.map((it, idx) => ({ idx, catKey: it.catKey, catLabel: it.catLabel, type: it.type, question: it.question, value: null }));
-  saveAll({ email, answers: ANSWERS });
-  gateEl.hidden = true;
-  quizEl.hidden = false;
-  renderQuestions();
-  updateProgress();
-});
+function updateProgressBar(){
+  const answered = answers.filter(a => a !== null).length;
+  const pct = Math.round(answered * 100 / TOTAL_QUESTIONS);
+  progressBar.style.width = pct + '%';
+}
 
-document.getElementById('btnReset').addEventListener('click', () => {
-  if(confirm('Effacer toutes vos réponses ?')){ clearAll(); location.reload(); }
-});
-
-document.getElementById('btnSubmit').addEventListener('click', async () => {
-  const saved = loadAll();
-  const email = (saved.email || emailInput.value || '').trim();
-  if(!email){ alert('E‑mail requis.'); return; }
-  const done = (saved.answers || []).filter(a => !!a.value).length;
-  if(done < ITEMS.length){ if(!confirm(`Vous avez répondu à ${done}/${ITEMS.length}. Envoyer quand même ?`)) return; }
-  // Calcul local
-  const { results, segments } = calcScores(saved.answers || []);
-  const payload = {
-    publicKey: PUBLIC_KEY,
-    email,
-    timestamp: new Date().toISOString(),
-    segments,
-    results,
-    answers: saved.answers
-  };
-  try{
-    const res = await fetch(SUBMIT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    // Succès
-    toEmailEl.textContent = email;
-    quizEl.hidden = true;
-    thanksEl.hidden = false;
-    clearAll();
-  }catch(err){
-    console.error(err);
-    alert("Échec d’envoi au serveur. Vérifiez SUBMIT_URL ou réessayez.");
+btnPrev.addEventListener('click', () => {
+  if(pageIndex > 0){
+    pageIndex--;
+    renderPage();
   }
 });
+
+btnNext.addEventListener('click', () => {
+  const start = pageIndex * QUESTIONS_PER_PAGE;
+  const end = Math.min(start + QUESTIONS_PER_PAGE, TOTAL_QUESTIONS);
+  // ensure questions on current page answered
+  for(let i=start;i<end;i++){
+    if(answers[i] === null){
+      alert('Merci de répondre à toutes les questions de cette page avant de continuer.');
+      return;
+    }
+  }
+  if(end >= TOTAL_QUESTIONS){
+    // finished: show email collection
+    quizSection.hidden = true;
+    collectEmail.hidden = false;
+  } else {
+    pageIndex++;
+    renderPage();
+  }
+});
+
+// send results after email
+const btnSend = document.getElementById('btnSend');
+btnSend.addEventListener('click', async () => {
+  const email = (document.getElementById('email').value || '').trim();
+  if(!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){
+    alert('Veuillez saisir un e‑mail valide.');
+    return;
+  }
+  const consent = document.getElementById('consent').checked;
+  if(!consent){ alert('Merci de cocher la case de consentement.'); return; }
+  // compute scores
+  const byCat = {};
+  QUESTIONS.forEach(q => {
+    if(!byCat[q.cat]){
+      byCat[q.cat] = {counts:{}, total:0};
+    }
+  });
+  answers.forEach((val, idx) => {
+    const cat = shuffledItems[idx].cat;
+    if(val){
+      byCat[cat].counts[val] = (byCat[cat].counts[val] || 0) + 1;
+      byCat[cat].total++;
+    }
+  });
+  const results = Object.entries(byCat).map(([cat,info]) => {
+    const scores = Object.entries(info.counts).map(([label,count]) => ({label,n:count,pct:info.total?Math.round(count*1000/info.total)/10:0}));
+    return {cat, scores};
+  });
+  // segments: top or >=75%
+  const segments = [];
+  results.forEach(r => {
+    const top = [...r.scores].sort((a,b) => b.pct - a.pct)[0];
+    r.scores.forEach(s => { if(s.pct >= 75) segments.push(`${r.cat}:${s.label}`); });
+    if(!segments.find(x => x.startsWith(r.cat+':')) && top){ segments.push(`${r.cat}:${top.label}`); }
+  });
+  const payload = { email, timestamp:new Date().toISOString(), segments, results, answers: shuffledItems.map((it,idx) => ({question:it.text, value:answers[idx]})) };
+  try{
+    if(SUBMIT_URL){
+      const res = await fetch(SUBMIT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+      if(!res.ok) throw new Error('HTTP '+res.status);
+    }
+    if(window.emailjs && EMAILJS.ENABLED){
+      await emailjs.send(EMAILJS.SERVICE_ID, EMAILJS.TEMPLATE_ID, {to_email:email, segments:segments.join(','), results_text:JSON.stringify(results,null,2)});
+    }
+    collectEmail.hidden = true;
+    thanksSection.hidden = false;
+    toEmailEl.textContent = email;
+  }catch(err){
+    console.error(err);
+    alert("Échec d'envoi. Vérifiez SUBMIT_URL ou EmailJS.");
+  }
+});
+
+// initial render
+renderPage();
 </script>
 </body>
 </html>
