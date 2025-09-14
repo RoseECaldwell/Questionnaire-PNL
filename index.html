@@ -165,7 +165,17 @@ function computeResults(){
   }
   return {metaStats, orientStats};
 }
+// --- crée une phrase d'interprétation à partir des résultats ---
+function generateInterpretation(metaStats, segments){
+  const top = (segments && segments[0]) || "Profil équilibré";
+  const g = metaStats && typeof metaStats.global === 'number' ? metaStats.global : null;
+  const p = metaStats && typeof metaStats.procedure === 'number' ? metaStats.procedure : null;
 
+  let txt = `Tendance dominante : ${top}.`;
+  if (g !== null) txt += ` Score global : ${g}%.`;
+  if (p !== null) txt += ` Score "Procédure" : ${p}%.`;
+  return txt;
+}
 document.getElementById('btnSend').addEventListener('click', ()=>{
   const email=document.getElementById('email').value.trim();
   const consent=document.getElementById('consent').checked;
@@ -181,7 +191,14 @@ document.getElementById('btnSend').addEventListener('click', ()=>{
     }
     if(bestOrient) segments.push(meta+':'+bestOrient);
   }
-  const payload={ email: email, metaStats, orientStats, segments };
+  const interpretationText = generateInterpretation(metaStats, segments);
+  const payload = { 
+  email, 
+  metaStats, 
+  orientStats, 
+  segments,
+  interpretation_text: interpretationText   // <-- AJOUT
+};
   // send to backend
   if(SUBMIT_URL){
     fetch(SUBMIT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(err=>{});
