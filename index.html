@@ -2,136 +2,134 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Test MetaLove - 105 questions</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { font-family: sans-serif; margin: 2em; background: #fdf9f6; }
-        .question { margin-bottom: 1.5em; }
-        .answers label { display: block; margin: 0.3em 0; }
-        .page { display: none; }
-        .visible { display: block; }
-        .progress { margin-top: 1em; }
-        .hidden { display: none; }
-        .navigation { margin-top: 2em; }
-        button { padding: 0.5em 1em; }
-    </style>
+  <meta charset="UTF-8">
+  <title>💖 Test MetaLove</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Helvetica Neue', sans-serif;
+      background: linear-gradient(to bottom, #fff0f5, #ffe4e1);
+      padding: 2rem;
+      color: #333;
+      line-height: 1.6;
+    }
+    h1 {
+      text-align: center;
+      color: #e75480;
+      margin-bottom: 2rem;
+    }
+    .question {
+      margin-bottom: 1.5rem;
+      background: white;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .question p {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .answers label {
+      display: block;
+      margin: 3px 0;
+      cursor: pointer;
+    }
+    .email-block {
+      margin-top: 2rem;
+      text-align: center;
+    }
+    input[type="email"], button {
+      padding: 0.8rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #e75480;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #d64570;
+    }
+  </style>
 </head>
 <body>
-    <h1>💖 Test MetaLove</h1>
-    <form id="questionnaireForm">
-        <div id="questionsContainer"></div>
-        <div class="progress">
-            <progress id="progressBar" value="0" max="21"></progress>
-            <span id="progressText">Page 1/21</span>
-        </div>
-        <div class="navigation">
-            <button type="button" id="nextPageBtn">Page suivante</button>
-        </div>
-        <div id="emailBlock" class="hidden">
-            <h3>Dernière étape !</h3>
-            <label for="email">Votre adresse e‑mail pour recevoir les résultats :</label>
-            <input type="email" name="email" id="email" required />
-            <div class="g-recaptcha" data-sitekey="SITE_KEY_PLACEHOLDER"></div>
-            <button type="submit">Envoyer mes résultats</button>
-        </div>
-    </form>
-    <script>
-        const csvUrl = 'questions.csv';
-        const questionsPerPage = 5;
-        let allQuestions = [];
-        let page = 0;
+  <h1>💖 Test MetaLove</h1>
+  <form id="test-form"></form>
 
-        fetch(csvUrl)
-            .then(response => response.text())
-            .then(csv => {
-                const rows = csv.split('\n').slice(1);
-                allQuestions = rows.map(row => {
-                    const cols = row.split(',');
-                    return {
-                        meta: cols[0],
-                        text: cols[1]
-                    };
-                }).sort(() => Math.random() - 0.5); // Mélange
-                showPage(0);
-            });
+  <div class="email-block">
+    <input type="email" id="email-input" placeholder="Votre adresse email" required />
+    <button type="submit" id="submit-btn">Envoyer mes résultats</button>
+    <p id="already-used-msg" style="color:red; display:none;">Cette adresse a déjà été utilisée.</p>
+  </div>
 
-        function showPage(p) {
-            const container = document.getElementById('questionsContainer');
-            container.innerHTML = '';
-            const start = p * questionsPerPage;
-            const current = allQuestions.slice(start, start + questionsPerPage);
+  <script>
+    const form = document.getElementById('test-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const emailInput = document.getElementById('email-input');
+    const message = document.getElementById('already-used-msg');
 
-            current.forEach((q, i) => {
-                const id = 'q_' + (start + i);
-                const html = `
-                    <div class="question">
-                        <p><strong>${start + i + 1}.</strong> ${q.text}</p>
-                        <div class="answers">
-                            <label><input type="radio" name="${id}" value="100" required> Oui</label>
-                            <label><input type="radio" name="${id}" value="50"> Souvent</label>
-                            <label><input type="radio" name="${id}" value="25"> Rarement</label>
-                            <label><input type="radio" name="${id}" value="0"> Non</label>
-                        </div>
-                    </div>`;
-                container.innerHTML += html;
-            });
+    const responses = ['Oui', 'Souvent', 'Rarement', 'Non'];
+    const weights = [100, 50, 25, 0];
 
-            // Progression
-            document.getElementById('progressBar').value = p + 1;
-            document.getElementById('progressText').textContent = `Page ${p + 1}/21`;
+    let questions = [];
 
-            // Email bloc final
-            document.getElementById('emailBlock').classList.toggle('hidden', p !== 20);
-            document.getElementById('nextPageBtn').classList.toggle('hidden', p === 20);
-        }
-
-        document.getElementById('nextPageBtn').addEventListener('click', () => {
-            if (page < 20) {
-                page++;
-                showPage(page);
-            }
+    fetch('questions_bonus_105_final.csv')
+      .then(res => res.text())
+      .then(data => {
+        questions = data.trim().split('\n').map(row => row.split(';')[1]);
+        questions.forEach((text, i) => {
+          const div = document.createElement('div');
+          div.className = 'question';
+          div.innerHTML = `
+            <p>${i + 1}. ${text}</p>
+            <div class="answers">
+              ${responses.map((resp, idx) =>
+                `<label><input type="radio" name="q${i}" value="${weights[idx]}" required> ${resp}</label>`
+              ).join('')}
+            </div>
+          `;
+          form.appendChild(div);
         });
+      });
 
-        document.getElementById('questionnaireForm').addEventListener('submit', function (e) {
-            e.preventDefault();
+    submitBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim().toLowerCase();
+      if (!email) return;
 
-            const form = new FormData(this);
-            const answers = {};
-            for (let [key, value] of form.entries()) {
-                if (key.startsWith('q_')) answers[key] = parseInt(value);
-            }
+      const radios = document.querySelectorAll('input[type="radio"]:checked');
+      if (radios.length !== questions.length) {
+        alert("Veuillez répondre à toutes les questions.");
+        return;
+      }
 
-            const scores = {};
-            allQuestions.forEach((q, i) => {
-                const val = answers['q_' + i];
-                if (!scores[q.meta]) scores[q.meta] = [];
-                if (!isNaN(val)) scores[q.meta].push(val);
-            });
+      // (Optionnel) Check si l'email est déjà utilisé via une API ou base (à implémenter côté serveur ou Make)
+      // Simulé ici : message.style.display = 'block';
 
-            const result = {};
-            for (let meta in scores) {
-                const arr = scores[meta];
-                const sum = arr.reduce((a, b) => a + b, 0);
-                result[meta] = Math.round(sum / arr.length);
-            }
+      const answers = [...radios].map(r => parseInt(r.value));
+      const scoreGlobal = Math.round(answers.reduce((a, b) => a + b, 0) / answers.length);
 
-            const email = form.get('email');
-            const payload = {
-                email: email,
-                scores: result
-            };
+      const payload = {
+        email,
+        global_score: scoreGlobal,
+        interpretation_text: "",
+        bonus: "tome1"
+      };
 
-            fetch("SUBMIT_URL_HERE", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            }).then(() => {
-                alert("Merci ! Votre résultat vous a été envoyé.");
-                window.location.reload();
-            });
-        });
-    </script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      fetch("https://hook.eu2.make.com/...", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      alert("Merci ! Votre profil vous sera envoyé par email.");
+    });
+  </script>
 </body>
 </html>
