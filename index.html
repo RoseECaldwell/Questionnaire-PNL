@@ -2,1073 +2,920 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Test MetaLove - Métaprogrammes</title>
-  <style>
-    body { background-color: #121212; color: #fff; font-family: 'Segoe UI', sans-serif; }
-    .container { max-width: 900px; margin: 2rem auto; padding: 1rem; background: #1e1e1e; border-radius: 10px; }
-    .question-block { margin-bottom: 2rem; }
-    .question-text { font-size: 1.2rem; font-weight: bold; }
-    .answers label { display: block; margin: 0.5rem 0; }
-    .pagination { text-align: center; margin-top: 2rem; }
-    .progress-bar { height: 10px; background: #333; border-radius: 5px; overflow: hidden; }
-    .progress-bar-inner { height: 100%; background: #ff69b4; width: 0%; transition: width 0.3s ease; }
-    .email-block { margin-top: 2rem; }
-    button { background-color: #ff69b4; border: none; padding: 0.7rem 1.5rem; color: white; font-size: 1rem; border-radius: 5px; cursor: pointer; }
-  </style>
+    <meta charset="UTF-8">
+    <title>Test des Métaprogrammes - MetaLove</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
+    <style>
+        body {
+            background-color: #0f0f0f;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 2rem;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #ff66c4;
+        }
+        .intro {
+            text-align: center;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            color: #ccc;
+        }
+        .question-block {
+            background-color: #1a1a1a;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+        }
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .answer {
+            display: block;
+            margin-left: 1rem;
+        }
+        .pagination {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .pagination span {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            margin: 2px;
+            border-radius: 50%;
+            background-color: grey;
+        }
+        .pagination span.active {
+            background-image: linear-gradient(to right, #00ffff, #00ff00, #ffff00);
+        }
+        button {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #ff66c4;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Test des Métaprogrammes - MetaLove 💘</h1>
-    <div id="progress" class="progress-bar"><div id="progress-inner" class="progress-bar-inner"></div></div>
-    <div id="quiz"></div>
-    <div class="pagination">
-      <button onclick="prevPage()">← Précédent</button>
-      <span id="page-indicator">Page 1</span>
-      <button onclick="nextPage()">Suivant →</button>
+    <div class="container">
+        <h1>💖 Test MetaLove</h1>
+        <p class="intro">Répondez de façon spontanée. Il n’y a pas de bonne ou de mauvaise réponse.</p>
+<div class="page" data-page="0">
+        <div class="question-block">
+            <p class="question-text">1. Vous souvenez-vous plus facilement des visages que des noms ?</p>
+            <label class="answer"><input type="radio" name="q0" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q0" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q0" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q0" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">2. Aimez-vous organiser votre espace de travail de façon esthétique et harmonieuse ?</p>
+            <label class="answer"><input type="radio" name="q1" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q1" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q1" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q1" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">3. Choisissez-vous vos vêtements principalement en fonction de leur apparence visuelle ?</p>
+            <label class="answer"><input type="radio" name="q2" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q2" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q2" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q2" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">4. Lorsqu'on vous explique quelque chose, préférez-vous voir un schéma ou un dessin à la place ?</p>
+            <label class="answer"><input type="radio" name="q3" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q3" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q3" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q3" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">5. Avez-vous tendance à visualiser mentalement vos projets ou vos idées ?</p>
+            <label class="answer"><input type="radio" name="q4" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q4" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q4" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q4" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="1">
+        <div class="question-block">
+            <p class="question-text">6. Lorsque vous entendez une voix familière, la reconnaissez-vous rapidement, même sans voir la personne ?</p>
+            <label class="answer"><input type="radio" name="q5" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q5" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q5" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q5" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">7. Entendez-vous une voix intérieure qui accompagne votre lecture, comme si vous vous racontiez l’histoire à vous-même ?</p>
+            <label class="answer"><input type="radio" name="q6" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q6" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q6" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q6" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">8. Lorsqu’on vous donne des consignes, les retenir à l’oral vous est-il facile ?</p>
+            <label class="answer"><input type="radio" name="q7" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q7" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q7" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q7" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">9. Le bruit de fond vous gêne-t-il facilement pour vous concentrer ?</p>
+            <label class="answer"><input type="radio" name="q8" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q8" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q8" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q8" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">10. Avez-vous besoin de verbaliser vos idées à haute voix pour les clarifier ?</p>
+            <label class="answer"><input type="radio" name="q9" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q9" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q9" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q9" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="2">
+        <div class="question-block">
+            <p class="question-text">11. Êtes-vous particulièrement sensible à la texture des vêtements que vous portez ?</p>
+            <label class="answer"><input type="radio" name="q10" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q10" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q10" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q10" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">12. Avez-vous du mal à rester concentré(e) sans bouger, même légèrement ?</p>
+            <label class="answer"><input type="radio" name="q11" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q11" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q11" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q11" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">13. Apprenez-vous plus facilement en manipulant ou en expérimentant directement ?</p>
+            <label class="answer"><input type="radio" name="q12" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q12" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q12" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q12" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">14. Avez-vous besoin de ressentir physiquement un lieu pour savoir si vous vous y sentez bien ?</p>
+            <label class="answer"><input type="radio" name="q13" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q13" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q13" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q13" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">15. Évitez-vous certains vêtements, même beaux, s’ils sont trop serrés ou inconfortables ?</p>
+            <label class="answer"><input type="radio" name="q14" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q14" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q14" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q14" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="3">
+        <div class="question-block">
+            <p class="question-text">16. Aimez-vous avoir plusieurs manières possibles d’aborder une même tâche ?</p>
+            <label class="answer"><input type="radio" name="q15" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q15" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q15" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q15" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">17. Préférez-vous improviser plutôt que suivre une méthode fixe ?</p>
+            <label class="answer"><input type="radio" name="q16" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q16" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q16" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q16" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">18. Vous sentez-vous limité(e) lorsqu’on vous impose une seule façon de faire ?</p>
+            <label class="answer"><input type="radio" name="q17" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q17" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q17" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q17" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">19. Avez-vous tendance à adapter les règles plutôt qu’à les suivre strictement ?</p>
+            <label class="answer"><input type="radio" name="q18" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q18" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q18" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q18" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">20. Appréciez-vous les formations ouvertes plutôt que très structurées ?</p>
+            <label class="answer"><input type="radio" name="q19" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q19" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q19" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q19" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="4">
+        <div class="question-block">
+            <p class="question-text">21. Avez-vous besoin de consignes claires avant de commencer une tâche ?</p>
+            <label class="answer"><input type="radio" name="q20" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q20" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q20" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q20" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">22. Préférez-vous suivre une méthode pas à pas plutôt que d’improviser ?</p>
+            <label class="answer"><input type="radio" name="q21" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q21" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q21" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q21" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">23. Est-ce que l’absence de cadre vous déstabilise ?</p>
+            <label class="answer"><input type="radio" name="q22" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q22" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q22" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q22" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">24. Aimez-vous quand les choses sont bien organisées et logiques ?</p>
+            <label class="answer"><input type="radio" name="q23" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q23" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q23" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q23" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">25. Vous sentez-vous plus efficace avec un plan établi à l’avance ?</p>
+            <label class="answer"><input type="radio" name="q24" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q24" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q24" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q24" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="5">
+        <div class="question-block">
+            <p class="question-text">26. Prenez-vous souvent les devants pour résoudre un problème ?</p>
+            <label class="answer"><input type="radio" name="q25" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q25" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q25" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q25" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">27. Initiez-vous souvent les projets ou les discussions ?</p>
+            <label class="answer"><input type="radio" name="q26" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q26" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q26" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q26" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">28. Avez-vous tendance à agir plutôt qu’attendre ?</p>
+            <label class="answer"><input type="radio" name="q27" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q27" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q27" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q27" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">29. Êtes-vous à l’aise dans les situations qui demandent de la réactivité ?</p>
+            <label class="answer"><input type="radio" name="q28" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q28" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q28" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q28" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">30. Cherchez-vous rapidement des solutions quand un obstacle survient ?</p>
+            <label class="answer"><input type="radio" name="q29" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q29" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q29" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q29" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="6">
+        <div class="question-block">
+            <p class="question-text">31. Avez-vous besoin de prendre le temps de réfléchir avant d’agir ?</p>
+            <label class="answer"><input type="radio" name="q30" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q30" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q30" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q30" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">32. Préférez-vous observer avant de vous lancer dans une nouvelle activité ?</p>
+            <label class="answer"><input type="radio" name="q31" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q31" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q31" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q31" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">33. Avez-vous tendance à réagir plutôt qu’à initier ?</p>
+            <label class="answer"><input type="radio" name="q32" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q32" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q32" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q32" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">34. Est-ce que vous vous sentez plus à l’aise lorsqu’un cadre est déjà posé ?</p>
+            <label class="answer"><input type="radio" name="q33" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q33" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q33" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q33" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">35. L’attente d’un déclencheur extérieur vous rassure-t-elle avant de commencer ?</p>
+            <label class="answer"><input type="radio" name="q34" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q34" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q34" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q34" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="7">
+        <div class="question-block">
+            <p class="question-text">36. Souhaitez-vous influencer les décisions dans un groupe ?</p>
+            <label class="answer"><input type="radio" name="q35" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q35" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q35" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q35" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">37. Vous sentez-vous motivé(e) par le fait d’être reconnu(e) comme leader ?</p>
+            <label class="answer"><input type="radio" name="q36" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q36" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q36" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q36" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">38. Avez-vous besoin d’avoir le contrôle sur ce que vous entreprenez ?</p>
+            <label class="answer"><input type="radio" name="q37" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q37" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q37" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q37" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">39. Est-ce que relever des défis vous stimule ?</p>
+            <label class="answer"><input type="radio" name="q38" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q38" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q38" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q38" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">40. Avez-vous tendance à vouloir réaliser ce qu’on vous croit incapable de faire ?</p>
+            <label class="answer"><input type="radio" name="q39" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q39" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q39" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q39" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="8">
+        <div class="question-block">
+            <p class="question-text">41. Vous fixez-vous des buts clairs avant d’agir ?</p>
+            <label class="answer"><input type="radio" name="q40" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q40" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q40" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q40" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">42. Avez-vous besoin d’un résultat concret pour vous sentir motivé(e) ?</p>
+            <label class="answer"><input type="radio" name="q41" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q41" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q41" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q41" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">43. Est-ce que la performance pour vous s’évalue par l’atteinte d’un résultat plutôt que par ce que vous avez appris ?</p>
+            <label class="answer"><input type="radio" name="q42" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q42" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q42" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q42" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">44. Planifiez-vous vos actions avec une idée précise du résultat attendu ?</p>
+            <label class="answer"><input type="radio" name="q43" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q43" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q43" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q43" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">45. Vous sentez-vous plus à l’aise quand vous savez exactement où vous allez ?</p>
+            <label class="answer"><input type="radio" name="q44" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q44" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q44" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q44" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="9">
+        <div class="question-block">
+            <p class="question-text">46. Est-il important pour vous d’être bien intégré(e) dans un groupe ?</p>
+            <label class="answer"><input type="radio" name="q45" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q45" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q45" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q45" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">47. Cherchez-vous à créer des liens avant tout dans un nouveau contexte ?</p>
+            <label class="answer"><input type="radio" name="q46" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q46" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q46" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q46" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">48. Préférez-vous collaborer que réussir seul(e) ?</p>
+            <label class="answer"><input type="radio" name="q47" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q47" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q47" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q47" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">49. L’ambiance dans une équipe est-elle plus importante que le salaire que vous gagnez ?</p>
+            <label class="answer"><input type="radio" name="q48" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q48" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q48" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q48" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">50. Faites-vous attention à ne pas blesser les autres dans vos choix ?</p>
+            <label class="answer"><input type="radio" name="q49" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q49" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q49" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q49" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="10">
+        <div class="question-block">
+            <p class="question-text">51. Vous appuyez-vous sur vos expériences pour prendre des décisions ?</p>
+            <label class="answer"><input type="radio" name="q50" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q50" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q50" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q50" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">52. Avez-vous tendance à vous référer à ce que vous connaissez déjà ?</p>
+            <label class="answer"><input type="radio" name="q51" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q51" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q51" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q51" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">53. Préférez-vous les traditions aux nouveautés ?</p>
+            <label class="answer"><input type="radio" name="q52" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q52" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q52" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q52" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">54. Revenez-vous souvent sur des événements passés pour comprendre le présent ?</p>
+            <label class="answer"><input type="radio" name="q53" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q53" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q53" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q53" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">55. Est-ce que vos souvenirs guident souvent vos choix ?</p>
+            <label class="answer"><input type="radio" name="q54" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q54" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q54" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q54" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="11">
+        <div class="question-block">
+            <p class="question-text">56. Vous concentrez-vous davantage sur ce que vous vivez ici et maintenant ?</p>
+            <label class="answer"><input type="radio" name="q55" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q55" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q55" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q55" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">57. Avez-vous du mal à faire des plans à long terme ?</p>
+            <label class="answer"><input type="radio" name="q56" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q56" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q56" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q56" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">58. Est-ce que vous agissez surtout en fonction de ce qui se passe aujourd’hui ?</p>
+            <label class="answer"><input type="radio" name="q57" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q57" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q57" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q57" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">59. Vous sentez-vous guidé(e) par vos ressentis du moment ?</p>
+            <label class="answer"><input type="radio" name="q58" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q58" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q58" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q58" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">60. Réagissez-vous davantage à ce qui se passe tout de suite qu’à ce qui pourrait arriver ?</p>
+            <label class="answer"><input type="radio" name="q59" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q59" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q59" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q59" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="12">
+        <div class="question-block">
+            <p class="question-text">61. Faites-vous souvent des projets à long terme ?</p>
+            <label class="answer"><input type="radio" name="q60" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q60" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q60" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q60" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">62. Avez-vous besoin de visualiser l’avenir pour vous sentir motivé(e) ?</p>
+            <label class="answer"><input type="radio" name="q61" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q61" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q61" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q61" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">63. Planifiez-vous beaucoup ce que vous allez faire dans les semaines à venir ?</p>
+            <label class="answer"><input type="radio" name="q62" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q62" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q62" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q62" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">64. Pensez-vous souvent à ce que vous voulez devenir ?</p>
+            <label class="answer"><input type="radio" name="q63" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q63" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q63" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q63" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">65. Anticipez-vous les conséquences futures de vos décisions ?</p>
+            <label class="answer"><input type="radio" name="q64" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q64" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q64" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q64" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="13">
+        <div class="question-block">
+            <p class="question-text">66. Les odeurs influencent-elles facilement votre humeur ?</p>
+            <label class="answer"><input type="radio" name="q65" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q65" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q65" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q65" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">67. Êtes-vous très sensible aux parfums ou aux odeurs fortes ?</p>
+            <label class="answer"><input type="radio" name="q66" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q66" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q66" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q66" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">68. Vous rappelez-vous facilement d’une personne grâce à son odeur ?</p>
+            <label class="answer"><input type="radio" name="q67" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q67" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q67" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q67" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">69. Avez-vous des odeurs préférées qui vous apaisent ou vous stimulent ?</p>
+            <label class="answer"><input type="radio" name="q68" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q68" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q68" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q68" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">70. Une odeur peut-elle suffire à vous rappeler un souvenir ?</p>
+            <label class="answer"><input type="radio" name="q69" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q69" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q69" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q69" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="14">
+        <div class="question-block">
+            <p class="question-text">71. Le goût influence-t-il fortement votre expérience d’un moment ?</p>
+            <label class="answer"><input type="radio" name="q70" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q70" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q70" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q70" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">72. Choisissez-vous des lieux ou événements selon ce que vous allez y manger ?</p>
+            <label class="answer"><input type="radio" name="q71" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q71" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q71" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q71" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">73. Vous arrive-t-il de manger juste pour le plaisir du goût, sans faim ?</p>
+            <label class="answer"><input type="radio" name="q72" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q72" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q72" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q72" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">74. Un bon plat peut-il améliorer votre humeur ?</p>
+            <label class="answer"><input type="radio" name="q73" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q73" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q73" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q73" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">75. Le partage de repas est-il un moment important pour vous ?</p>
+            <label class="answer"><input type="radio" name="q74" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q74" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q74" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q74" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="15">
+        <div class="question-block">
+            <p class="question-text">76. Pensez-vous d’abord à vous avant d’aider les autres ?</p>
+            <label class="answer"><input type="radio" name="q75" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q75" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q75" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q75" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">77. Votre propre bien-être passe-t-il en priorité dans vos décisions ?</p>
+            <label class="answer"><input type="radio" name="q76" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q76" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q76" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q76" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">78. Avez-vous besoin d’être aligné(e) avec vous-même avant d’agir ?</p>
+            <label class="answer"><input type="radio" name="q77" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q77" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q77" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q77" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">79. Votre confort personnel est-il une condition essentielle à votre implication ?</p>
+            <label class="answer"><input type="radio" name="q78" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q78" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q78" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q78" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">80. Faites-vous passer vos besoins en premier dans un groupe ?</p>
+            <label class="answer"><input type="radio" name="q79" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q79" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q79" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q79" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="16">
+        <div class="question-block">
+            <p class="question-text">81. Anticipez-vous souvent les besoins ou attentes des autres ?</p>
+            <label class="answer"><input type="radio" name="q80" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q80" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q80" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q80" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">82. Vos choix sont-ils souvent guidés par le plaisir que cela procurera aux autres ?</p>
+            <label class="answer"><input type="radio" name="q81" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q81" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q81" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q81" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">83. Préférez-vous faire plaisir quitte à vous contraindre un peu ?</p>
+            <label class="answer"><input type="radio" name="q82" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q82" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q82" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q82" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">84. Vous sentez-vous responsable du bien-être des autres ?</p>
+            <label class="answer"><input type="radio" name="q83" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q83" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q83" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q83" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">85. Est-il important pour vous d’être perçu(e) comme quelqu’un d’attentionné ?</p>
+            <label class="answer"><input type="radio" name="q84" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q84" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q84" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q84" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="17">
+        <div class="question-block">
+            <p class="question-text">86. Aimez-vous comprendre les grandes lignes avant d’entrer dans les détails ?</p>
+            <label class="answer"><input type="radio" name="q85" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q85" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q85" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q85" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">87. Préférez-vous les visions d’ensemble aux explications minutieuses ?</p>
+            <label class="answer"><input type="radio" name="q86" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q86" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q86" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q86" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">88. Avez-vous besoin de situer les choses dans un cadre général ?</p>
+            <label class="answer"><input type="radio" name="q87" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q87" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q87" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q87" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">89. Est-ce que les détails vous intéressent surtout une fois la vue d’ensemble comprise ?</p>
+            <label class="answer"><input type="radio" name="q88" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q88" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q88" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q88" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">90. Avez-vous du mal à rester concentré(e) sur des choses trop précises ?</p>
+            <label class="answer"><input type="radio" name="q89" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q89" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q89" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q89" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="18">
+        <div class="question-block">
+            <p class="question-text">91. Aimez-vous décortiquer les choses en éléments précis ?</p>
+            <label class="answer"><input type="radio" name="q90" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q90" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q90" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q90" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">92. Sur un mur nouvellement peint, allez-vous voir instantanément le petit détail mal fait ?</p>
+            <label class="answer"><input type="radio" name="q91" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q91" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q91" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q91" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">93. Vous attachez-vous aux détails avant d’embrasser une vision globale ?</p>
+            <label class="answer"><input type="radio" name="q92" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q92" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q92" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q92" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">94. Les choses inexactes ou floues vous mettent-elles mal à l’aise ?</p>
+            <label class="answer"><input type="radio" name="q93" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q93" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q93" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q93" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">95. Vous sentez-vous rassuré(e) par des données précises ?</p>
+            <label class="answer"><input type="radio" name="q94" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q94" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q94" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q94" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="19">
+        <div class="question-block">
+            <p class="question-text">96. Avez-vous besoin de calme pour vous ressourcer ?</p>
+            <label class="answer"><input type="radio" name="q95" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q95" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q95" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q95" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">97. Préférez-vous les interactions en petit comité ?</p>
+            <label class="answer"><input type="radio" name="q96" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q96" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q96" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q96" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">98. Le temps seul(e) est-il vital pour votre équilibre ?</p>
+            <label class="answer"><input type="radio" name="q97" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q97" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q97" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q97" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">99. Trouvez-vous fatigantes les réunions sociales prolongées ?</p>
+            <label class="answer"><input type="radio" name="q98" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q98" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q98" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q98" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">100. Vous sentez-vous plus vous-même dans l’intimité que dans un groupe ?</p>
+            <label class="answer"><input type="radio" name="q99" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q99" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q99" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q99" value="Non"> Non</label>
+        </div>
+        </div><div class="page" data-page="20">
+        <div class="question-block">
+            <p class="question-text">101. Vous sentez-vous énergisé(e) par la présence des autres ?</p>
+            <label class="answer"><input type="radio" name="q100" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q100" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q100" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q100" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">102. Avez-vous tendance à parler pour réfléchir ?</p>
+            <label class="answer"><input type="radio" name="q101" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q101" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q101" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q101" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">103. Cherchez-vous la compagnie plutôt que la solitude ?</p>
+            <label class="answer"><input type="radio" name="q102" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q102" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q102" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q102" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">104. Les environnements dynamiques vous stimulent-ils ?</p>
+            <label class="answer"><input type="radio" name="q103" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q103" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q103" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q103" value="Non"> Non</label>
+        </div>
+        
+        <div class="question-block">
+            <p class="question-text">105. Préférez-vous partager vos pensées plutôt que les garder pour vous ?</p>
+            <label class="answer"><input type="radio" name="q104" value="Oui"> Oui</label>
+            <label class="answer"><input type="radio" name="q104" value="Souvent"> Souvent</label>
+            <label class="answer"><input type="radio" name="q104" value="Rarement"> Rarement</label>
+            <label class="answer"><input type="radio" name="q104" value="Non"> Non</label>
+        </div>
+        </div><div class="pagination"><span class="active"></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span></div><button id="next-btn">Suivant</button>
     </div>
-    <div id="email-block" class="email-block" style="display: none;">
-      <p>Merci d'avoir terminé le test. Veuillez entrer votre adresse e-mail pour recevoir vos résultats :</p>
-      <input type="email" id="email" placeholder="Votre e-mail" />
-      <div id="email-error" style="color: red;"></div>
-      <button onclick="submitResults()">Envoyer mes résultats</button>
-    </div>
-  </div>
-
-<script>
-const questions = [
-{
-            question: "Vous souvenez-vous plus facilement des visages que des noms ?",
-            meta: "Visuel",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Aimez-vous organiser votre espace de travail de façon esthétique et harmonieuse ?",
-            meta: "Visuel",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Choisissez-vous vos vêtements principalement en fonction de leur apparence visuelle ?",
-            meta: "Visuel",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Lorsqu&#x27;on vous explique quelque chose, préférez-vous voir un schéma ou un dessin à la place ?",
-            meta: "Visuel",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous tendance à visualiser mentalement vos projets ou vos idées ?",
-            meta: "Visuel",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Lorsque vous entendez une voix familière, la reconnaissez-vous rapidement, même sans voir la personne ?",
-            meta: "Auditif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Entendez-vous une voix intérieure qui accompagne votre lecture, comme si vous vous racontiez l’histoire à vous-même ?",
-            meta: "Auditif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Lorsqu’on vous donne des consignes, les retenir à l’oral vous est-il facile ?",
-            meta: "Auditif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Le bruit de fond vous gêne-t-il facilement pour vous concentrer ?",
-            meta: "Auditif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous besoin de verbaliser vos idées à haute voix pour les clarifier ?",
-            meta: "Auditif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Êtes-vous particulièrement sensible à la texture des vêtements que vous portez ?",
-            meta: "Kinesthésique",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous du mal à rester concentré(e) sans bouger, même légèrement ?",
-            meta: "Kinesthésique",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Apprenez-vous plus facilement en manipulant ou en expérimentant directement ?",
-            meta: "Kinesthésique",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous besoin de ressentir physiquement un lieu pour savoir si vous vous y sentez bien ?",
-            meta: "Kinesthésique",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Évitez-vous certains vêtements, même beaux, s’ils sont trop serrés ou inconfortables ?",
-            meta: "Kinesthésique",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Aimez-vous avoir plusieurs manières possibles d’aborder une même tâche ?",
-            meta: "Option",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Préférez-vous improviser plutôt que suivre une méthode fixe ?",
-            meta: "Option",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous sentez-vous limité(e) lorsqu’on vous impose une seule façon de faire ?",
-            meta: "Option",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous tendance à adapter les règles plutôt qu’à les suivre strictement ?",
-            meta: "Option",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Appréciez-vous les formations ouvertes plutôt que très structurées ?",
-            meta: "Option",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous besoin de consignes claires avant de commencer une tâche ?",
-            meta: "Procédure",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Préférez-vous suivre une méthode pas à pas plutôt que d’improviser ?",
-            meta: "Procédure",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Est-ce que l’absence de cadre vous déstabilise ?",
-            meta: "Procédure",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Aimez-vous quand les choses sont bien organisées et logiques ?",
-            meta: "Procédure",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous sentez-vous plus efficace avec un plan établi à l’avance ?",
-            meta: "Procédure",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Prenez-vous souvent les devants pour résoudre un problème ?",
-            meta: "Proactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Initiez-vous souvent les projets ou les discussions ?",
-            meta: "Proactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous tendance à agir plutôt qu’attendre ?",
-            meta: "Proactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Êtes-vous à l’aise dans les situations qui demandent de la réactivité ?",
-            meta: "Proactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Cherchez-vous rapidement des solutions quand un obstacle survient ?",
-            meta: "Proactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous besoin de prendre le temps de réfléchir avant d’agir ?",
-            meta: "Réactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Préférez-vous observer avant de vous lancer dans une nouvelle activité ?",
-            meta: "Réactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous tendance à réagir plutôt qu’à initier ?",
-            meta: "Réactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Est-ce que vous vous sentez plus à l’aise lorsqu’un cadre est déjà posé ?",
-            meta: "Réactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "L’attente d’un déclencheur extérieur vous rassure-t-elle avant de commencer ?",
-            meta: "Réactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Souhaitez-vous influencer les décisions dans un groupe ?",
-            meta: "Pouvoir",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous sentez-vous motivé(e) par le fait d’être reconnu(e) comme leader ?",
-            meta: "Pouvoir",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous besoin d’avoir le contrôle sur ce que vous entreprenez ?",
-            meta: "Pouvoir",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Est-ce que relever des défis vous stimule ?",
-            meta: "Pouvoir",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous tendance à vouloir réaliser ce qu’on vous croit incapable de faire ?",
-            meta: "Pouvoir",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous fixez-vous des buts clairs avant d’agir ?",
-            meta: "Objectif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous besoin d’un résultat concret pour vous sentir motivé(e) ?",
-            meta: "Objectif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Est-ce que la performance pour vous s’évalue par l’atteinte d’un résultat plutôt que par ce que vous avez appris ?",
-            meta: "Objectif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Planifiez-vous vos actions avec une idée précise du résultat attendu ?",
-            meta: "Objectif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous sentez-vous plus à l’aise quand vous savez exactement où vous allez ?",
-            meta: "Objectif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Est-il important pour vous d’être bien intégré(e) dans un groupe ?",
-            meta: "Affiliation",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Cherchez-vous à créer des liens avant tout dans un nouveau contexte ?",
-            meta: "Affiliation",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Préférez-vous collaborer que réussir seul(e) ?",
-            meta: "Affiliation",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "L’ambiance dans une équipe est-elle plus importante que le salaire que vous gagnez ?",
-            meta: "Affiliation",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Faites-vous attention à ne pas blesser les autres dans vos choix ?",
-            meta: "Affiliation",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous appuyez-vous sur vos expériences pour prendre des décisions ?",
-            meta: "Passé",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous tendance à vous référer à ce que vous connaissez déjà ?",
-            meta: "Passé",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Préférez-vous les traditions aux nouveautés ?",
-            meta: "Passé",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Revenez-vous souvent sur des événements passés pour comprendre le présent ?",
-            meta: "Passé",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Est-ce que vos souvenirs guident souvent vos choix ?",
-            meta: "Passé",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous concentrez-vous davantage sur ce que vous vivez ici et maintenant ?",
-            meta: "Présent",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous du mal à faire des plans à long terme ?",
-            meta: "Présent",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Est-ce que vous agissez surtout en fonction de ce qui se passe aujourd’hui ?",
-            meta: "Présent",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous sentez-vous guidé(e) par vos ressentis du moment ?",
-            meta: "Présent",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Réagissez-vous davantage à ce qui se passe tout de suite qu’à ce qui pourrait arriver ?",
-            meta: "Présent",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Faites-vous souvent des projets à long terme ?",
-            meta: "Futur",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous besoin de visualiser l’avenir pour vous sentir motivé(e) ?",
-            meta: "Futur",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Planifiez-vous beaucoup ce que vous allez faire dans les semaines à venir ?",
-            meta: "Futur",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Pensez-vous souvent à ce que vous voulez devenir ?",
-            meta: "Futur",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Anticipez-vous les conséquences futures de vos décisions ?",
-            meta: "Futur",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Les odeurs influencent-elles facilement votre humeur ?",
-            meta: "Olfactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Êtes-vous très sensible aux parfums ou aux odeurs fortes ?",
-            meta: "Olfactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous rappelez-vous facilement d’une personne grâce à son odeur ?",
-            meta: "Olfactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous des odeurs préférées qui vous apaisent ou vous stimulent ?",
-            meta: "Olfactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Une odeur peut-elle suffire à vous rappeler un souvenir ?",
-            meta: "Olfactif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Le goût influence-t-il fortement votre expérience d’un moment ?",
-            meta: "Gustatif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Choisissez-vous des lieux ou événements selon ce que vous allez y manger ?",
-            meta: "Gustatif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous arrive-t-il de manger juste pour le plaisir du goût, sans faim ?",
-            meta: "Gustatif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Un bon plat peut-il améliorer votre humeur ?",
-            meta: "Gustatif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Le partage de repas est-il un moment important pour vous ?",
-            meta: "Gustatif",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Pensez-vous d’abord à vous avant d’aider les autres ?",
-            meta: "Tourné vers soi",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Votre propre bien-être passe-t-il en priorité dans vos décisions ?",
-            meta: "Tourné vers soi",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous besoin d’être aligné(e) avec vous-même avant d’agir ?",
-            meta: "Tourné vers soi",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Votre confort personnel est-il une condition essentielle à votre implication ?",
-            meta: "Tourné vers soi",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Faites-vous passer vos besoins en premier dans un groupe ?",
-            meta: "Tourné vers soi",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Anticipez-vous souvent les besoins ou attentes des autres ?",
-            meta: "Tourné vers les autres",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vos choix sont-ils souvent guidés par le plaisir que cela procurera aux autres ?",
-            meta: "Tourné vers les autres",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Préférez-vous faire plaisir quitte à vous contraindre un peu ?",
-            meta: "Tourné vers les autres",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous sentez-vous responsable du bien-être des autres ?",
-            meta: "Tourné vers les autres",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Est-il important pour vous d’être perçu(e) comme quelqu’un d’attentionné ?",
-            meta: "Tourné vers les autres",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Aimez-vous comprendre les grandes lignes avant d’entrer dans les détails ?",
-            meta: "Global",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Préférez-vous les visions d’ensemble aux explications minutieuses ?",
-            meta: "Global",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous besoin de situer les choses dans un cadre général ?",
-            meta: "Global",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Est-ce que les détails vous intéressent surtout une fois la vue d’ensemble comprise ?",
-            meta: "Global",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous du mal à rester concentré(e) sur des choses trop précises ?",
-            meta: "Global",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Aimez-vous décortiquer les choses en éléments précis ?",
-            meta: "Détail",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Sur un mur nouvellement peint, allez-vous voir instantanément le petit détail mal fait ?",
-            meta: "Détail",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous attachez-vous aux détails avant d’embrasser une vision globale ?",
-            meta: "Détail",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Les choses inexactes ou floues vous mettent-elles mal à l’aise ?",
-            meta: "Détail",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous sentez-vous rassuré(e) par des données précises ?",
-            meta: "Détail",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous besoin de calme pour vous ressourcer ?",
-            meta: "Introverti",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Préférez-vous les interactions en petit comité ?",
-            meta: "Introverti",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Le temps seul(e) est-il vital pour votre équilibre ?",
-            meta: "Introverti",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Trouvez-vous fatigantes les réunions sociales prolongées ?",
-            meta: "Introverti",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous sentez-vous plus vous-même dans l’intimité que dans un groupe ?",
-            meta: "Introverti",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Vous sentez-vous énergisé(e) par la présence des autres ?",
-            meta: "Extraverti",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Avez-vous tendance à parler pour réfléchir ?",
-            meta: "Extraverti",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Cherchez-vous la compagnie plutôt que la solitude ?",
-            meta: "Extraverti",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Les environnements dynamiques vous stimulent-ils ?",
-            meta: "Extraverti",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        },{
-            question: "Préférez-vous partager vos pensées plutôt que les garder pour vous ?",
-            meta: "Extraverti",
-            answers: [
-                { text: "Oui (100%)", value: 100 },
-                { text: "Souvent (50%)", value: 50 },
-                { text: "Rarement (25%)", value: 25 },
-                { text: "Non (0%)", value: 0 }
-            ]
-        }
-];
-
-let currentPage = 0;
-const questionsPerPage = 5;
-let answers = Array(questions.length).fill(null);
-
-function renderPage() {
-    const quiz = document.getElementById("quiz");
-    quiz.innerHTML = "";
-    const start = currentPage * questionsPerPage;
-    const end = Math.min(start + questionsPerPage, questions.length);
-    for (let i = start; i < end; i++) {
-        const q = questions[i];
-        const div = document.createElement("div");
-        div.className = "question-block";
-        div.innerHTML = `<div class="question-text">${i + 1}. ${q.question}</div>`;
-        q.answers.forEach((a, idx) => {
-            const id = `q${i}_a${idx}`;
-            div.innerHTML += `
-                <div class="answers">
-                  <label><input type="radio" name="q${i}" value="${a.value}" onchange="recordAnswer(${i}, ${a.value})"> ${a.text}</label>
-                </div>`;
-        });
-        quiz.appendChild(div);
-    }
-
-    document.getElementById("page-indicator").innerText = `Page ${currentPage + 1} / ${Math.ceil(questions.length / questionsPerPage)}`;
-    document.getElementById("progress-inner").style.width = `${((currentPage + 1) / Math.ceil(questions.length / questionsPerPage)) * 100}%`;
-
-    if (end === questions.length) {
-        document.getElementById("email-block").style.display = "block";
-    } else {
-        document.getElementById("email-block").style.display = "none";
-    }
-}
-
-function nextPage() {
-    if ((currentPage + 1) * questionsPerPage < questions.length) {
-        currentPage++;
-        renderPage();
-    }
-}
-
-function prevPage() {
-    if (currentPage > 0) {
-        currentPage--;
-        renderPage();
-    }
-}
-
-function recordAnswer(qIdx, value) {
-    answers[qIdx] = value;
-}
-
-function submitResults() {
-    const email = document.getElementById("email").value;
-    const error = document.getElementById("email-error");
-    error.textContent = "";
-
-    if (!email.includes("@")) {
-        error.textContent = "Veuillez entrer une adresse e-mail valide.";
-        return;
-    }
-
-    const payload = {
-        email: email,
-        responses: answers
-    };
-
-    fetch("https://hook.eu1.make.com/XXXXXXX", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    })
-    .then(() => {
-        alert("Vos résultats ont été envoyés !");
-    })
-    .catch(() => {
-        error.textContent = "Erreur d'envoi. Réessayez.";
-    });
-}
-
-renderPage();
-</script>
 </body>
 </html>
