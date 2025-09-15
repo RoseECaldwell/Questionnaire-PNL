@@ -1,921 +1,197 @@
-
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Test des Métaprogrammes - MetaLove</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap">
-    <style>
-        body {
-            background-color: #0f0f0f;
-            font-family: 'Inter', sans-serif;
-            color: white;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 2rem;
-        }
-        h1 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-            color: #ff66c4;
-        }
-        .intro {
-            text-align: center;
-            font-size: 1rem;
-            margin-bottom: 2rem;
-            color: #ccc;
-        }
-        .question-block {
-            background-color: #1a1a1a;
-            padding: 1.2rem;
-            margin-bottom: 1rem;
-            border-radius: 8px;
-        }
-        .question-text {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-        }
-        .answer {
-            display: block;
-            margin-left: 1rem;
-        }
-        .pagination {
-            text-align: center;
-            margin-top: 2rem;
-        }
-        .pagination span {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            margin: 2px;
-            border-radius: 50%;
-            background-color: grey;
-        }
-        .pagination span.active {
-            background-image: linear-gradient(to right, #00ffff, #00ff00, #ffff00);
-        }
-        button {
-            margin-top: 1rem;
-            padding: 0.5rem 1rem;
-            background-color: #ff66c4;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>MetaLove · Bonus Test (v5)</title>
+<meta content="noindex,nofollow" name="robots"/>
+<style>
+  :root{
+    --bg:#0b0d12;--card:#161b2a;--ink:#e7ebf5;--muted:#9aa4bf;--accent:#ff79c6;--accent2:#50fa7b;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+  .wrap{max-width:1000px;margin:24px auto;padding:0 16px 40px}
+  header{display:flex;gap:12px;align-items:center;margin-bottom:18px}
+  .logo{width:36px;height:36px;border-radius:10px;background:radial-gradient(circle at 30% 25%,#ff91d2,transparent 55%),radial-gradient(circle at 70% 70%,#71ffbe,transparent 55%),linear-gradient(135deg,#2a2f45,#171b2a);box-shadow:0 0 0 1px #ffffff20,0 10px 30px #0007}
+  h1{font-size:22px;margin:0}
+  .card{background:linear-gradient(180deg,#161b2a,#121724);border:1px solid #ffffff20;border-radius:14px;box-shadow:0 12px 30px #0008}
+  .p16{padding:16px}.p24{padding:24px}
+  .muted{color:var(--muted)}.small{font-size:13px}
+  .hr{height:1px;background:#ffffff22;margin:14px 0}
+  .btn{appearance:none;border:1px solid #ffffff30;color:var(--ink);background:#1b2133;border-radius:10px;padding:10px 14px;font-weight:600;cursor:pointer}
+  .btn.primary{background:linear-gradient(180deg,#2b3554,#212942)}
+  .btn:disabled{opacity:.55;cursor:not-allowed}
+  fieldset{border:none;margin:0;padding:0}
+  legend{font-weight:600;margin-bottom:8px}
+  .question{padding:16px;border:1px solid #ffffff20;border-radius:10px;background:#111526;margin-bottom:16px}
+  .options{display:flex;flex-wrap:wrap;gap:10px}
+  label.option{display:flex;align-items:center;gap:8px;background:#0d1220;border:1px solid #ffffff2a;padding:8px 10px;border-radius:10px;cursor:pointer}
+  input[type="radio"]{margin:0}
+  input[type=email]{width:100%;padding:10px;border-radius:10px;border:1px solid #ffffff35;background:#0d1220;color:var(--ink)}
+  .progress-bar{width:100%;height:8px;background:#ffffff17;border-radius:999px;overflow:hidden;margin:12px 0}
+  .progress-bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%}
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>💖 Test MetaLove</h1>
-        <p class="intro">Répondez de façon spontanée. Il n’y a pas de bonne ou de mauvaise réponse.</p>
-<div class="page" data-page="0">
-        <div class="question-block">
-            <p class="question-text">1. Vous souvenez-vous plus facilement des visages que des noms ?</p>
-            <label class="answer"><input type="radio" name="q0" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q0" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q0" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q0" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">2. Aimez-vous organiser votre espace de travail de façon esthétique et harmonieuse ?</p>
-            <label class="answer"><input type="radio" name="q1" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q1" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q1" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q1" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">3. Choisissez-vous vos vêtements principalement en fonction de leur apparence visuelle ?</p>
-            <label class="answer"><input type="radio" name="q2" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q2" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q2" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q2" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">4. Lorsqu'on vous explique quelque chose, préférez-vous voir un schéma ou un dessin à la place ?</p>
-            <label class="answer"><input type="radio" name="q3" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q3" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q3" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q3" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">5. Avez-vous tendance à visualiser mentalement vos projets ou vos idées ?</p>
-            <label class="answer"><input type="radio" name="q4" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q4" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q4" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q4" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="1">
-        <div class="question-block">
-            <p class="question-text">6. Lorsque vous entendez une voix familière, la reconnaissez-vous rapidement, même sans voir la personne ?</p>
-            <label class="answer"><input type="radio" name="q5" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q5" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q5" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q5" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">7. Entendez-vous une voix intérieure qui accompagne votre lecture, comme si vous vous racontiez l’histoire à vous-même ?</p>
-            <label class="answer"><input type="radio" name="q6" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q6" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q6" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q6" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">8. Lorsqu’on vous donne des consignes, les retenir à l’oral vous est-il facile ?</p>
-            <label class="answer"><input type="radio" name="q7" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q7" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q7" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q7" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">9. Le bruit de fond vous gêne-t-il facilement pour vous concentrer ?</p>
-            <label class="answer"><input type="radio" name="q8" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q8" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q8" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q8" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">10. Avez-vous besoin de verbaliser vos idées à haute voix pour les clarifier ?</p>
-            <label class="answer"><input type="radio" name="q9" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q9" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q9" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q9" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="2">
-        <div class="question-block">
-            <p class="question-text">11. Êtes-vous particulièrement sensible à la texture des vêtements que vous portez ?</p>
-            <label class="answer"><input type="radio" name="q10" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q10" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q10" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q10" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">12. Avez-vous du mal à rester concentré(e) sans bouger, même légèrement ?</p>
-            <label class="answer"><input type="radio" name="q11" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q11" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q11" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q11" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">13. Apprenez-vous plus facilement en manipulant ou en expérimentant directement ?</p>
-            <label class="answer"><input type="radio" name="q12" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q12" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q12" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q12" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">14. Avez-vous besoin de ressentir physiquement un lieu pour savoir si vous vous y sentez bien ?</p>
-            <label class="answer"><input type="radio" name="q13" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q13" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q13" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q13" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">15. Évitez-vous certains vêtements, même beaux, s’ils sont trop serrés ou inconfortables ?</p>
-            <label class="answer"><input type="radio" name="q14" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q14" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q14" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q14" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="3">
-        <div class="question-block">
-            <p class="question-text">16. Aimez-vous avoir plusieurs manières possibles d’aborder une même tâche ?</p>
-            <label class="answer"><input type="radio" name="q15" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q15" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q15" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q15" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">17. Préférez-vous improviser plutôt que suivre une méthode fixe ?</p>
-            <label class="answer"><input type="radio" name="q16" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q16" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q16" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q16" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">18. Vous sentez-vous limité(e) lorsqu’on vous impose une seule façon de faire ?</p>
-            <label class="answer"><input type="radio" name="q17" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q17" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q17" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q17" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">19. Avez-vous tendance à adapter les règles plutôt qu’à les suivre strictement ?</p>
-            <label class="answer"><input type="radio" name="q18" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q18" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q18" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q18" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">20. Appréciez-vous les formations ouvertes plutôt que très structurées ?</p>
-            <label class="answer"><input type="radio" name="q19" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q19" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q19" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q19" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="4">
-        <div class="question-block">
-            <p class="question-text">21. Avez-vous besoin de consignes claires avant de commencer une tâche ?</p>
-            <label class="answer"><input type="radio" name="q20" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q20" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q20" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q20" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">22. Préférez-vous suivre une méthode pas à pas plutôt que d’improviser ?</p>
-            <label class="answer"><input type="radio" name="q21" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q21" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q21" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q21" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">23. Est-ce que l’absence de cadre vous déstabilise ?</p>
-            <label class="answer"><input type="radio" name="q22" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q22" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q22" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q22" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">24. Aimez-vous quand les choses sont bien organisées et logiques ?</p>
-            <label class="answer"><input type="radio" name="q23" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q23" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q23" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q23" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">25. Vous sentez-vous plus efficace avec un plan établi à l’avance ?</p>
-            <label class="answer"><input type="radio" name="q24" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q24" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q24" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q24" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="5">
-        <div class="question-block">
-            <p class="question-text">26. Prenez-vous souvent les devants pour résoudre un problème ?</p>
-            <label class="answer"><input type="radio" name="q25" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q25" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q25" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q25" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">27. Initiez-vous souvent les projets ou les discussions ?</p>
-            <label class="answer"><input type="radio" name="q26" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q26" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q26" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q26" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">28. Avez-vous tendance à agir plutôt qu’attendre ?</p>
-            <label class="answer"><input type="radio" name="q27" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q27" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q27" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q27" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">29. Êtes-vous à l’aise dans les situations qui demandent de la réactivité ?</p>
-            <label class="answer"><input type="radio" name="q28" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q28" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q28" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q28" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">30. Cherchez-vous rapidement des solutions quand un obstacle survient ?</p>
-            <label class="answer"><input type="radio" name="q29" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q29" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q29" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q29" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="6">
-        <div class="question-block">
-            <p class="question-text">31. Avez-vous besoin de prendre le temps de réfléchir avant d’agir ?</p>
-            <label class="answer"><input type="radio" name="q30" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q30" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q30" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q30" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">32. Préférez-vous observer avant de vous lancer dans une nouvelle activité ?</p>
-            <label class="answer"><input type="radio" name="q31" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q31" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q31" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q31" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">33. Avez-vous tendance à réagir plutôt qu’à initier ?</p>
-            <label class="answer"><input type="radio" name="q32" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q32" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q32" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q32" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">34. Est-ce que vous vous sentez plus à l’aise lorsqu’un cadre est déjà posé ?</p>
-            <label class="answer"><input type="radio" name="q33" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q33" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q33" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q33" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">35. L’attente d’un déclencheur extérieur vous rassure-t-elle avant de commencer ?</p>
-            <label class="answer"><input type="radio" name="q34" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q34" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q34" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q34" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="7">
-        <div class="question-block">
-            <p class="question-text">36. Souhaitez-vous influencer les décisions dans un groupe ?</p>
-            <label class="answer"><input type="radio" name="q35" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q35" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q35" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q35" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">37. Vous sentez-vous motivé(e) par le fait d’être reconnu(e) comme leader ?</p>
-            <label class="answer"><input type="radio" name="q36" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q36" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q36" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q36" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">38. Avez-vous besoin d’avoir le contrôle sur ce que vous entreprenez ?</p>
-            <label class="answer"><input type="radio" name="q37" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q37" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q37" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q37" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">39. Est-ce que relever des défis vous stimule ?</p>
-            <label class="answer"><input type="radio" name="q38" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q38" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q38" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q38" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">40. Avez-vous tendance à vouloir réaliser ce qu’on vous croit incapable de faire ?</p>
-            <label class="answer"><input type="radio" name="q39" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q39" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q39" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q39" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="8">
-        <div class="question-block">
-            <p class="question-text">41. Vous fixez-vous des buts clairs avant d’agir ?</p>
-            <label class="answer"><input type="radio" name="q40" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q40" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q40" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q40" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">42. Avez-vous besoin d’un résultat concret pour vous sentir motivé(e) ?</p>
-            <label class="answer"><input type="radio" name="q41" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q41" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q41" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q41" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">43. Est-ce que la performance pour vous s’évalue par l’atteinte d’un résultat plutôt que par ce que vous avez appris ?</p>
-            <label class="answer"><input type="radio" name="q42" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q42" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q42" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q42" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">44. Planifiez-vous vos actions avec une idée précise du résultat attendu ?</p>
-            <label class="answer"><input type="radio" name="q43" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q43" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q43" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q43" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">45. Vous sentez-vous plus à l’aise quand vous savez exactement où vous allez ?</p>
-            <label class="answer"><input type="radio" name="q44" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q44" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q44" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q44" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="9">
-        <div class="question-block">
-            <p class="question-text">46. Est-il important pour vous d’être bien intégré(e) dans un groupe ?</p>
-            <label class="answer"><input type="radio" name="q45" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q45" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q45" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q45" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">47. Cherchez-vous à créer des liens avant tout dans un nouveau contexte ?</p>
-            <label class="answer"><input type="radio" name="q46" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q46" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q46" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q46" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">48. Préférez-vous collaborer que réussir seul(e) ?</p>
-            <label class="answer"><input type="radio" name="q47" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q47" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q47" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q47" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">49. L’ambiance dans une équipe est-elle plus importante que le salaire que vous gagnez ?</p>
-            <label class="answer"><input type="radio" name="q48" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q48" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q48" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q48" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">50. Faites-vous attention à ne pas blesser les autres dans vos choix ?</p>
-            <label class="answer"><input type="radio" name="q49" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q49" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q49" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q49" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="10">
-        <div class="question-block">
-            <p class="question-text">51. Vous appuyez-vous sur vos expériences pour prendre des décisions ?</p>
-            <label class="answer"><input type="radio" name="q50" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q50" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q50" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q50" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">52. Avez-vous tendance à vous référer à ce que vous connaissez déjà ?</p>
-            <label class="answer"><input type="radio" name="q51" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q51" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q51" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q51" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">53. Préférez-vous les traditions aux nouveautés ?</p>
-            <label class="answer"><input type="radio" name="q52" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q52" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q52" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q52" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">54. Revenez-vous souvent sur des événements passés pour comprendre le présent ?</p>
-            <label class="answer"><input type="radio" name="q53" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q53" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q53" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q53" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">55. Est-ce que vos souvenirs guident souvent vos choix ?</p>
-            <label class="answer"><input type="radio" name="q54" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q54" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q54" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q54" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="11">
-        <div class="question-block">
-            <p class="question-text">56. Vous concentrez-vous davantage sur ce que vous vivez ici et maintenant ?</p>
-            <label class="answer"><input type="radio" name="q55" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q55" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q55" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q55" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">57. Avez-vous du mal à faire des plans à long terme ?</p>
-            <label class="answer"><input type="radio" name="q56" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q56" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q56" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q56" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">58. Est-ce que vous agissez surtout en fonction de ce qui se passe aujourd’hui ?</p>
-            <label class="answer"><input type="radio" name="q57" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q57" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q57" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q57" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">59. Vous sentez-vous guidé(e) par vos ressentis du moment ?</p>
-            <label class="answer"><input type="radio" name="q58" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q58" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q58" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q58" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">60. Réagissez-vous davantage à ce qui se passe tout de suite qu’à ce qui pourrait arriver ?</p>
-            <label class="answer"><input type="radio" name="q59" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q59" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q59" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q59" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="12">
-        <div class="question-block">
-            <p class="question-text">61. Faites-vous souvent des projets à long terme ?</p>
-            <label class="answer"><input type="radio" name="q60" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q60" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q60" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q60" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">62. Avez-vous besoin de visualiser l’avenir pour vous sentir motivé(e) ?</p>
-            <label class="answer"><input type="radio" name="q61" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q61" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q61" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q61" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">63. Planifiez-vous beaucoup ce que vous allez faire dans les semaines à venir ?</p>
-            <label class="answer"><input type="radio" name="q62" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q62" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q62" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q62" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">64. Pensez-vous souvent à ce que vous voulez devenir ?</p>
-            <label class="answer"><input type="radio" name="q63" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q63" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q63" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q63" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">65. Anticipez-vous les conséquences futures de vos décisions ?</p>
-            <label class="answer"><input type="radio" name="q64" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q64" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q64" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q64" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="13">
-        <div class="question-block">
-            <p class="question-text">66. Les odeurs influencent-elles facilement votre humeur ?</p>
-            <label class="answer"><input type="radio" name="q65" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q65" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q65" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q65" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">67. Êtes-vous très sensible aux parfums ou aux odeurs fortes ?</p>
-            <label class="answer"><input type="radio" name="q66" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q66" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q66" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q66" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">68. Vous rappelez-vous facilement d’une personne grâce à son odeur ?</p>
-            <label class="answer"><input type="radio" name="q67" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q67" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q67" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q67" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">69. Avez-vous des odeurs préférées qui vous apaisent ou vous stimulent ?</p>
-            <label class="answer"><input type="radio" name="q68" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q68" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q68" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q68" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">70. Une odeur peut-elle suffire à vous rappeler un souvenir ?</p>
-            <label class="answer"><input type="radio" name="q69" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q69" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q69" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q69" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="14">
-        <div class="question-block">
-            <p class="question-text">71. Le goût influence-t-il fortement votre expérience d’un moment ?</p>
-            <label class="answer"><input type="radio" name="q70" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q70" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q70" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q70" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">72. Choisissez-vous des lieux ou événements selon ce que vous allez y manger ?</p>
-            <label class="answer"><input type="radio" name="q71" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q71" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q71" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q71" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">73. Vous arrive-t-il de manger juste pour le plaisir du goût, sans faim ?</p>
-            <label class="answer"><input type="radio" name="q72" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q72" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q72" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q72" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">74. Un bon plat peut-il améliorer votre humeur ?</p>
-            <label class="answer"><input type="radio" name="q73" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q73" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q73" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q73" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">75. Le partage de repas est-il un moment important pour vous ?</p>
-            <label class="answer"><input type="radio" name="q74" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q74" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q74" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q74" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="15">
-        <div class="question-block">
-            <p class="question-text">76. Pensez-vous d’abord à vous avant d’aider les autres ?</p>
-            <label class="answer"><input type="radio" name="q75" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q75" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q75" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q75" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">77. Votre propre bien-être passe-t-il en priorité dans vos décisions ?</p>
-            <label class="answer"><input type="radio" name="q76" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q76" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q76" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q76" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">78. Avez-vous besoin d’être aligné(e) avec vous-même avant d’agir ?</p>
-            <label class="answer"><input type="radio" name="q77" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q77" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q77" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q77" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">79. Votre confort personnel est-il une condition essentielle à votre implication ?</p>
-            <label class="answer"><input type="radio" name="q78" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q78" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q78" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q78" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">80. Faites-vous passer vos besoins en premier dans un groupe ?</p>
-            <label class="answer"><input type="radio" name="q79" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q79" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q79" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q79" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="16">
-        <div class="question-block">
-            <p class="question-text">81. Anticipez-vous souvent les besoins ou attentes des autres ?</p>
-            <label class="answer"><input type="radio" name="q80" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q80" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q80" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q80" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">82. Vos choix sont-ils souvent guidés par le plaisir que cela procurera aux autres ?</p>
-            <label class="answer"><input type="radio" name="q81" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q81" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q81" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q81" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">83. Préférez-vous faire plaisir quitte à vous contraindre un peu ?</p>
-            <label class="answer"><input type="radio" name="q82" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q82" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q82" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q82" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">84. Vous sentez-vous responsable du bien-être des autres ?</p>
-            <label class="answer"><input type="radio" name="q83" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q83" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q83" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q83" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">85. Est-il important pour vous d’être perçu(e) comme quelqu’un d’attentionné ?</p>
-            <label class="answer"><input type="radio" name="q84" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q84" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q84" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q84" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="17">
-        <div class="question-block">
-            <p class="question-text">86. Aimez-vous comprendre les grandes lignes avant d’entrer dans les détails ?</p>
-            <label class="answer"><input type="radio" name="q85" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q85" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q85" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q85" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">87. Préférez-vous les visions d’ensemble aux explications minutieuses ?</p>
-            <label class="answer"><input type="radio" name="q86" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q86" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q86" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q86" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">88. Avez-vous besoin de situer les choses dans un cadre général ?</p>
-            <label class="answer"><input type="radio" name="q87" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q87" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q87" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q87" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">89. Est-ce que les détails vous intéressent surtout une fois la vue d’ensemble comprise ?</p>
-            <label class="answer"><input type="radio" name="q88" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q88" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q88" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q88" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">90. Avez-vous du mal à rester concentré(e) sur des choses trop précises ?</p>
-            <label class="answer"><input type="radio" name="q89" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q89" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q89" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q89" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="18">
-        <div class="question-block">
-            <p class="question-text">91. Aimez-vous décortiquer les choses en éléments précis ?</p>
-            <label class="answer"><input type="radio" name="q90" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q90" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q90" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q90" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">92. Sur un mur nouvellement peint, allez-vous voir instantanément le petit détail mal fait ?</p>
-            <label class="answer"><input type="radio" name="q91" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q91" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q91" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q91" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">93. Vous attachez-vous aux détails avant d’embrasser une vision globale ?</p>
-            <label class="answer"><input type="radio" name="q92" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q92" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q92" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q92" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">94. Les choses inexactes ou floues vous mettent-elles mal à l’aise ?</p>
-            <label class="answer"><input type="radio" name="q93" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q93" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q93" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q93" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">95. Vous sentez-vous rassuré(e) par des données précises ?</p>
-            <label class="answer"><input type="radio" name="q94" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q94" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q94" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q94" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="19">
-        <div class="question-block">
-            <p class="question-text">96. Avez-vous besoin de calme pour vous ressourcer ?</p>
-            <label class="answer"><input type="radio" name="q95" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q95" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q95" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q95" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">97. Préférez-vous les interactions en petit comité ?</p>
-            <label class="answer"><input type="radio" name="q96" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q96" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q96" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q96" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">98. Le temps seul(e) est-il vital pour votre équilibre ?</p>
-            <label class="answer"><input type="radio" name="q97" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q97" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q97" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q97" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">99. Trouvez-vous fatigantes les réunions sociales prolongées ?</p>
-            <label class="answer"><input type="radio" name="q98" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q98" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q98" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q98" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">100. Vous sentez-vous plus vous-même dans l’intimité que dans un groupe ?</p>
-            <label class="answer"><input type="radio" name="q99" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q99" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q99" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q99" value="Non"> Non</label>
-        </div>
-        </div><div class="page" data-page="20">
-        <div class="question-block">
-            <p class="question-text">101. Vous sentez-vous énergisé(e) par la présence des autres ?</p>
-            <label class="answer"><input type="radio" name="q100" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q100" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q100" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q100" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">102. Avez-vous tendance à parler pour réfléchir ?</p>
-            <label class="answer"><input type="radio" name="q101" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q101" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q101" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q101" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">103. Cherchez-vous la compagnie plutôt que la solitude ?</p>
-            <label class="answer"><input type="radio" name="q102" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q102" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q102" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q102" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">104. Les environnements dynamiques vous stimulent-ils ?</p>
-            <label class="answer"><input type="radio" name="q103" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q103" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q103" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q103" value="Non"> Non</label>
-        </div>
-        
-        <div class="question-block">
-            <p class="question-text">105. Préférez-vous partager vos pensées plutôt que les garder pour vous ?</p>
-            <label class="answer"><input type="radio" name="q104" value="Oui"> Oui</label>
-            <label class="answer"><input type="radio" name="q104" value="Souvent"> Souvent</label>
-            <label class="answer"><input type="radio" name="q104" value="Rarement"> Rarement</label>
-            <label class="answer"><input type="radio" name="q104" value="Non"> Non</label>
-        </div>
-        </div><div class="pagination"><span class="active"></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span><span class=""></span></div><button id="next-btn">Suivant</button>
-    </div>
+<div class="wrap">
+<header>
+<div class="logo"></div>
+<div>
+<h1>MetaLove · Bonus Test Métaprogrammes</h1><p style="color: #cccccc; font-style: italic; margin-top: -10px; margin-bottom: 30px;">🧠 Répondez spontanément à chaque question. Il n’y a pas de bonne ou de mauvaise réponse.</p>
+</div>
+</header>
+<section class="card p24" id="quiz">
+<h2 id="quizTitle">Répondez aux questions</h2>
+<div id="quizBody"></div>
+<div class="progress-bar"><i id="progressBar" style="width:0%"></i></div>
+<div style="display:flex;gap:10px;justify-content:space-between">
+<div></div>
+<button class="btn primary" id="btnNext">Suivant</button>
+</div>
+</section>
+<section class="card p24" hidden="" id="collectEmail">
+<h2>Dernière étape</h2>
+<p>Pour recevoir votre analyse personnalisée, veuillez indiquer votre e‑mail :</p>
+<label class="small">Votre e‑mail</label>
+<div style="margin-top:10px">
+<label class="small" style="display:flex;gap:8px;align-items:start">J’accepte de recevoir mon analyse par e‑mail et que mon adresse soit utilisée pour les segments de métaprogrammes (usage marketing MetaLove). Je peux demander la suppression à tout moment.</label>
+</div>
+<div class="hr"></div>
+<button class="btn primary" id="btnSend">Envoyer mon analyse</button>
+</section>
+<section class="card p24" hidden="" id="thanks">
+<h2>Merci !</h2>
+<p>Votre analyse personnalisée a été envoyée à <span id="toEmail"></span>.</p>
+<p class="small muted">Par conception, les résultats ne sont pas affichés sur cette page.</p>
+</section>
+</div>
+<script>
+const SUBMIT_URL = "";
+const EMAILJS = { ENABLED:false, USER_ID:"", SERVICE_ID:"", TEMPLATE_ID:"" };
+if(window.emailjs && EMAILJS.ENABLED){ emailjs.init(EMAILJS.USER_ID); }
+
+// Questions from bonus doc (Oui/Non)
+const BONUS_QUESTIONS = JSON.parse(atob('W3siY2F0IjogIlN5c3RcdTAwZThtZXMgZGUgcGVyY2VwdGlvbiAoVkFLT0cpIiwgInRleHQiOiAiVm91cyBzb3V2ZW5lei12b3VzIHBsdXMgZmFjaWxlbWVudCBkZXMgdmlzYWdlcyBxdWUgZGVzIG5vbXMgPyIsICJvcmllbnRhdGlvbiI6ICJWaXN1ZWwifSwgeyJjYXQiOiAiU3lzdFx1MDBlOG1lcyBkZSBwZXJjZXB0aW9uIChWQUtPRykiLCAidGV4dCI6ICJBaW1lei12b3VzIG9yZ2FuaXNlciB2b3RyZSBlc3BhY2UgZGUgdHJhdmFpbCBkZSBmYVx1MDBlN29uIGVzdGhcdTAwZTl0aXF1ZSBldCBoYXJtb25pZXVzZSA/IiwgIm9yaWVudGF0aW9uIjogIlZpc3VlbCJ9LCB7ImNhdCI6ICJTeXN0XHUwMGU4bWVzIGRlIHBlcmNlcHRpb24gKFZBS09HKSIsICJ0ZXh0IjogIkNob2lzaXNzZXotdm91cyB2b3Mgdlx1MDBlYXRlbWVudHMgcHJpbmNpcGFsZW1lbnQgZW4gZm9uY3Rpb24gZGUgbGV1ciBhcHBhcmVuY2UgdmlzdWVsbGUgPyIsICJvcmllbnRhdGlvbiI6ICJWaXN1ZWwifSwgeyJjYXQiOiAiU3lzdFx1MDBlOG1lcyBkZSBwZXJjZXB0aW9uIChWQUtPRykiLCAidGV4dCI6ICJMb3JzcXUnb24gdm91cyBleHBsaXF1ZSBxdWVscXVlIGNob3NlLCBwclx1MDBlOWZcdTAwZTlyZXotdm91cyB2b2lyIHVuIHNjaFx1MDBlOW1hIG91IHVuIGRlc3NpbiBcdTAwZTAgbGEgcGxhY2UgPyIsICJvcmllbnRhdGlvbiI6ICJWaXN1ZWwifSwgeyJjYXQiOiAiU3lzdFx1MDBlOG1lcyBkZSBwZXJjZXB0aW9uIChWQUtPRykiLCAidGV4dCI6ICJBdmV6LXZvdXMgdGVuZGFuY2UgXHUwMGUwIHZpc3VhbGlzZXIgbWVudGFsZW1lbnQgdm9zIHByb2pldHMgb3Ugdm9zIGlkXHUwMGU5ZXMgPyIsICJvcmllbnRhdGlvbiI6ICJWaXN1ZWwifSwgeyJjYXQiOiAiU3lzdFx1MDBlOG1lcyBkZSBwZXJjZXB0aW9uIChWQUtPRykiLCAidGV4dCI6ICJMb3JzcXVlIHZvdXMgZW50ZW5kZXogdW5lIHZvaXggZmFtaWxpXHUwMGU4cmUsIGxhIHJlY29ubmFpc3Nlei12b3VzIHJhcGlkZW1lbnQsIG1cdTAwZWFtZSBzYW5zIHZvaXIgbGEgcGVyc29ubmUgPyIsICJvcmllbnRhdGlvbiI6ICJBdWRpdGlmIn0sIHsiY2F0IjogIlN5c3RcdTAwZThtZXMgZGUgcGVyY2VwdGlvbiAoVkFLT0cpIiwgInRleHQiOiAiQXZlei12b3VzIHNvdXZlbnQgdW5lIHBldGl0ZSB2b2l4IGludFx1MDBlOXJpZXVyZSBxdWkgY29tbWVudGUgY2UgcXVlIHZvdXMgZmFpdGVzID8iLCAib3JpZW50YXRpb24iOiAiQXVkaXRpZiJ9LCB7ImNhdCI6ICJTeXN0XHUwMGU4bWVzIGRlIHBlcmNlcHRpb24gKFZBS09HKSIsICJ0ZXh0IjogIkxvcnNxdVx1MjAxOW9uIHZvdXMgZG9ubmUgZGVzIGNvbnNpZ25lcywgbGVzIHJldGVuaXIgXHUwMGUwIGxcdTIwMTlvcmFsIHZvdXMgc3VmZml0LWlsID8iLCAib3JpZW50YXRpb24iOiAiQXVkaXRpZiJ9LCB7ImNhdCI6ICJTeXN0XHUwMGU4bWVzIGRlIHBlcmNlcHRpb24gKFZBS09HKSIsICJ0ZXh0IjogIkxlIGJydWl0IGRlIGZvbmQgdm91cyBnXHUwMGVhbmUtdC1pbCBmYWNpbGVtZW50IHBvdXIgdm91cyBjb25jZW50cmVyID8iLCAib3JpZW50YXRpb24iOiAiQXVkaXRpZiJ9LCB7ImNhdCI6ICJTeXN0XHUwMGU4bWVzIGRlIHBlcmNlcHRpb24gKFZBS09HKSIsICJ0ZXh0IjogIkF2ZXotdm91cyBiZXNvaW4gZGUgdmVyYmFsaXNlciB2b3MgaWRcdTAwZTllcyBcdTAwZTAgaGF1dGUgdm9peCBwb3VyIGxlcyBjbGFyaWZpZXIgPyIsICJvcmllbnRhdGlvbiI6ICJBdWRpdGlmIn0sIHsiY2F0IjogIlN5c3RcdTAwZThtZXMgZGUgcGVyY2VwdGlvbiAoVkFLT0cpIiwgInRleHQiOiAiXHUwMGNhdGVzLXZvdXMgcGFydGljdWxpXHUwMGU4cmVtZW50IHNlbnNpYmxlIFx1MDBlMCBsYSB0ZXh0dXJlIGRlcyB2XHUwMGVhdGVtZW50cyBxdWUgdm91cyBwb3J0ZXogPyIsICJvcmllbnRhdGlvbiI6ICJLaW5lc3RoXHUwMGU5c2lxdWUifSwgeyJjYXQiOiAiU3lzdFx1MDBlOG1lcyBkZSBwZXJjZXB0aW9uIChWQUtPRykiLCAidGV4dCI6ICJBdmV6LXZvdXMgZHUgbWFsIFx1MDBlMCByZXN0ZXIgY29uY2VudHJcdTAwZTkoZSkgc2FucyBib3VnZXIsIG1cdTAwZWFtZSBsXHUwMGU5Z1x1MDBlOHJlbWVudCA/IiwgIm9yaWVudGF0aW9uIjogIktpbmVzdGhcdTAwZTlzaXF1ZSJ9LCB7ImNhdCI6ICJTeXN0XHUwMGU4bWVzIGRlIHBlcmNlcHRpb24gKFZBS09HKSIsICJ0ZXh0IjogIkFwcHJlbmV6LXZvdXMgcGx1cyBmYWNpbGVtZW50IGVuIG1hbmlwdWxhbnQgb3UgZW4gZXhwXHUwMGU5cmltZW50YW50IGRpcmVjdGVtZW50ID8iLCAib3JpZW50YXRpb24iOiAiS2luZXN0aFx1MDBlOXNpcXVlIn0sIHsiY2F0IjogIlN5c3RcdTAwZThtZXMgZGUgcGVyY2VwdGlvbiAoVkFLT0cpIiwgInRleHQiOiAiQXZlei12b3VzIGJlc29pbiBkZSByZXNzZW50aXIgcGh5c2lxdWVtZW50IHVuIGxpZXUgcG91ciBzYXZvaXIgc2kgdm91cyB2b3VzIHkgc2VudGV6IGJpZW4gPyIsICJvcmllbnRhdGlvbiI6ICJLaW5lc3RoXHUwMGU5c2lxdWUifSwgeyJjYXQiOiAiU3lzdFx1MDBlOG1lcyBkZSBwZXJjZXB0aW9uIChWQUtPRykiLCAidGV4dCI6ICJcdTAwYzl2aXRlei12b3VzIGNlcnRhaW5zIHZcdTAwZWF0ZW1lbnRzLCBtXHUwMGVhbWUgYmVhdXgsIHNcdTIwMTlpbHMgc29udCB0cm9wIHNlcnJcdTAwZTlzIG91IGluY29uZm9ydGFibGVzID8iLCAib3JpZW50YXRpb24iOiAiS2luZXN0aFx1MDBlOXNpcXVlIn0sIHsiY2F0IjogIlN5c3RcdTAwZThtZXMgZGUgcGVyY2VwdGlvbiAoVkFLT0cpIiwgInRleHQiOiAiTGVzIG9kZXVycyB2b3VzIHJhcHBlbGxlbnQtZWxsZXMgc291dmVudCBkZXMgc291dmVuaXJzIHRyXHUwMGU4cyBwclx1MDBlOWNpcyA/IiwgIm9yaWVudGF0aW9uIjogIk9sZmFjdGlmIn0sIHsiY2F0IjogIlN5c3RcdTAwZThtZXMgZGUgcGVyY2VwdGlvbiAoVkFLT0cpIiwgInRleHQiOiAiRmFpdGVzLXZvdXMgYXR0ZW50aW9uIFx1MDBlMCBsXHUyMDE5b2RldXIgZFx1MjAxOXVuIGxpZXUgb3UgZFx1MjAxOXVuZSBwZXJzb25uZSBkXHUwMGU4cyB2b3RyZSBhcnJpdlx1MDBlOWUgPyIsICJvcmllbnRhdGlvbiI6ICJPbGZhY3RpZiJ9LCB7ImNhdCI6ICJTeXN0XHUwMGU4bWVzIGRlIHBlcmNlcHRpb24gKFZBS09HKSIsICJ0ZXh0IjogIkNob2lzaXNzZXotdm91cyBjZXJ0YWlucyBwcm9kdWl0cyAoY29zbVx1MDBlOXRpcXVlcywgbVx1MDBlOW5hZ2Vyc1x1MjAyNikgYXZhbnQgdG91dCBwb3VyIGxldXIgcGFyZnVtID8iLCAib3JpZW50YXRpb24iOiAiT2xmYWN0aWYifSwgeyJjYXQiOiAiU3lzdFx1MDBlOG1lcyBkZSBwZXJjZXB0aW9uIChWQUtPRykiLCAidGV4dCI6ICJMXHUyMDE5b2RldXIgZFx1MjAxOXVuIHBsYXQgZXN0LWVsbGUgc291dmVudCBkXHUwMGU5dGVybWluYW50ZSBwb3VyIHZvdXMgZG9ubmVyIGVudmllIGRlIGxlIG1hbmdlciA/IiwgIm9yaWVudGF0aW9uIjogIk9sZmFjdGlmIn0sIHsiY2F0IjogIlN5c3RcdTAwZThtZXMgZGUgcGVyY2VwdGlvbiAoVkFLT0cpIiwgInRleHQiOiAiXHUwMGNhdGVzLXZvdXMgcGFydGljdWxpXHUwMGU4cmVtZW50IHNlbnNpYmxlIFx1MDBlMCBkZXMgb2RldXJzIHF1ZSBkXHUyMDE5YXV0cmVzIG5lIHJlbWFycXVlbnQgcGFzID8iLCAib3JpZW50YXRpb24iOiAiT2xmYWN0aWYifSwgeyJjYXQiOiAiU3lzdFx1MDBlOG1lcyBkZSBwZXJjZXB0aW9uIChWQUtPRykiLCAidGV4dCI6ICJMZSBnb1x1MDBmYnQgZFx1MjAxOXVuIHBsYXQgcGV1dC1pbCBcdTAwZTAgbHVpIHNldWwgdm91cyByZXBsb25nZXIgZGFucyB1biBzb3V2ZW5pciBkXHUyMDE5ZW5mYW5jZSA/IiwgIm9yaWVudGF0aW9uIjogIkd1c3RhdGlmIn0sIHsiY2F0IjogIlN5c3RcdTAwZThtZXMgZGUgcGVyY2VwdGlvbiAoVkFLT0cpIiwgInRleHQiOiAiQXZlei12b3VzIHRlbmRhbmNlIFx1MDBlMCBnb1x1MDBmYnRlciBpbnN0aW5jdGl2ZW1lbnQgbGVzIGNob3NlcyBub3V2ZWxsZXMsIHBhciBjdXJpb3NpdFx1MDBlOSA/IiwgIm9yaWVudGF0aW9uIjogIkd1c3RhdGlmIn0sIHsiY2F0IjogIlN5c3RcdTAwZThtZXMgZGUgcGVyY2VwdGlvbiAoVkFLT0cpIiwgInRleHQiOiAiXHUwMGNhdGVzLXZvdXMgZHUgZ2VucmUgXHUwMGUwIHBhcmxlciBhdmVjIGVudGhvdXNpYXNtZSBkZXMgc2F2ZXVycyBkXHUyMDE5dW4gcGxhdCA/IiwgIm9yaWVudGF0aW9uIjogIkd1c3RhdGlmIn0sIHsiY2F0IjogIlN5c3RcdTAwZThtZXMgZGUgcGVyY2VwdGlvbiAoVkFLT0cpIiwgInRleHQiOiAiUHJcdTAwZTlmXHUwMGU5cmV6LXZvdXMgY3Vpc2luZXIgdm91cy1tXHUwMGVhbWUgcG91ciBjb250clx1MDBmNGxlciBsZXMgZ29cdTAwZmJ0cyBldCBhc3NvY2lhdGlvbnMgPyIsICJvcmllbnRhdGlvbiI6ICJHdXN0YXRpZiJ9LCB7ImNhdCI6ICJTeXN0XHUwMGU4bWVzIGRlIHBlcmNlcHRpb24gKFZBS09HKSIsICJ0ZXh0IjogIkF2ZXotdm91cyBkZXMgcHJcdTAwZTlmXHUwMGU5cmVuY2VzIGd1c3RhdGl2ZXMgdHJcdTAwZThzIG1hcnF1XHUwMGU5ZXMgKHN1Y3JcdTAwZTkvc2FsXHUwMGU5LCBhbWVyL2RvdXgsIGV0Yy4pID8iLCAib3JpZW50YXRpb24iOiAiR3VzdGF0aWYifSwgeyJjYXQiOiAiQXNzb2NpXHUwMGU5IC8gRGlzc29jaVx1MDBlOSIsICJ0ZXh0IjogIkxvcnNxdWUgdm91cyB2b3VzIHJlbVx1MDBlOW1vcmV6IHVuIHNvdXZlbmlyIGZvcnQsIGF2ZXotdm91cyBsXHUyMDE5aW1wcmVzc2lvbiBkXHUyMDE5eSBcdTAwZWF0cmUgZW5jb3JlID8iLCAib3JpZW50YXRpb24iOiAiQXNzb2NpXHUwMGU5ICh2aXZyZSBsZXMgXHUwMGU5dlx1MDBlOW5lbWVudHMgXHUwMGFiIGRlIGxcdTIwMTlpbnRcdTAwZTlyaWV1ciBcdTAwYmIpIn0sIHsiY2F0IjogIkFzc29jaVx1MDBlOSAvIERpc3NvY2lcdTAwZTkiLCAidGV4dCI6ICJSZXNzZW50ZXotdm91cyBpbnRlbnNcdTAwZTltZW50IGxlcyBcdTAwZTltb3Rpb25zIGxpXHUwMGU5ZXMgXHUwMGUwIHVuZSBzaXR1YXRpb24gcGFzc1x1MDBlOWUgPyIsICJvcmllbnRhdGlvbiI6ICJBc3NvY2lcdTAwZTkgKHZpdnJlIGxlcyBcdTAwZTl2XHUwMGU5bmVtZW50cyBcdTAwYWIgZGUgbFx1MjAxOWludFx1MDBlOXJpZXVyIFx1MDBiYikifSwgeyJjYXQiOiAiQXNzb2NpXHUwMGU5IC8gRGlzc29jaVx1MDBlOSIsICJ0ZXh0IjogIkF2ZXotdm91cyBwYXJmb2lzIGR1IG1hbCBcdTAwZTAgcHJlbmRyZSBkdSByZWN1bCBkYW5zIHVuZSBzaXR1YXRpb24gXHUwMGU5bW90aW9ubmVsbGUgZm9ydGUgPyIsICJvcmllbnRhdGlvbiI6ICJBc3NvY2lcdTAwZTkgKHZpdnJlIGxlcyBcdTAwZTl2XHUwMGU5bmVtZW50cyBcdTAwYWIgZGUgbFx1MjAxOWludFx1MDBlOXJpZXVyIFx1MDBiYikifSwgeyJjYXQiOiAiQXNzb2NpXHUwMGU5IC8gRGlzc29jaVx1MDBlOSIsICJ0ZXh0IjogIkxvcnNxdWUgdm91cyByZWdhcmRleiB1biBmaWxtIG91IHVuZSBzXHUwMGU5cmllLCBhdmV6LXZvdXMgdGVuZGFuY2UgXHUwMGUwIHZvdXMgaW1tZXJnZXIgZGFucyBsXHUyMDE5aGlzdG9pcmUgPyIsICJvcmllbnRhdGlvbiI6ICJBc3NvY2lcdTAwZTkgKHZpdnJlIGxlcyBcdTAwZTl2XHUwMGU5bmVtZW50cyBcdTAwYWIgZGUgbFx1MjAxOWludFx1MDBlOXJpZXVyIFx1MDBiYikifSwgeyJjYXQiOiAiQXNzb2NpXHUwMGU5IC8gRGlzc29jaVx1MDBlOSIsICJ0ZXh0IjogIlZvdXMgYXJyaXZlLXQtaWwgZGUgclx1MDBlOWFnaXIgcGh5c2lxdWVtZW50ICh0ZW5zaW9uLCBsYXJtZXMsIHNvdXJpcmUpIFx1MDBlMCB2b3Mgc291dmVuaXJzID8iLCAib3JpZW50YXRpb24iOiAiQXNzb2NpXHUwMGU5ICh2aXZyZSBsZXMgXHUwMGU5dlx1MDBlOW5lbWVudHMgXHUwMGFiIGRlIGxcdTIwMTlpbnRcdTAwZTlyaWV1ciBcdTAwYmIpIn0sIHsiY2F0IjogIkFzc29jaVx1MDBlOSAvIERpc3NvY2lcdTAwZTkiLCAidGV4dCI6ICJQcmVuZXotdm91cyBuYXR1cmVsbGVtZW50IGR1IHJlY3VsIHF1YW5kIGlsIHNcdTIwMTlhZ2l0IGRcdTIwMTlcdTAwZTl2YWx1ZXIgdW5lIHNpdHVhdGlvbiBwYXNzXHUwMGU5ZSA/IiwgIm9yaWVudGF0aW9uIjogIkRpc3NvY2lcdTAwZTkgKG9ic2VydmVyIGxlcyBcdTAwZTl2XHUwMGU5bmVtZW50cyBcdTAwYWIgZGUgbFx1MjAxOWV4dFx1MDBlOXJpZXVyIFx1MDBiYikifSwgeyJjYXQiOiAiQXNzb2NpXHUwMGU5IC8gRGlzc29jaVx1MDBlOSIsICJ0ZXh0IjogIlZvdXMgc291dmVuZXotdm91cyBwbHVzIGZhY2lsZW1lbnQgZGVzIGZhaXRzIHF1ZSBkZXMgcmVzc2VudGlzIGFzc29jaVx1MDBlOXMgPyIsICJvcmllbnRhdGlvbiI6ICJEaXNzb2NpXHUwMGU5IChvYnNlcnZlciBsZXMgXHUwMGU5dlx1MDBlOW5lbWVudHMgXHUwMGFiIGRlIGxcdTIwMTlleHRcdTAwZTlyaWV1ciBcdTAwYmIpIn0sIHsiY2F0IjogIkFzc29jaVx1MDBlOSAvIERpc3NvY2lcdTAwZTkiLCAidGV4dCI6ICJBdmV6LXZvdXMgbFx1MjAxOWhhYml0dWRlIGRcdTIwMTlhbmFseXNlciB1bmUgZXhwXHUwMGU5cmllbmNlIGNvbW1lIHNpIHZvdXMgZW4gXHUwMGU5dGlleiBzcGVjdGF0ZXVyID8iLCAib3JpZW50YXRpb24iOiAiRGlzc29jaVx1MDBlOSAob2JzZXJ2ZXIgbGVzIFx1MDBlOXZcdTAwZTluZW1lbnRzIFx1MDBhYiBkZSBsXHUyMDE5ZXh0XHUwMGU5cmlldXIgXHUwMGJiKSJ9LCB7ImNhdCI6ICJBc3NvY2lcdTAwZTkgLyBEaXNzb2NpXHUwMGU5IiwgInRleHQiOiAiTG9yc3F1ZSB2b3VzIHZvdXMgcmFwcGVsZXogdW4gXHUwMGU5dlx1MDBlOW5lbWVudCBkaWZmaWNpbGUsIGVzdC1jZSBzYW5zIFx1MDBlOW1vdGlvbiBpbnRlbnNlID8iLCAib3JpZW50YXRpb24iOiAiRGlzc29jaVx1MDBlOSAob2JzZXJ2ZXIgbGVzIFx1MDBlOXZcdTAwZTluZW1lbnRzIFx1MDBhYiBkZSBsXHUyMDE5ZXh0XHUwMGU5cmlldXIgXHUwMGJiKSJ9LCB7ImNhdCI6ICJBc3NvY2lcdTAwZTkgLyBEaXNzb2NpXHUwMGU5IiwgInRleHQiOiAiUGVuc2V6LXZvdXMgXHUwMGVhdHJlIHBsdXRcdTAwZjR0IGZhY3R1ZWwoZWxsZSkgcXVhbmQgdm91cyByYWNvbnRleiB1bmUgYW5lY2RvdGUgcGVyc29ubmVsbGUgPyIsICJvcmllbnRhdGlvbiI6ICJEaXNzb2NpXHUwMGU5IChvYnNlcnZlciBsZXMgXHUwMGU5dlx1MDBlOW5lbWVudHMgXHUwMGFiIGRlIGxcdTIwMTlleHRcdTAwZTlyaWV1ciBcdTAwYmIpIn0sIHsiY2F0IjogIlBlbnNlciAoUEkpIC8gUmVzc2VudGlyIChFSSkgLyBGYWlyZSAoQ0UpIiwgInRleHQiOiAiQXZlei12b3VzIGJlc29pbiBkZSBjb21wcmVuZHJlIGxlcyBjaG9zZXMgbG9naXF1ZW1lbnQgYXZhbnQgZGUgcGFzc2VyIFx1MDBlMCBsXHUyMDE5YWN0aW9uID8iLCAib3JpZW50YXRpb24iOiAiUGVuc2VyIChQcm9jZXNzdXMgaW50ZWxsZWN0dWVsKSJ9LCB7ImNhdCI6ICJQZW5zZXIgKFBJKSAvIFJlc3NlbnRpciAoRUkpIC8gRmFpcmUgKENFKSIsICJ0ZXh0IjogIkVzdC1jZSBxdWUgbFx1MjAxOWFuYWx5c2UgcmF0aW9ubmVsbGUgZ3VpZGUgbGEgbWFqb3JpdFx1MDBlOSBkZSB2b3MgZFx1MDBlOWNpc2lvbnMgPyIsICJvcmllbnRhdGlvbiI6ICJQZW5zZXIgKFByb2Nlc3N1cyBpbnRlbGxlY3R1ZWwpIn0sIHsiY2F0IjogIlBlbnNlciAoUEkpIC8gUmVzc2VudGlyIChFSSkgLyBGYWlyZSAoQ0UpIiwgInRleHQiOiAiQXZlei12b3VzIHRlbmRhbmNlIFx1MDBlMCByZWNoZXJjaGVyIGRlcyBleHBsaWNhdGlvbnMsIGRlcyBjYXVzZXMsIGRlcyBtb2RcdTAwZThsZXMgPyIsICJvcmllbnRhdGlvbiI6ICJQZW5zZXIgKFByb2Nlc3N1cyBpbnRlbGxlY3R1ZWwpIn0sIHsiY2F0IjogIlBlbnNlciAoUEkpIC8gUmVzc2VudGlyIChFSSkgLyBGYWlyZSAoQ0UpIiwgInRleHQiOiAiVm91cyBzZW50ZXotdm91cyBcdTAwZTAgbFx1MjAxOWFpc2UgZGFucyBkZXMgZGlzY3Vzc2lvbnMgY29uY2VwdHVlbGxlcyBvdSBhYnN0cmFpdGVzID8iLCAib3JpZW50YXRpb24iOiAiUGVuc2VyIChQcm9jZXNzdXMgaW50ZWxsZWN0dWVsKSJ9LCB7ImNhdCI6ICJQZW5zZXIgKFBJKSAvIFJlc3NlbnRpciAoRUkpIC8gRmFpcmUgKENFKSIsICJ0ZXh0IjogIkF2ZXotdm91cyBzb3V2ZW50IGRlcyByYWlzb25uZW1lbnRzIGludGVybmVzIHRyXHUwMGU4cyBjbGFpcnMsIHByZXNxdWUgbWF0aFx1MDBlOW1hdGlxdWVzID8iLCAib3JpZW50YXRpb24iOiAiUGVuc2VyIChQcm9jZXNzdXMgaW50ZWxsZWN0dWVsKSJ9LCB7ImNhdCI6ICJQZW5zZXIgKFBJKSAvIFJlc3NlbnRpciAoRUkpIC8gRmFpcmUgKENFKSIsICJ0ZXh0IjogIlZvdXMgZmllei12b3VzIFx1MDBlMCB2b3RyZSBpbnR1aXRpb24gb3Ugdm90cmUgcmVzc2VudGkgcG91ciBwcmVuZHJlIGRlcyBkXHUwMGU5Y2lzaW9ucyA/IiwgIm9yaWVudGF0aW9uIjogIlJlc3NlbnRpciAoUHJvY2Vzc3VzIFx1MDBlOW1vdGlvbm5lbCkifSwgeyJjYXQiOiAiUGVuc2VyIChQSSkgLyBSZXNzZW50aXIgKEVJKSAvIEZhaXJlIChDRSkiLCAidGV4dCI6ICJBdmV6LXZvdXMgYmVzb2luIGRcdTIwMTlcdTAwZWF0cmUgZW4gcGhhc2UgXHUwMGU5bW90aW9ubmVsbGVtZW50IGF2ZWMgdW4gcHJvamV0IHBvdXIgdm91cyB5IGVuZ2FnZXIgPyIsICJvcmllbnRhdGlvbiI6ICJSZXNzZW50aXIgKFByb2Nlc3N1cyBcdTAwZTltb3Rpb25uZWwpIn0sIHsiY2F0IjogIlBlbnNlciAoUEkpIC8gUmVzc2VudGlyIChFSSkgLyBGYWlyZSAoQ0UpIiwgInRleHQiOiAiVm91cyBhcnJpdmUtdC1pbCBkZSBcdTIwMWNzZW50aXJcdTIwMWQgY2UgcXVcdTIwMTl1bmUgcGVyc29ubmUgcGVuc2Ugb3UgcmVzc2VudCBzYW5zIHF1XHUyMDE5ZWxsZSBsZSBkaXNlID8iLCAib3JpZW50YXRpb24iOiAiUmVzc2VudGlyIChQcm9jZXNzdXMgXHUwMGU5bW90aW9ubmVsKSJ9LCB7ImNhdCI6ICJQZW5zZXIgKFBJKSAvIFJlc3NlbnRpciAoRUkpIC8gRmFpcmUgKENFKSIsICJ0ZXh0IjogIlZvcyBjaG9peCBzb250LWlscyBzb3V2ZW50IGd1aWRcdTAwZTlzIHBhciBjZSBxdWkgdm91cyBzZW1ibGUganVzdGUgb3UgaW5qdXN0ZSA/IiwgIm9yaWVudGF0aW9uIjogIlJlc3NlbnRpciAoUHJvY2Vzc3VzIFx1MDBlOW1vdGlvbm5lbCkifSwgeyJjYXQiOiAiUGVuc2VyIChQSSkgLyBSZXNzZW50aXIgKEVJKSAvIEZhaXJlIChDRSkiLCAidGV4dCI6ICJBdmV6LXZvdXMgZHUgbWFsIFx1MDBlMCBmYWlyZSB1biBjaG9peCBxdWFuZCBpbCB5IGEgdW4gY29uZmxpdCBlbnRyZSBjZSBxdWUgdm91cyByZXNzZW50ZXogZXQgY2UgcXVlIHZvdXMgXHUyMDFjZGV2ZXpcdTIwMWQgZmFpcmUgPyIsICJvcmllbnRhdGlvbiI6ICJSZXNzZW50aXIgKFByb2Nlc3N1cyBcdTAwZTltb3Rpb25uZWwpIn0sIHsiY2F0IjogIlBlbnNlciAoUEkpIC8gUmVzc2VudGlyIChFSSkgLyBGYWlyZSAoQ0UpIiwgInRleHQiOiAiUHJcdTAwZTlmXHUwMGU5cmV6LXZvdXMgYWdpciByYXBpZGVtZW50IHBsdXRcdTAwZjR0IHF1ZSByXHUwMGU5ZmxcdTAwZTljaGlyIHRyb3AgbG9uZ3RlbXBzID8iLCAib3JpZW50YXRpb24iOiAiRmFpcmUgKFByb2Nlc3N1cyBtb3RldXIgLyBhY3Rpb24pIn0sIHsiY2F0IjogIlBlbnNlciAoUEkpIC8gUmVzc2VudGlyIChFSSkgLyBGYWlyZSAoQ0UpIiwgInRleHQiOiAiVm91cyBzZW50ZXotdm91cyBmcnVzdHJcdTAwZTkoZSkgcXVhbmQgdW5lIHNpdHVhdGlvbiBzdGFnbmUgb3UgbWFucXVlIGRlIGNvbmNyZXQgPyIsICJvcmllbnRhdGlvbiI6ICJGYWlyZSAoUHJvY2Vzc3VzIG1vdGV1ciAvIGFjdGlvbikifSwgeyJjYXQiOiAiUGVuc2VyIChQSSkgLyBSZXNzZW50aXIgKEVJKSAvIEZhaXJlIChDRSkiLCAidGV4dCI6ICJBdmV6LXZvdXMgYmVzb2luIGRlIHBhc3NlciBcdTAwZTAgbFx1MjAxOWFjdGlvbiBwb3VyIHRlc3RlciB1bmUgaWRcdTAwZTllIG91IHZhbGlkZXIgdW5lIGludHVpdGlvbiA/IiwgIm9yaWVudGF0aW9uIjogIkZhaXJlIChQcm9jZXNzdXMgbW90ZXVyIC8gYWN0aW9uKSJ9LCB7ImNhdCI6ICJQZW5zZXIgKFBJKSAvIFJlc3NlbnRpciAoRUkpIC8gRmFpcmUgKENFKSIsICJ0ZXh0IjogIlx1MDBjYXRlcy12b3VzIGR1IGdlbnJlIFx1MDBlMCBcdTIwMWNmYWlyZSBkXHUyMDE5YWJvcmQgZXQgY29ycmlnZXIgZW5zdWl0ZVx1MjAxZCA/IiwgIm9yaWVudGF0aW9uIjogIkZhaXJlIChQcm9jZXNzdXMgbW90ZXVyIC8gYWN0aW9uKSJ9LCB7ImNhdCI6ICJQZW5zZXIgKFBJKSAvIFJlc3NlbnRpciAoRUkpIC8gRmFpcmUgKENFKSIsICJ0ZXh0IjogIkF2ZXotdm91cyBkdSBtYWwgXHUwMGUwIHJlc3RlciBpbmFjdGlmKHZlKSBkYW5zIHVuZSBzaXR1YXRpb24gZmxvdWUgPyIsICJvcmllbnRhdGlvbiI6ICJGYWlyZSAoUHJvY2Vzc3VzIG1vdGV1ciAvIGFjdGlvbikifSwgeyJjYXQiOiAiSW50cm92ZXJ0aSAvIEV4dHJhdmVydGkiLCAidGV4dCI6ICJWb3VzIHJlc3NvdXJjZXotdm91cyBwbHV0XHUwMGY0dCBkYW5zIGxhIHNvbGl0dWRlIHF1ZSBkYW5zIGxlcyBpbnRlcmFjdGlvbnMgc29jaWFsZXMgPyIsICJvcmllbnRhdGlvbiI6ICJJbnRyb3ZlcnRpIn0sIHsiY2F0IjogIkludHJvdmVydGkgLyBFeHRyYXZlcnRpIiwgInRleHQiOiAiUHJcdTAwZTlmXHUwMGU5cmV6LXZvdXMgXHUwMGU5Y291dGVyIGxvbmd1ZW1lbnQgYXZhbnQgZGUgcGFybGVyIGRhbnMgdW5lIGNvbnZlcnNhdGlvbiBkZSBncm91cGUgPyIsICJvcmllbnRhdGlvbiI6ICJJbnRyb3ZlcnRpIn0sIHsiY2F0IjogIkludHJvdmVydGkgLyBFeHRyYXZlcnRpIiwgInRleHQiOiAiQXByXHUwMGU4cyB1bmUgam91cm5cdTAwZTllIGVudG91clx1MDBlOWUgZGUgbW9uZGUsIGF2ZXotdm91cyBiZXNvaW4gZFx1MjAxOXVuIG1vbWVudCBzZXVsKGUpID8iLCAib3JpZW50YXRpb24iOiAiSW50cm92ZXJ0aSJ9LCB7ImNhdCI6ICJJbnRyb3ZlcnRpIC8gRXh0cmF2ZXJ0aSIsICJ0ZXh0IjogIlZvcyByXHUwMGU5ZmxleGlvbnMgaW1wb3J0YW50ZXMgc2UgZm9udC1lbGxlcyBzdXJ0b3V0IGVuIHNpbGVuY2UsIFx1MDBlMCBsXHUyMDE5aW50XHUwMGU5cmlldXIgPyIsICJvcmllbnRhdGlvbiI6ICJJbnRyb3ZlcnRpIn0sIHsiY2F0IjogIkludHJvdmVydGkgLyBFeHRyYXZlcnRpIiwgInRleHQiOiAiQXZlei12b3VzIGJlc29pbiBkZSByXHUwMGU5ZmxcdTAwZTljaGlyIGxvbmd1ZW1lbnQgYXZhbnQgZGUgdm91cyBleHByaW1lciA/IiwgIm9yaWVudGF0aW9uIjogIkludHJvdmVydGkifSwgeyJjYXQiOiAiSW50cm92ZXJ0aSAvIEV4dHJhdmVydGkiLCAidGV4dCI6ICJWb3VzIHNlbnRlei12b3VzIHN0aW11bFx1MDBlOShlKSBldCByZWNoYXJnXHUwMGU5KGUpIHBhciBsYSBwclx1MDBlOXNlbmNlIGRlcyBhdXRyZXMgPyIsICJvcmllbnRhdGlvbiI6ICJFeHRyYXZlcnRpIn0sIHsiY2F0IjogIkludHJvdmVydGkgLyBFeHRyYXZlcnRpIiwgInRleHQiOiAiUGFybGV6LXZvdXMgc291dmVudCBwb3VyIGNsYXJpZmllciB2b3MgaWRcdTAwZTllcyBlbiBtXHUwMGVhbWUgdGVtcHMgcXVlIHZvdXMgbGVzIGV4cHJpbWV6ID8iLCAib3JpZW50YXRpb24iOiAiRXh0cmF2ZXJ0aSJ9LCB7ImNhdCI6ICJJbnRyb3ZlcnRpIC8gRXh0cmF2ZXJ0aSIsICJ0ZXh0IjogIkFwcHJcdTAwZTljaWV6LXZvdXMgbGVzIFx1MDBlOWNoYW5nZXMgc3BvbnRhblx1MDBlOXMsIG1cdTAwZWFtZSBhdmVjIGRlcyBpbmNvbm51cyA/IiwgIm9yaWVudGF0aW9uIjogIkV4dHJhdmVydGkifSwgeyJjYXQiOiAiSW50cm92ZXJ0aSAvIEV4dHJhdmVydGkiLCAidGV4dCI6ICJQclx1MDBlOWZcdTAwZTlyZXotdm91cyBsZXMgZW52aXJvbm5lbWVudHMgZHluYW1pcXVlcyBldCBhbmltXHUwMGU5cyBcdTAwZTAgY2V1eCBwbHVzIGNhbG1lcyA/IiwgIm9yaWVudGF0aW9uIjogIkV4dHJhdmVydGkifSwgeyJjYXQiOiAiSW50cm92ZXJ0aSAvIEV4dHJhdmVydGkiLCAidGV4dCI6ICJBdmV6LXZvdXMgbFx1MjAxOWhhYml0dWRlIGRlIFx1MjAxY3BlbnNlciBcdTAwZTAgdm9peCBoYXV0ZVx1MjAxZCA/IiwgIm9yaWVudGF0aW9uIjogIkV4dHJhdmVydGkifSwgeyJjYXQiOiAiQnJhbmNoXHUwMGU5IGludGVybmUgLyBCcmFuY2hcdTAwZTkgZXh0ZXJuZSIsICJ0ZXh0IjogIkF2ZXotdm91cyBiZXNvaW4gZGUgdmFsaWRlciBwYXIgdm91cy1tXHUwMGVhbWUgY2UgcXVpIGVzdCB2cmFpIG91IGp1c3RlID8iLCAib3JpZW50YXRpb24iOiAiSW50ZXJuZSAoYXV0by1yXHUwMGU5Zlx1MDBlOXJlbmNlKSJ9LCB7ImNhdCI6ICJCcmFuY2hcdTAwZTkgaW50ZXJuZSAvIEJyYW5jaFx1MDBlOSBleHRlcm5lIiwgInRleHQiOiAiRmFpdGVzLXZvdXMgZGF2YW50YWdlIGNvbmZpYW5jZSBcdTAwZTAgdm90cmUgcHJvcHJlIGp1Z2VtZW50IHF1XHUyMDE5XHUwMGUwIGNlbHVpIGRlcyBhdXRyZXMgPyIsICJvcmllbnRhdGlvbiI6ICJJbnRlcm5lIChhdXRvLXJcdTAwZTlmXHUwMGU5cmVuY2UpIn0sIHsiY2F0IjogIkJyYW5jaFx1MDBlOSBpbnRlcm5lIC8gQnJhbmNoXHUwMGU5IGV4dGVybmUiLCAidGV4dCI6ICJFc3QtaWwgZGlmZmljaWxlIHBvdXIgdm91cyBkZSBjaGFuZ2VyIGRcdTIwMTlhdmlzIGp1c3RlIHN1ciBsYSBiYXNlIGRlIGNlIHF1ZSBkaXQgcXVlbHF1XHUyMDE5dW4gZFx1MjAxOWF1dHJlID8iLCAib3JpZW50YXRpb24iOiAiSW50ZXJuZSAoYXV0by1yXHUwMGU5Zlx1MDBlOXJlbmNlKSJ9LCB7ImNhdCI6ICJCcmFuY2hcdTAwZTkgaW50ZXJuZSAvIEJyYW5jaFx1MDBlOSBleHRlcm5lIiwgInRleHQiOiAiQXZlei12b3VzIHNvdXZlbnQgbGUgc2VudGltZW50IHF1ZSB2b3RyZSBib3Vzc29sZSBpbnRcdTAwZTlyaWV1cmUgZXN0IHBsdXMgZmlhYmxlIHF1ZSBsXHUyMDE5b3BpbmlvbiBnXHUwMGU5blx1MDBlOXJhbGUgPyIsICJvcmllbnRhdGlvbiI6ICJJbnRlcm5lIChhdXRvLXJcdTAwZTlmXHUwMGU5cmVuY2UpIn0sIHsiY2F0IjogIkJyYW5jaFx1MDBlOSBpbnRlcm5lIC8gQnJhbmNoXHUwMGU5IGV4dGVybmUiLCAidGV4dCI6ICJBdmV6LXZvdXMgdGVuZGFuY2UgXHUwMGUwIGRpcmUgXHUyMDFjamUgc2VucyBxdWUgY1x1MjAxOWVzdCBjb21tZSBcdTAwZTdhXHUyMDFkLCBtXHUwMGVhbWUgc2kgb24gdm91cyBkb25uZSBkZXMgY29udHJlLWFyZ3VtZW50cyA/IiwgIm9yaWVudGF0aW9uIjogIkludGVybmUgKGF1dG8tclx1MDBlOWZcdTAwZTlyZW5jZSkifSwgeyJjYXQiOiAiQnJhbmNoXHUwMGU5IGludGVybmUgLyBCcmFuY2hcdTAwZTkgZXh0ZXJuZSIsICJ0ZXh0IjogIkNoZXJjaGV6LXZvdXMgbFx1MjAxOWF2aXMgZGVzIGF1dHJlcyBhdmFudCBkZSBwcmVuZHJlIHVuZSBkXHUwMGU5Y2lzaW9uIGltcG9ydGFudGUgPyIsICJvcmllbnRhdGlvbiI6ICJFeHRlcm5lICh2YWxpZGF0aW9uIHBhciBsZXMgYXV0cmVzIC8gbFx1MjAxOWVudmlyb25uZW1lbnQpIn0sIHsiY2F0IjogIkJyYW5jaFx1MDBlOSBpbnRlcm5lIC8gQnJhbmNoXHUwMGU5IGV4dGVybmUiLCAidGV4dCI6ICJWb3VzIGZpZXotdm91cyBcdTAwZTAgZGVzIGluZGljYXRldXJzIGV4dFx1MDBlOXJpZXVycyBwb3VyIGp1Z2VyIHNpIHZvdXMgYXZleiBiaWVuIGZhaXQgKG5vdGUsIFx1MDBlOXZhbHVhdGlvbiwgYXZpcykgPyIsICJvcmllbnRhdGlvbiI6ICJFeHRlcm5lICh2YWxpZGF0aW9uIHBhciBsZXMgYXV0cmVzIC8gbFx1MjAxOWVudmlyb25uZW1lbnQpIn0sIHsiY2F0IjogIkJyYW5jaFx1MDBlOSBpbnRlcm5lIC8gQnJhbmNoXHUwMGU5IGV4dGVybmUiLCAidGV4dCI6ICJWb3VzIHNlbnRlei12b3VzIHJhc3N1clx1MDBlOShlKSBwYXIgbGVzIGNvbXBsaW1lbnRzLCBsZXMgZmVlZGJhY2tzIG91IGxcdTIwMTlhcHByb2JhdGlvbiA/IiwgIm9yaWVudGF0aW9uIjogIkV4dGVybmUgKHZhbGlkYXRpb24gcGFyIGxlcyBhdXRyZXMgLyBsXHUyMDE5ZW52aXJvbm5lbWVudCkifSwgeyJjYXQiOiAiQnJhbmNoXHUwMGU5IGludGVybmUgLyBCcmFuY2hcdTAwZTkgZXh0ZXJuZSIsICJ0ZXh0IjogIkF2ZXotdm91cyBiZXNvaW4gZGUgdm9pciBkZXMgcHJldXZlcyB2aXNpYmxlcyBwb3VyIFx1MDBlYXRyZSBjb252YWluY3UoZSkgPyIsICJvcmllbnRhdGlvbiI6ICJFeHRlcm5lICh2YWxpZGF0aW9uIHBhciBsZXMgYXV0cmVzIC8gbFx1MjAxOWVudmlyb25uZW1lbnQpIn0sIHsiY2F0IjogIkJyYW5jaFx1MDBlOSBpbnRlcm5lIC8gQnJhbmNoXHUwMGU5IGV4dGVybmUiLCAidGV4dCI6ICJBdmV6LXZvdXMgZHUgbWFsIFx1MDBlMCB2b3VzIGZpZXIgXHUwMGUwIHZvdHJlIGludHVpdGlvbiBzYW5zIHZhbGlkYXRpb24gZXh0XHUwMGU5cmlldXJlID8iLCAib3JpZW50YXRpb24iOiAiRXh0ZXJuZSAodmFsaWRhdGlvbiBwYXIgbGVzIGF1dHJlcyAvIGxcdTIwMTllbnZpcm9ubmVtZW50KSJ9LCB7ImNhdCI6ICJTb2kgLyBMZXMgYXV0cmVzIiwgInRleHQiOiAiTG9yc3F1ZSB2b3VzIHByZW5leiB1bmUgZFx1MDBlOWNpc2lvbiwgcGVuc2V6LXZvdXMgZFx1MjAxOWFib3JkIFx1MDBlMCBsXHUyMDE5aW1wYWN0IHF1ZSBjZWxhIGF1cmEgc3VyIHZvdXMgPyIsICJvcmllbnRhdGlvbiI6ICJTb2kifSwgeyJjYXQiOiAiU29pIC8gTGVzIGF1dHJlcyIsICJ0ZXh0IjogIkF2ZXotdm91cyBiZXNvaW4gZGUgdm91cyBzZW50aXIgZW4gYWNjb3JkIGF2ZWMgdm91cy1tXHUwMGVhbWUgYXZhbnQgZGUgdm91cyBlbmdhZ2VyID8iLCAib3JpZW50YXRpb24iOiAiU29pIn0sIHsiY2F0IjogIlNvaSAvIExlcyBhdXRyZXMiLCAidGV4dCI6ICJWb3VzIGFycml2ZS10LWlsIGRlIHBvdXJzdWl2cmUgdW4gb2JqZWN0aWYgbVx1MDBlYW1lIHNpIHBlcnNvbm5lIG5lIHZvdXMgc291dGllbnQgPyIsICJvcmllbnRhdGlvbiI6ICJTb2kifSwgeyJjYXQiOiAiU29pIC8gTGVzIGF1dHJlcyIsICJ0ZXh0IjogIkF2ZXotdm91cyBsXHUyMDE5aGFiaXR1ZGUgZGUgZFx1MDBlOWZlbmRyZSB2b3MgY2hvaXgsIG1cdTAwZWFtZSBzXHUyMDE5aWxzIG5lIHNvbnQgcGFzIHBvcHVsYWlyZXMgPyIsICJvcmllbnRhdGlvbiI6ICJTb2kifSwgeyJjYXQiOiAiU29pIC8gTGVzIGF1dHJlcyIsICJ0ZXh0IjogIkF2ZXotdm91cyB0ZW5kYW5jZSBcdTAwZTAgXHUwMGU5dmFsdWVyIGxlcyBjaG9zZXMgc2Vsb24gdm9zIHByb3ByZXMgY3JpdFx1MDBlOHJlcyBkZSBzYXRpc2ZhY3Rpb24gPyIsICJvcmllbnRhdGlvbiI6ICJTb2kifSwgeyJjYXQiOiAiU29pIC8gTGVzIGF1dHJlcyIsICJ0ZXh0IjogIlBlbnNlei12b3VzIGRcdTIwMTlhYm9yZCBcdTAwZTAgY2UgcXVlIGxlcyBhdXRyZXMgdm9udCBwZW5zZXIgYXZhbnQgZFx1MjAxOWFnaXIgPyIsICJvcmllbnRhdGlvbiI6ICJMZXMgYXV0cmVzIn0sIHsiY2F0IjogIlNvaSAvIExlcyBhdXRyZXMiLCAidGV4dCI6ICJBdmV6LXZvdXMgZHUgbWFsIFx1MDBlMCBkaXJlIG5vbiwgbVx1MDBlYW1lIHNpIHZvdXMgblx1MjAxOWF2ZXogcGFzIGVudmllID8iLCAib3JpZW50YXRpb24iOiAiTGVzIGF1dHJlcyJ9LCB7ImNhdCI6ICJTb2kgLyBMZXMgYXV0cmVzIiwgInRleHQiOiAiVm91cyBzZW50ZXotdm91cyBjb3VwYWJsZSBxdWFuZCB2b3MgY2hvaXggaW1wYWN0ZW50IG5cdTAwZTlnYXRpdmVtZW50IHZvdHJlIGVudG91cmFnZSA/IiwgIm9yaWVudGF0aW9uIjogIkxlcyBhdXRyZXMifSwgeyJjYXQiOiAiU29pIC8gTGVzIGF1dHJlcyIsICJ0ZXh0IjogIlRlbmV6LXZvdXMgY29tcHRlIGRlcyBcdTAwZTltb3Rpb25zIGRlcyBhdXRyZXMgZGFucyB0b3V0ZXMgdm9zIGRcdTAwZTljaXNpb25zID8iLCAib3JpZW50YXRpb24iOiAiTGVzIGF1dHJlcyJ9LCB7ImNhdCI6ICJTb2kgLyBMZXMgYXV0cmVzIiwgInRleHQiOiAiVm91cyBzZW50ZXotdm91cyBwbHVzIGhldXJldXgoc2UpIHF1YW5kIGxlcyBhdXRyZXMgYXV0b3VyIGRlIHZvdXMgdm9udCBiaWVuID8iLCAib3JpZW50YXRpb24iOiAiTGVzIGF1dHJlcyJ9LCB7ImNhdCI6ICJSXHUwMGU5Zlx1MDBlOXJlbmNlIGludGVybmUgLyBSXHUwMGU5Zlx1MDBlOXJlbmNlIGV4dGVybmUiLCAidGV4dCI6ICJWb3VzIHNlbnRlei12b3VzIGNhcGFibGUgZFx1MjAxOVx1MDBlOXZhbHVlciB2b3RyZSBwZXJmb3JtYW5jZSBzYW5zIHJldG91ciBleHRcdTAwZTlyaWV1ciA/IiwgIm9yaWVudGF0aW9uIjogIlJcdTAwZTlmXHUwMGU5cmVuY2UgaW50ZXJuZSJ9LCB7ImNhdCI6ICJSXHUwMGU5Zlx1MDBlOXJlbmNlIGludGVybmUgLyBSXHUwMGU5Zlx1MDBlOXJlbmNlIGV4dGVybmUiLCAidGV4dCI6ICJWb3VzIHNhdmV6IHF1ZSB2b3VzIGF2ZXogYmllbiBmYWl0IHF1YW5kXHUyMDI2IHZvdXMgbGUgcmVzc2VudGV6IGVuIHZvdXMgPyIsICJvcmllbnRhdGlvbiI6ICJSXHUwMGU5Zlx1MDBlOXJlbmNlIGludGVybmUifSwgeyJjYXQiOiAiUlx1MDBlOWZcdTAwZTlyZW5jZSBpbnRlcm5lIC8gUlx1MDBlOWZcdTAwZTlyZW5jZSBleHRlcm5lIiwgInRleHQiOiAiVm91cyBhdmV6IGR1IG1hbCBcdTAwZTAgXHUwMGVhdHJlIHNhdGlzZmFpdChlKSBtXHUwMGVhbWUgc2kgb24gdm91cyBmXHUwMGU5bGljaXRlIHNpIHZvdXMtbVx1MDBlYW1lIG5cdTIwMTlcdTAwZWF0ZXMgcGFzIGNvbnZhaW5jdShlKSA/IiwgIm9yaWVudGF0aW9uIjogIlJcdTAwZTlmXHUwMGU5cmVuY2UgaW50ZXJuZSJ9LCB7ImNhdCI6ICJSXHUwMGU5Zlx1MDBlOXJlbmNlIGludGVybmUgLyBSXHUwMGU5Zlx1MDBlOXJlbmNlIGV4dGVybmUiLCAidGV4dCI6ICJWb3VzIHBlbnNleiBxdWUgbGEgclx1MDBlOXVzc2l0ZSBkXHUwMGU5cGVuZCBzdXJ0b3V0IGRlIHZvcyBjcml0XHUwMGU4cmVzID8iLCAib3JpZW50YXRpb24iOiAiUlx1MDBlOWZcdTAwZTlyZW5jZSBpbnRlcm5lIn0sIHsiY2F0IjogIlJcdTAwZTlmXHUwMGU5cmVuY2UgaW50ZXJuZSAvIFJcdTAwZTlmXHUwMGU5cmVuY2UgZXh0ZXJuZSIsICJ0ZXh0IjogIlZvdXMgblx1MjAxOWF2ZXogcGFzIGJlc29pbiBkXHUyMDE5ZW5jb3VyYWdlbWVudHMgcG91ciBzYXZvaXIgc2kgdm91cyBcdTAwZWF0ZXMgZGFucyBsYSBib25uZSB2b2llID8iLCAib3JpZW50YXRpb24iOiAiUlx1MDBlOWZcdTAwZTlyZW5jZSBpbnRlcm5lIn0sIHsiY2F0IjogIlJcdTAwZTlmXHUwMGU5cmVuY2UgaW50ZXJuZSAvIFJcdTAwZTlmXHUwMGU5cmVuY2UgZXh0ZXJuZSIsICJ0ZXh0IjogIkF2ZXotdm91cyBiZXNvaW4gZFx1MjAxOXVuIHJldG91ciAocG9zaXRpZiBvdSBuXHUwMGU5Z2F0aWYpIHBvdXIgc2F2b2lyIHNpIHZvdXMgXHUwMGVhdGVzIHN1ciBsYSBib25uZSB2b2llID8iLCAib3JpZW50YXRpb24iOiAiUlx1MDBlOWZcdTAwZTlyZW5jZSBleHRlcm5lIn0sIHsiY2F0IjogIlJcdTAwZTlmXHUwMGU5cmVuY2UgaW50ZXJuZSAvIFJcdTAwZTlmXHUwMGU5cmVuY2UgZXh0ZXJuZSIsICJ0ZXh0IjogIlZvdXMgc2VudGV6LXZvdXMgcGVyZHUoZSkgc2FucyBpbmRpY2F0ZXVycyBvdSB2YWxpZGF0aW9uIGV4dFx1MDBlOXJpZXVyZSA/IiwgIm9yaWVudGF0aW9uIjogIlJcdTAwZTlmXHUwMGU5cmVuY2UgZXh0ZXJuZSJ9LCB7ImNhdCI6ICJSXHUwMGU5Zlx1MDBlOXJlbmNlIGludGVybmUgLyBSXHUwMGU5Zlx1MDBlOXJlbmNlIGV4dGVybmUiLCAidGV4dCI6ICJUZW5lei12b3VzIGNvbXB0ZSBkZSBsYSByZWNvbm5haXNzYW5jZSBvdSBkZXMgclx1MDBlOXN1bHRhdHMgdmlzaWJsZXMgcG91ciBcdTAwZTl2YWx1ZXIgdm9zIGNob2l4ID8iLCAib3JpZW50YXRpb24iOiAiUlx1MDBlOWZcdTAwZTlyZW5jZSBleHRlcm5lIn0sIHsiY2F0IjogIlJcdTAwZTlmXHUwMGU5cmVuY2UgaW50ZXJuZSAvIFJcdTAwZTlmXHUwMGU5cmVuY2UgZXh0ZXJuZSIsICJ0ZXh0IjogIkxlcyBjb21wbGltZW50cyBvdSBsZXMgY3JpdGlxdWVzIG9udC1pbHMgdW4gaW1wYWN0IGZvcnQgc3VyIHZvdXMgPyIsICJvcmllbnRhdGlvbiI6ICJSXHUwMGU5Zlx1MDBlOXJlbmNlIGV4dGVybmUifSwgeyJjYXQiOiAiUlx1MDBlOWZcdTAwZTlyZW5jZSBpbnRlcm5lIC8gUlx1MDBlOWZcdTAwZTlyZW5jZSBleHRlcm5lIiwgInRleHQiOiAiUGVuc2V6LXZvdXMgcXVlIGxlIGp1Z2VtZW50IGRlcyBhdXRyZXMgZXN0IHNvdXZlbnQgcGx1cyBvYmplY3RpZiBxdWUgbGUgdlx1MDBmNHRyZSA/IiwgIm9yaWVudGF0aW9uIjogIlJcdTAwZTlmXHUwMGU5cmVuY2UgZXh0ZXJuZSJ9LCB7ImNhdCI6ICJHbG9iYWwgLyBEXHUwMGU5dGFpbCIsICJ0ZXh0IjogIkFpbWV6LXZvdXMgY29tcHJlbmRyZSBsYSB2aXNpb24gZFx1MjAxOWVuc2VtYmxlIGF2YW50IGRcdTIwMTllbnRyZXIgZGFucyBsZXMgZFx1MDBlOXRhaWxzID8iLCAib3JpZW50YXRpb24iOiAiR2xvYmFsIn0sIHsiY2F0IjogIkdsb2JhbCAvIERcdTAwZTl0YWlsIiwgInRleHQiOiAiUHJcdTAwZTlmXHUwMGU5cmV6LXZvdXMgcXVcdTIwMTlvbiB2b3VzIGV4cGxpcXVlIGxlIHBvdXJxdW9pIGF2YW50IGxlIGNvbW1lbnQgPyIsICJvcmllbnRhdGlvbiI6ICJHbG9iYWwifSwgeyJjYXQiOiAiR2xvYmFsIC8gRFx1MDBlOXRhaWwiLCAidGV4dCI6ICJBdmV6LXZvdXMgdGVuZGFuY2UgXHUwMGUwIHJcdTAwZTlzdW1lciBsZXMgaWRcdTAwZTllcyBwbHV0XHUwMGY0dCBxdVx1MjAxOVx1MDBlMCBlbiBkXHUwMGU5dGFpbGxlciBjaGFxdWUgcG9pbnQgPyIsICJvcmllbnRhdGlvbiI6ICJHbG9iYWwifSwgeyJjYXQiOiAiR2xvYmFsIC8gRFx1MDBlOXRhaWwiLCAidGV4dCI6ICJBdmV6LXZvdXMgcGFyZm9pcyBkdSBtYWwgXHUwMGUwIHN1aXZyZSB1bmUgZGlzY3Vzc2lvbiB0clx1MDBlOHMgZFx1MDBlOXRhaWxsXHUwMGU5ZSA/IiwgIm9yaWVudGF0aW9uIjogIkdsb2JhbCJ9LCB7ImNhdCI6ICJHbG9iYWwgLyBEXHUwMGU5dGFpbCIsICJ0ZXh0IjogIlZvdXMgc2VudGV6LXZvdXMgcGx1cyBlZmZpY2FjZSBxdWFuZCB2b3VzIHRyYXZhaWxsZXogc3VyIGRlcyBpZFx1MDBlOWVzIGxhcmdlcywgZGVzIHN0cmF0XHUwMGU5Z2llcyA/IiwgIm9yaWVudGF0aW9uIjogIkdsb2JhbCJ9LCB7ImNhdCI6ICJHbG9iYWwgLyBEXHUwMGU5dGFpbCIsICJ0ZXh0IjogIkF2ZXotdm91cyBsZSBzb3VjaSBkZXMgcHJcdTAwZTljaXNpb25zLCBkZXMgY2hpZmZyZXMsIGRlcyBleGNlcHRpb25zID8iLCAib3JpZW50YXRpb24iOiAiRFx1MDBlOXRhaWwifSwgeyJjYXQiOiAiR2xvYmFsIC8gRFx1MDBlOXRhaWwiLCAidGV4dCI6ICJWb3VzIHNlbnRlei12b3VzIGZydXN0clx1MDBlOShlKSBxdWFuZCBxdWVscXVlIGNob3NlIHJlc3RlIGZsb3Ugb3UgZ1x1MDBlOW5cdTAwZTlyYWwgPyIsICJvcmllbnRhdGlvbiI6ICJEXHUwMGU5dGFpbCJ9LCB7ImNhdCI6ICJHbG9iYWwgLyBEXHUwMGU5dGFpbCIsICJ0ZXh0IjogIkFwcHJcdTAwZTljaWV6LXZvdXMgbGVzIG1vZGVzIGRcdTIwMTllbXBsb2ksIGxlcyBsaXN0ZXMsIGxlcyBtXHUwMGU5dGhvZG9sb2dpZXMgcGFzIFx1MDBlMCBwYXMgPyIsICJvcmllbnRhdGlvbiI6ICJEXHUwMGU5dGFpbCJ9LCB7ImNhdCI6ICJHbG9iYWwgLyBEXHUwMGU5dGFpbCIsICJ0ZXh0IjogIkF2ZXotdm91cyBzb3V2ZW50IGJlc29pbiBkZSB0b3V0IGNvbXByZW5kcmUgZGFucyBsZSBkXHUwMGU5dGFpbCBhdmFudCBkXHUyMDE5YXZhbmNlciA/IiwgIm9yaWVudGF0aW9uIjogIkRcdTAwZTl0YWlsIn0sIHsiY2F0IjogIkdsb2JhbCAvIERcdTAwZTl0YWlsIiwgInRleHQiOiAiXHUwMGNhdGVzLXZvdXMgdHJcdTAwZThzIHNlbnNpYmxlIGF1eCBpbXByXHUwMGU5Y2lzaW9ucyBkYW5zIHVuIGRpc2NvdXJzID8iLCAib3JpZW50YXRpb24iOiAiRFx1MDBlOXRhaWwifSwgeyJjYXQiOiAiVHJpIEdBTElDIDogR2VucyBcdTIwMTMgQWN0aXZpdFx1MDBlOSBcdTIwMTMgTGlldSAoQW1iaWFuY2UpIFx1MjAxMyBJbmZvcm1hdGlvbiBcdTIwMTMgQ2hvc2UiLCAidGV4dCI6ICJRdWFuZCB2b3VzIHJlcGVuc2V6IFx1MDBlMCBkZXMgdmFjYW5jZXMsIFx1MDBlYXRlcy12b3VzIGRcdTIwMTlhYm9yZCBtYXJxdVx1MDBlOShlKSBwYXIgbGVzIHBlcnNvbm5lcyBhdmVjIHF1aSB2b3VzIFx1MDBlOXRpZXogPyIsICJvcmllbnRhdGlvbiI6ICJHIFx1MjAxMyBHZW5zIn0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiQXZlei12b3VzIHRlbmRhbmNlIFx1MDBlMCB2b3VzIHJhcHBlbGVyIGZhY2lsZW1lbnQgbGVzIHZpc2FnZXMgb3UgbGVzIHByXHUwMGU5bm9tcyBhc3NvY2lcdTAwZTlzIFx1MDBlMCB1biBcdTAwZTl2XHUwMGU5bmVtZW50ID8iLCAib3JpZW50YXRpb24iOiAiRyBcdTIwMTMgR2VucyJ9LCB7ImNhdCI6ICJUcmkgR0FMSUMgOiBHZW5zIFx1MjAxMyBBY3Rpdml0XHUwMGU5IFx1MjAxMyBMaWV1IChBbWJpYW5jZSkgXHUyMDEzIEluZm9ybWF0aW9uIFx1MjAxMyBDaG9zZSIsICJ0ZXh0IjogIlZvdXMgc2VudGV6LXZvdXMgcGx1cyBlbmdhZ1x1MDBlOShlKSBkYW5zIHVuZSBleHBcdTAwZTlyaWVuY2UgbG9yc3F1XHUyMDE5aWwgeSBhIHVuIGxpZW4gZm9ydCBhdmVjIGxlcyBhdXRyZXMgPyIsICJvcmllbnRhdGlvbiI6ICJHIFx1MjAxMyBHZW5zIn0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiTG9yc3F1ZSB2b3VzIHJhY29udGV6IHVuZSBoaXN0b2lyZSB2XHUwMGU5Y3VlLCBjb21tZW5jZXotdm91cyBzb3V2ZW50IHBhciBcdTIwMWNqXHUyMDE5XHUwMGU5dGFpcyBhdmVjXHUyMDI2XHUyMDFkID8iLCAib3JpZW50YXRpb24iOiAiRyBcdTIwMTMgR2VucyJ9LCB7ImNhdCI6ICJUcmkgR0FMSUMgOiBHZW5zIFx1MjAxMyBBY3Rpdml0XHUwMGU5IFx1MjAxMyBMaWV1IChBbWJpYW5jZSkgXHUyMDEzIEluZm9ybWF0aW9uIFx1MjAxMyBDaG9zZSIsICJ0ZXh0IjogIlx1MDBjYXRlcy12b3VzIHRyXHUwMGU4cyBhdHRlbnRpZih2ZSkgYXV4IHJcdTAwZTlhY3Rpb25zIG91IGNvbXBvcnRlbWVudHMgZGVzIGdlbnMgYXV0b3VyIGRlIHZvdXMgbG9ycyBkXHUyMDE5dW4gXHUwMGU5dlx1MDBlOW5lbWVudCBtYXJxdWFudCA/IiwgIm9yaWVudGF0aW9uIjogIkcgXHUyMDEzIEdlbnMifSwgeyJjYXQiOiAiVHJpIEdBTElDIDogR2VucyBcdTIwMTMgQWN0aXZpdFx1MDBlOSBcdTIwMTMgTGlldSAoQW1iaWFuY2UpIFx1MjAxMyBJbmZvcm1hdGlvbiBcdTIwMTMgQ2hvc2UiLCAidGV4dCI6ICJDZSBxdWUgdm91cyByZXRlbmV6IGxlIHBsdXMgZGUgdm9zIHdlZWstZW5kcyBvdSB2b3lhZ2VzLCBjZSBzb250IGxlcyBhY3Rpdml0XHUwMGU5cyByXHUwMGU5YWxpc1x1MDBlOWVzID8iLCAib3JpZW50YXRpb24iOiAiQSBcdTIwMTMgQWN0aXZpdFx1MDBlOSJ9LCB7ImNhdCI6ICJUcmkgR0FMSUMgOiBHZW5zIFx1MjAxMyBBY3Rpdml0XHUwMGU5IFx1MjAxMyBMaWV1IChBbWJpYW5jZSkgXHUyMDEzIEluZm9ybWF0aW9uIFx1MjAxMyBDaG9zZSIsICJ0ZXh0IjogIlZvdXMgYWltZXogcmFjb250ZXIgbGVzIFx1MDBlOXZcdTAwZTluZW1lbnRzIFx1MDBlMCB0cmF2ZXJzIGNlIHF1ZSB2b3VzIGF2ZXogZmFpdCwgcGx1dFx1MDBmNHQgcXVlIGNlIHF1ZSB2b3VzIGF2ZXogcmVzc2VudGkgPyIsICJvcmllbnRhdGlvbiI6ICJBIFx1MjAxMyBBY3Rpdml0XHUwMGU5In0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiTG9ycyBkXHUyMDE5dW4gc291dmVuaXIgbWFycXVhbnQsIHZvdXMgcmV2aXZleiBwbHV0XHUwMGY0dCBsZXMgYWN0aW9ucyBxdWUgdm91cyB5IGF2ZXogbWVuXHUwMGU5ZXMgcXVlIGxlcyBsaWV1eCBvdSBsZXMgZ2VucyA/IiwgIm9yaWVudGF0aW9uIjogIkEgXHUyMDEzIEFjdGl2aXRcdTAwZTkifSwgeyJjYXQiOiAiVHJpIEdBTElDIDogR2VucyBcdTIwMTMgQWN0aXZpdFx1MDBlOSBcdTIwMTMgTGlldSAoQW1iaWFuY2UpIFx1MjAxMyBJbmZvcm1hdGlvbiBcdTIwMTMgQ2hvc2UiLCAidGV4dCI6ICJBaW1lei12b3VzIHBsYW5pZmllciB2b3Mgam91cm5cdTAwZTllcyBhdXRvdXIgZGUgY2UgcXVlIHZvdXMgYWxsZXogZmFpcmUgcGx1dFx1MDBmNHQgcXVlIGRlIGNlIHF1ZSB2b3VzIGFsbGV6IHZvaXIgb3UgZFx1MDBlOWNvdXZyaXIgPyIsICJvcmllbnRhdGlvbiI6ICJBIFx1MjAxMyBBY3Rpdml0XHUwMGU5In0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiXHUwMGNhdGVzLXZvdXMgcGx1cyBcdTAwZTAgbFx1MjAxOWFpc2UgcG91ciBcdTAwZTl2YWx1ZXIgbGEgclx1MDBlOXVzc2l0ZSBkXHUyMDE5dW4gbW9tZW50IHNlbG9uIGNlIHF1ZSB2b3VzIHkgYXZleiBhY2NvbXBsaSA/IiwgIm9yaWVudGF0aW9uIjogIkEgXHUyMDEzIEFjdGl2aXRcdTAwZTkifSwgeyJjYXQiOiAiVHJpIEdBTElDIDogR2VucyBcdTIwMTMgQWN0aXZpdFx1MDBlOSBcdTIwMTMgTGlldSAoQW1iaWFuY2UpIFx1MjAxMyBJbmZvcm1hdGlvbiBcdTIwMTMgQ2hvc2UiLCAidGV4dCI6ICJMb3JzcXVlIHZvdXMgZW50cmV6IGRhbnMgdW4gZW5kcm9pdCwgY2FwdGV6LXZvdXMgc3BvbnRhblx1MDBlOW1lbnQgbFx1MjAxOWFtYmlhbmNlIG91IGxcdTIwMTlhdG1vc3BoXHUwMGU4cmUgZ1x1MDBlOW5cdTAwZTlyYWxlID8iLCAib3JpZW50YXRpb24iOiAiTCBcdTIwMTMgTGlldSAoQW1iaWFuY2UpIn0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiVm91cyBzb3V2ZW5lei12b3VzIHBsdXMgZmFjaWxlbWVudCBkdSBcdTIwMWNyZXNzZW50aVx1MjAxZCBkXHUyMDE5dW4gbGlldSBxdWUgZGUgY2UgcXVlIHZvdXMgeSBhdmV6IGZhaXQgPyIsICJvcmllbnRhdGlvbiI6ICJMIFx1MjAxMyBMaWV1IChBbWJpYW5jZSkifSwgeyJjYXQiOiAiVHJpIEdBTElDIDogR2VucyBcdTIwMTMgQWN0aXZpdFx1MDBlOSBcdTIwMTMgTGlldSAoQW1iaWFuY2UpIFx1MjAxMyBJbmZvcm1hdGlvbiBcdTIwMTMgQ2hvc2UiLCAidGV4dCI6ICJcdTAwY2F0ZXMtdm91cyBzZW5zaWJsZSBcdTAwZTAgbFx1MjAxOVx1MDBlOW5lcmdpZSBvdSBhdSBjbGltYXQgXHUwMGU5bW90aW9ubmVsIHF1aSBzZSBkXHUwMGU5Z2FnZSBkXHUyMDE5dW4gZW52aXJvbm5lbWVudCAoYXBhaXNhbnQsIHRlbmR1LCBjaGFsZXVyZXV4XHUyMDI2KSA/IiwgIm9yaWVudGF0aW9uIjogIkwgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSJ9LCB7ImNhdCI6ICJUcmkgR0FMSUMgOiBHZW5zIFx1MjAxMyBBY3Rpdml0XHUwMGU5IFx1MjAxMyBMaWV1IChBbWJpYW5jZSkgXHUyMDEzIEluZm9ybWF0aW9uIFx1MjAxMyBDaG9zZSIsICJ0ZXh0IjogIkxvcnMgZFx1MjAxOXVuIHZveWFnZSwgbGEgXHUyMDFjdmliZVx1MjAxZCBvdSBcdTIwMWNsXHUyMDE5XHUwMGUybWVcdTIwMWQgZFx1MjAxOXVuIGxpZXUgdm91cyBtYXJxdWUtdC1lbGxlIHBsdXMgcXVlIGxlcyBtb251bWVudHMgb3UgbGVzIGZhaXRzID8iLCAib3JpZW50YXRpb24iOiAiTCBcdTIwMTMgTGlldSAoQW1iaWFuY2UpIn0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiQXZlei12b3VzIGR1IG1hbCBcdTAwZTAgZXhwbGlxdWVyIHBvdXJxdW9pIHVuIGVuZHJvaXQgdm91cyBwbGFcdTAwZWV0LCBtYWlzIHZvdXMgXHUyMDFjbGUgc2VudGV6XHUyMDFkIGRcdTAwZThzIHF1ZSB2b3VzIHkgXHUwMGVhdGVzID8iLCAib3JpZW50YXRpb24iOiAiTCBcdTIwMTMgTGlldSAoQW1iaWFuY2UpIn0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiQXZlei12b3VzIHRlbmRhbmNlIFx1MDBlMCByZXRlbmlyIGxlcyBjaGlmZnJlcywgbGVzIHBvdXJjZW50YWdlcyBvdSBsZXMgZG9ublx1MDBlOWVzIGRcdTIwMTl1bmUgc2l0dWF0aW9uID8iLCAib3JpZW50YXRpb24iOiAiSSBcdTIwMTMgSW5mb3JtYXRpb24gKGNoaWZmclx1MDBlOWUsIHN0cnVjdHVyXHUwMGU5ZSwgZmFjdHVlbGxlKSJ9LCB7ImNhdCI6ICJUcmkgR0FMSUMgOiBHZW5zIFx1MjAxMyBBY3Rpdml0XHUwMGU5IFx1MjAxMyBMaWV1IChBbWJpYW5jZSkgXHUyMDEzIEluZm9ybWF0aW9uIFx1MjAxMyBDaG9zZSIsICJ0ZXh0IjogIkxvcnMgZFx1MjAxOXVuIHNcdTAwZTlqb3VyLCB2b3VzIHJhcHBlbGV6LXZvdXMgZmFjaWxlbWVudCBkZXMgcHJpeCwgZGVzIGhvcmFpcmVzLCBkdSBub21icmUgZGUga2lsb21cdTAwZTh0cmVzID8iLCAib3JpZW50YXRpb24iOiAiSSBcdTIwMTMgSW5mb3JtYXRpb24gKGNoaWZmclx1MDBlOWUsIHN0cnVjdHVyXHUwMGU5ZSwgZmFjdHVlbGxlKSJ9LCB7ImNhdCI6ICJUcmkgR0FMSUMgOiBHZW5zIFx1MjAxMyBBY3Rpdml0XHUwMGU5IFx1MjAxMyBMaWV1IChBbWJpYW5jZSkgXHUyMDEzIEluZm9ybWF0aW9uIFx1MjAxMyBDaG9zZSIsICJ0ZXh0IjogIlZvdXMgdm91cyBzZW50ZXogZW4gY29uZmlhbmNlIHF1YW5kIHZvdXMgYXZleiBkZXMgZmFpdHMgcHJcdTAwZTljaXMsIGRlcyB0YWJsZWF1eCwgZGVzIGRvbm5cdTAwZTllcyBvcmdhbmlzXHUwMGU5ZXMgPyIsICJvcmllbnRhdGlvbiI6ICJJIFx1MjAxMyBJbmZvcm1hdGlvbiAoY2hpZmZyXHUwMGU5ZSwgc3RydWN0dXJcdTAwZTllLCBmYWN0dWVsbGUpIn0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiXHUwMGNhdGVzLXZvdXMgZHUgZ2VucmUgXHUwMGUwIGxpcmUgbGVzIGF2aXMsIGxlcyBub3RlcywgbGVzIGNvbXBhcmF0aWZzIGF2YW50IGRlIHByZW5kcmUgdW5lIGRcdTAwZTljaXNpb24gPyIsICJvcmllbnRhdGlvbiI6ICJJIFx1MjAxMyBJbmZvcm1hdGlvbiAoY2hpZmZyXHUwMGU5ZSwgc3RydWN0dXJcdTAwZTllLCBmYWN0dWVsbGUpIn0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiTG9ycyBkXHUyMDE5dW4gXHUwMGU5dlx1MDBlOW5lbWVudCwgXHUwMGVhdGVzLXZvdXMgY2VsdWkvY2VsbGUgcXVpIHJldGllbnQgbGVzIHN0YXRpc3RpcXVlcyBvdSBsZXMgZGF0ZXMgaW1wb3J0YW50ZXMgPyIsICJvcmllbnRhdGlvbiI6ICJJIFx1MjAxMyBJbmZvcm1hdGlvbiAoY2hpZmZyXHUwMGU5ZSwgc3RydWN0dXJcdTAwZTllLCBmYWN0dWVsbGUpIn0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiTG9ycyBkXHUyMDE5dW4gc291dmVuaXIgbWFycXVhbnQsIHZvdXMgdm91cyByYXBwZWxleiBzdXJ0b3V0IGRlcyBvYmpldHMsIGRlcyBkXHUwMGU5Y29ycyBvdSBkZXMgXHUwMGU5bFx1MDBlOW1lbnRzIHZpc3VlbHMgPyIsICJvcmllbnRhdGlvbiI6ICJDIFx1MjAxMyBDaG9zZSAob2JqZXRzIG1hdFx1MDBlOXJpZWxzLCB2aXN1ZWxzIGNvbmNyZXRzKSJ9LCB7ImNhdCI6ICJUcmkgR0FMSUMgOiBHZW5zIFx1MjAxMyBBY3Rpdml0XHUwMGU5IFx1MjAxMyBMaWV1IChBbWJpYW5jZSkgXHUyMDEzIEluZm9ybWF0aW9uIFx1MjAxMyBDaG9zZSIsICJ0ZXh0IjogIlZvdXMgYWltZXogcGhvdG9ncmFwaGllciBvdSBjb25zZXJ2ZXIgZGVzIGNob3NlcyBwb3VyIGdhcmRlciB1bmUgdHJhY2UgZFx1MjAxOXVuIG1vbWVudCA/IiwgIm9yaWVudGF0aW9uIjogIkMgXHUyMDEzIENob3NlIChvYmpldHMgbWF0XHUwMGU5cmllbHMsIHZpc3VlbHMgY29uY3JldHMpIn0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiXHUwMGNhdGVzLXZvdXMgcGx1cyBhdHRlbnRpZih2ZSkgXHUwMGUwIGNlIHF1XHUyMDE5b24gdm9pdCBvdSBcdTAwZTAgY2UgcXVcdTIwMTlvbiBwb3NzXHUwMGU4ZGUgbG9ycyBkXHUyMDE5dW4gXHUwMGU5dlx1MDBlOW5lbWVudCBtYXJxdWFudCA/IiwgIm9yaWVudGF0aW9uIjogIkMgXHUyMDEzIENob3NlIChvYmpldHMgbWF0XHUwMGU5cmllbHMsIHZpc3VlbHMgY29uY3JldHMpIn0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiTG9ycyBkXHUyMDE5dW4gclx1MDBlOWNpdCwgZFx1MDBlOWNyaXZlei12b3VzIHNvdXZlbnQgY2UgcXVlIHZvdXMgYXZleiB2dSBvdSB0b3VjaFx1MDBlOSAodlx1MDBlYXRlbWVudHMsIGFyY2hpdGVjdHVyZSwgb2JqZXRzXHUyMDI2KSA/IiwgIm9yaWVudGF0aW9uIjogIkMgXHUyMDEzIENob3NlIChvYmpldHMgbWF0XHUwMGU5cmllbHMsIHZpc3VlbHMgY29uY3JldHMpIn0sIHsiY2F0IjogIlRyaSBHQUxJQyA6IEdlbnMgXHUyMDEzIEFjdGl2aXRcdTAwZTkgXHUyMDEzIExpZXUgKEFtYmlhbmNlKSBcdTIwMTMgSW5mb3JtYXRpb24gXHUyMDEzIENob3NlIiwgInRleHQiOiAiTGUgc291dmVuaXIgZFx1MjAxOXVuIG9iamV0IGRcdTAwZTljbGVuY2hlLXQtaWwgY2hleiB2b3VzIGRlcyByXHUwMGU5bWluaXNjZW5jZXMgZm9ydGVzIChleC4gOiBcdTIwMWNKZSBtZSByYXBwZWxsZSBjZSB2YXNlXHUyMDI2XHUyMDFkKSA/IiwgIm9yaWVudGF0aW9uIjogIkMgXHUyMDEzIENob3NlIChvYmpldHMgbWF0XHUwMGU5cmllbHMsIHZpc3VlbHMgY29uY3JldHMpIn0sIHsiY2F0IjogIlNpbWlsaXR1ZGUgXHUyMDEzIERpZmZcdTAwZTlyZW5jZSBcdTIwMTMgQWNjb3JkIFx1MjAxMyBEXHUwMGU5c2FjY29yZCIsICJ0ZXh0IjogIkxvcnNxdVx1MjAxOW9uIHZvdXMgcHJcdTAwZTlzZW50ZSB1bmUgbm91dmVsbGUgc2l0dWF0aW9uLCByZW1hcnF1ZXotdm91cyBkXHUyMDE5YWJvcmQgY2UgcXVpIHJlc3NlbWJsZSBcdTAwZTAgY2UgcXVlIHZvdXMgY29ubmFpc3NleiBkXHUwMGU5alx1MDBlMCA/IiwgIm9yaWVudGF0aW9uIjogIlNpbWlsaXR1ZGUifSwgeyJjYXQiOiAiU2ltaWxpdHVkZSBcdTIwMTMgRGlmZlx1MDBlOXJlbmNlIFx1MjAxMyBBY2NvcmQgXHUyMDEzIERcdTAwZTlzYWNjb3JkIiwgInRleHQiOiAiVm91cyBcdTAwZWF0ZXMgZHUgZ2VucmUgXHUwMGUwIGRpcmUgOiBcdTIwMWNcdTAwZTdhIG1lIHJhcHBlbGxlXHUyMDI2XHUyMDFkID8iLCAib3JpZW50YXRpb24iOiAiU2ltaWxpdHVkZSJ9LCB7ImNhdCI6ICJTaW1pbGl0dWRlIFx1MjAxMyBEaWZmXHUwMGU5cmVuY2UgXHUyMDEzIEFjY29yZCBcdTIwMTMgRFx1MDBlOXNhY2NvcmQiLCAidGV4dCI6ICJWb3VzIGFwcHJcdTAwZTljaWV6IGxlcyBlbnZpcm9ubmVtZW50cyBxdWkgdm91cyBzb250IGZhbWlsaWVycyBvdSBxdWkgcmVwcm9kdWlzZW50IHVuIGNhZHJlIGNvbm51ID8iLCAib3JpZW50YXRpb24iOiAiU2ltaWxpdHVkZSJ9LCB7ImNhdCI6ICJTaW1pbGl0dWRlIFx1MjAxMyBEaWZmXHUwMGU5cmVuY2UgXHUyMDEzIEFjY29yZCBcdTIwMTMgRFx1MDBlOXNhY2NvcmQiLCAidGV4dCI6ICJWb3VzIHZveWV6IHJhcGlkZW1lbnQgbGVzIHBvaW50cyBjb21tdW5zIGVudHJlIGRldXggcGVyc29ubmVzIG91IGRldXggcHJvamV0cyA/IiwgIm9yaWVudGF0aW9uIjogIlNpbWlsaXR1ZGUifSwgeyJjYXQiOiAiU2ltaWxpdHVkZSBcdTIwMTMgRGlmZlx1MDBlOXJlbmNlIFx1MjAxMyBBY2NvcmQgXHUyMDEzIERcdTAwZTlzYWNjb3JkIiwgInRleHQiOiAiVm91cyBhdmV6IHRlbmRhbmNlIFx1MDBlMCBwcmVuZHJlIGNvbW1lIHJlcFx1MDBlOHJlIGNlIHF1aSBhIGRcdTAwZTlqXHUwMGUwIGZvbmN0aW9ublx1MDBlOSBkYW5zIGxlIHBhc3NcdTAwZTkgPyIsICJvcmllbnRhdGlvbiI6ICJTaW1pbGl0dWRlIn0sIHsiY2F0IjogIlNpbWlsaXR1ZGUgXHUyMDEzIERpZmZcdTAwZTlyZW5jZSBcdTIwMTMgQWNjb3JkIFx1MjAxMyBEXHUwMGU5c2FjY29yZCIsICJ0ZXh0IjogIlJlcFx1MDBlOXJlei12b3VzIGRcdTIwMTlhYm9yZCBjZSBxdWkgY2hhbmdlIGRhbnMgdW5lIHBpXHUwMGU4Y2UsIHVuZSBzaXR1YXRpb24sIHVuZSBwZXJzb25uZSA/IiwgIm9yaWVudGF0aW9uIjogIkRpZmZcdTAwZTlyZW5jZSJ9LCB7ImNhdCI6ICJTaW1pbGl0dWRlIFx1MjAxMyBEaWZmXHUwMGU5cmVuY2UgXHUyMDEzIEFjY29yZCBcdTIwMTMgRFx1MDBlOXNhY2NvcmQiLCAidGV4dCI6ICJBdmV6LXZvdXMgdGVuZGFuY2UgXHUwMGUwIGRpcmUgOiBcdTIwMWNjZSBuXHUyMDE5ZXN0IHBhcyBwYXJlaWwgcXVlXHUyMDI2XHUyMDFkIG91IFx1MjAxY1x1MDBlN2EgYSBjaGFuZ1x1MDBlOVx1MjAyNlx1MjAxZCA/IiwgIm9yaWVudGF0aW9uIjogIkRpZmZcdTAwZTlyZW5jZSJ9LCB7ImNhdCI6ICJTaW1pbGl0dWRlIFx1MjAxMyBEaWZmXHUwMGU5cmVuY2UgXHUyMDEzIEFjY29yZCBcdTIwMTMgRFx1MDBlOXNhY2NvcmQiLCAidGV4dCI6ICJWb3VzIGFpbWV6IFx1MDBlYXRyZSBzdGltdWxcdTAwZTkoZSkgcGFyIGxhIG5vdXZlYXV0XHUwMGU5IG91IGxlcyBjb250cmFzdGVzID8iLCAib3JpZW50YXRpb24iOiAiRGlmZlx1MDBlOXJlbmNlIn0sIHsiY2F0IjogIlNpbWlsaXR1ZGUgXHUyMDEzIERpZmZcdTAwZTlyZW5jZSBcdTIwMTMgQWNjb3JkIFx1MjAxMyBEXHUwMGU5c2FjY29yZCIsICJ0ZXh0IjogIkxvcnNxdVx1MjAxOW9uIHZvdXMgcHJcdTAwZTlzZW50ZSB1bmUgcHJvcG9zaXRpb24sIHZvdXMgdm91cyBjb25jZW50cmV6IHN1ciBjZSBxdWkgZGlmZlx1MDBlOHJlIGRlIGxhIG5vcm1lID8iLCAib3JpZW50YXRpb24iOiAiRGlmZlx1MDBlOXJlbmNlIn0sIHsiY2F0IjogIlNpbWlsaXR1ZGUgXHUyMDEzIERpZmZcdTAwZTlyZW5jZSBcdTIwMTMgQWNjb3JkIFx1MjAxMyBEXHUwMGU5c2FjY29yZCIsICJ0ZXh0IjogIkRhbnMgdW4gXHUwMGU5Y2hhbmdlLCB2b3VzIHJlbWFycXVleiBpbW1cdTAwZTlkaWF0ZW1lbnQgbGVzIGRcdTAwZTljYWxhZ2VzIG91IGxlcyBpbmNvaFx1MDBlOXJlbmNlcyA/IiwgIm9yaWVudGF0aW9uIjogIkRpZmZcdTAwZTlyZW5jZSJ9LCB7ImNhdCI6ICJTaW1pbGl0dWRlIFx1MjAxMyBEaWZmXHUwMGU5cmVuY2UgXHUyMDEzIEFjY29yZCBcdTIwMTMgRFx1MDBlOXNhY2NvcmQiLCAidGV4dCI6ICJEYW5zIHVuZSBkaXNjdXNzaW9uLCBjaGVyY2hlei12b3VzIGRcdTIwMTlhYm9yZCBcdTAwZTAgXHUwMGU5dGFibGlyIGRlcyBwb2ludHMgY29tbXVucyBvdSBkZXMgem9uZXMgZGUgY29uc2Vuc3VzID8iLCAib3JpZW50YXRpb24iOiAiQWNjb3JkIn0sIHsiY2F0IjogIlNpbWlsaXR1ZGUgXHUyMDEzIERpZmZcdTAwZTlyZW5jZSBcdTIwMTMgQWNjb3JkIFx1MjAxMyBEXHUwMGU5c2FjY29yZCIsICJ0ZXh0IjogIlZvdXMgXHUwMGVhdGVzIGR1IGdlbnJlIFx1MDBlMCBtb2R1bGVyIHZvdHJlIHBvaW50IGRlIHZ1ZSBwb3VyIHByXHUwMGU5c2VydmVyIGxcdTIwMTloYXJtb25pZSA/IiwgIm9yaWVudGF0aW9uIjogIkFjY29yZCJ9LCB7ImNhdCI6ICJTaW1pbGl0dWRlIFx1MjAxMyBEaWZmXHUwMGU5cmVuY2UgXHUyMDEzIEFjY29yZCBcdTIwMTMgRFx1MDBlOXNhY2NvcmQiLCAidGV4dCI6ICJWb3VzIGFpbWV6IHNvdWxpZ25lciBjZSBxdWkgZm9uY3Rpb25uZSBiaWVuIGRhbnMgdW5lIFx1MDBlOXF1aXBlIG91IHVuZSBvcmdhbmlzYXRpb24gPyIsICJvcmllbnRhdGlvbiI6ICJBY2NvcmQifSwgeyJjYXQiOiAiU2ltaWxpdHVkZSBcdTIwMTMgRGlmZlx1MDBlOXJlbmNlIFx1MjAxMyBBY2NvcmQgXHUyMDEzIERcdTAwZTlzYWNjb3JkIiwgInRleHQiOiAiRmFjZSBcdTAwZTAgdW5lIGNyaXRpcXVlLCB0ZW50ZXotdm91cyBzb3V2ZW50IGRlIHRyb3V2ZXIgdW5lIGlzc3VlIHBhY2lmaXF1ZSBvdSBwb3NpdGl2ZSA/IiwgIm9yaWVudGF0aW9uIjogIkFjY29yZCJ9LCB7ImNhdCI6ICJTaW1pbGl0dWRlIFx1MjAxMyBEaWZmXHUwMGU5cmVuY2UgXHUyMDEzIEFjY29yZCBcdTIwMTMgRFx1MDBlOXNhY2NvcmQiLCAidGV4dCI6ICJWb3VzIHZvdXMgc2VudGV6IHBsdXMgZW4gY29uZmlhbmNlIHF1YW5kIGlsIHkgYSBwZXUgZGUgY29uZmxpdHMgb3UgZGUgZGlzc29uYW5jZXMgYXV0b3VyIGRlIHZvdXMgPyIsICJvcmllbnRhdGlvbiI6ICJBY2NvcmQifSwgeyJjYXQiOiAiU2ltaWxpdHVkZSBcdTIwMTMgRGlmZlx1MDBlOXJlbmNlIFx1MjAxMyBBY2NvcmQgXHUyMDEzIERcdTAwZTlzYWNjb3JkIiwgInRleHQiOiAiTG9yc3F1XHUyMDE5dW4gcHJvYmxcdTAwZThtZSBlc3QgXHUwMGU5dm9xdVx1MDBlOSwgcmVwXHUwMGU5cmV6LXZvdXMgc3BvbnRhblx1MDBlOW1lbnQgY2UgcXVpIG5lIHZhIHBhcyA/IiwgIm9yaWVudGF0aW9uIjogIkRcdTAwZTlzYWNjb3JkIn0sIHsiY2F0IjogIlNpbWlsaXR1ZGUgXHUyMDEzIERpZmZcdTAwZTlyZW5jZSBcdTIwMTMgQWNjb3JkIFx1MjAxMyBEXHUwMGU5c2FjY29yZCIsICJ0ZXh0IjogIlZvdXMgYXZleiB0ZW5kYW5jZSBcdTAwZTAgcXVlc3Rpb25uZXIsIFx1MDBlMCBjaGFsbGVuZ2VyLCBtXHUwMGVhbWUgY2UgcXVpIHNlbWJsZSBhZG1pcyA/IiwgIm9yaWVudGF0aW9uIjogIkRcdTAwZTlzYWNjb3JkIn0sIHsiY2F0IjogIlNpbWlsaXR1ZGUgXHUyMDEzIERpZmZcdTAwZTlyZW5jZSBcdTIwMTMgQWNjb3JkIFx1MjAxMyBEXHUwMGU5c2FjY29yZCIsICJ0ZXh0IjogIlZvdXMgXHUwMGVhdGVzIHNlbnNpYmxlIGF1eCBpbXByXHUwMGU5Y2lzaW9ucywgY29udHJhZGljdGlvbnMgb3UgbWFucXVlcyBkZSBsb2dpcXVlID8iLCAib3JpZW50YXRpb24iOiAiRFx1MDBlOXNhY2NvcmQifSwgeyJjYXQiOiAiU2ltaWxpdHVkZSBcdTIwMTMgRGlmZlx1MDBlOXJlbmNlIFx1MjAxMyBBY2NvcmQgXHUyMDEzIERcdTAwZTlzYWNjb3JkIiwgInRleHQiOiAiVm91cyBwclx1MDBlOWZcdTAwZTlyZXogbGVzIGVudmlyb25uZW1lbnRzIG9cdTAwZjkgb24gcGV1dCBjb25mcm9udGVyIGxlcyBpZFx1MDBlOWVzIHNhbnMgZmlsdHJlID8iLCAib3JpZW50YXRpb24iOiAiRFx1MDBlOXNhY2NvcmQifSwgeyJjYXQiOiAiU2ltaWxpdHVkZSBcdTIwMTMgRGlmZlx1MDBlOXJlbmNlIFx1MjAxMyBBY2NvcmQgXHUyMDEzIERcdTAwZTlzYWNjb3JkIiwgInRleHQiOiAiTG9ycyBkXHUyMDE5dW4gXHUwMGU5Y2hhbmdlLCBjaGVyY2hlei12b3VzIHBsdXMgXHUwMGUwIGNvcnJpZ2VyIG91IFx1MDBlMCBhZmZpbmVyIHF1XHUyMDE5XHUwMGUwIGFwcHJvdXZlciA/IiwgIm9yaWVudGF0aW9uIjogIkRcdTAwZTlzYWNjb3JkIn0sIHsiY2F0IjogIk9yaWVudGF0aW9uIHRlbXBvcmVsbGUgOiBQYXNzXHUwMGU5IFx1MjAxMyBQclx1MDBlOXNlbnQgXHUyMDEzIEZ1dHVyIiwgInRleHQiOiAiVm91cyBiYXNlei12b3VzIHNvdXZlbnQgc3VyIHZvcyBleHBcdTAwZTlyaWVuY2VzIHBhc3NcdTAwZTllcyBwb3VyIHByZW5kcmUgZGVzIGRcdTAwZTljaXNpb25zID8iLCAib3JpZW50YXRpb24iOiAiUGFzc1x1MDBlOSJ9LCB7ImNhdCI6ICJPcmllbnRhdGlvbiB0ZW1wb3JlbGxlIDogUGFzc1x1MDBlOSBcdTIwMTMgUHJcdTAwZTlzZW50IFx1MjAxMyBGdXR1ciIsICJ0ZXh0IjogIkF2ZXotdm91cyB0ZW5kYW5jZSBcdTAwZTAgXHUwMGU5dm9xdWVyIFx1MjAxY2NlIHF1ZSB2b3VzIGF2ZXogdlx1MDBlOWN1XHUyMDFkIGF2YW50IGRcdTIwMTllbnZpc2FnZXIgbFx1MjAxOWF2ZW5pciA/IiwgIm9yaWVudGF0aW9uIjogIlBhc3NcdTAwZTkifSwgeyJjYXQiOiAiT3JpZW50YXRpb24gdGVtcG9yZWxsZSA6IFBhc3NcdTAwZTkgXHUyMDEzIFByXHUwMGU5c2VudCBcdTIwMTMgRnV0dXIiLCAidGV4dCI6ICJWb3VzIFx1MDBlYXRlcyBhdHRhY2hcdTAwZTkoZSkgYXV4IHRyYWRpdGlvbnMgb3UgYXV4IGFuY2llbnMgcmVwXHUwMGU4cmVzID8iLCAib3JpZW50YXRpb24iOiAiUGFzc1x1MDBlOSJ9LCB7ImNhdCI6ICJPcmllbnRhdGlvbiB0ZW1wb3JlbGxlIDogUGFzc1x1MDBlOSBcdTIwMTMgUHJcdTAwZTlzZW50IFx1MjAxMyBGdXR1ciIsICJ0ZXh0IjogIlZvdXMgYWltZXogcmFjb250ZXIgZGVzIHNvdXZlbmlycyBvdSBjb25zZXJ2ZXIgZGVzIG9iamV0cyBhbmNpZW5zID8iLCAib3JpZW50YXRpb24iOiAiUGFzc1x1MDBlOSJ9LCB7ImNhdCI6ICJPcmllbnRhdGlvbiB0ZW1wb3JlbGxlIDogUGFzc1x1MDBlOSBcdTIwMTMgUHJcdTAwZTlzZW50IFx1MjAxMyBGdXR1ciIsICJ0ZXh0IjogIlZvdXMgYXZleiBsZSByXHUwMGU5ZmxleGUgZGUgZGlyZSA6IFx1MjAxY1x1MDBlN2Egc1x1MjAxOWVzdCB0b3Vqb3VycyBmYWl0IGNvbW1lIFx1MDBlN2FcdTIwMWQgPyIsICJvcmllbnRhdGlvbiI6ICJQYXNzXHUwMGU5In0sIHsiY2F0IjogIk9yaWVudGF0aW9uIHRlbXBvcmVsbGUgOiBQYXNzXHUwMGU5IFx1MjAxMyBQclx1MDBlOXNlbnQgXHUyMDEzIEZ1dHVyIiwgInRleHQiOiAiVm91cyBwclx1MDBlOWZcdTAwZTlyZXogdm91cyBjb25jZW50cmVyIHN1ciBjZSBxdWkgc2UgcGFzc2UgaWNpIGV0IG1haW50ZW5hbnQgPyIsICJvcmllbnRhdGlvbiI6ICJQclx1MDBlOXNlbnQifSwgeyJjYXQiOiAiT3JpZW50YXRpb24gdGVtcG9yZWxsZSA6IFBhc3NcdTAwZTkgXHUyMDEzIFByXHUwMGU5c2VudCBcdTIwMTMgRnV0dXIiLCAidGV4dCI6ICJWb3VzIGF2ZXogZHUgbWFsIFx1MDBlMCBwbGFuaWZpZXIgdHJvcCBlbiBhdmFuY2Ugb3UgXHUwMGUwIHJ1bWluZXIgbGUgcGFzc1x1MDBlOSA/IiwgIm9yaWVudGF0aW9uIjogIlByXHUwMGU5c2VudCJ9LCB7ImNhdCI6ICJPcmllbnRhdGlvbiB0ZW1wb3JlbGxlIDogUGFzc1x1MDBlOSBcdTIwMTMgUHJcdTAwZTlzZW50IFx1MjAxMyBGdXR1ciIsICJ0ZXh0IjogIlZvdXMgXHUwMGVhdGVzIHBsdXRcdTAwZjR0IGR1IGdlbnJlIFx1MDBlMCB2aXZyZSBkYW5zIGxcdTIwMTlpbnN0YW50ID8iLCAib3JpZW50YXRpb24iOiAiUHJcdTAwZTlzZW50In0sIHsiY2F0IjogIk9yaWVudGF0aW9uIHRlbXBvcmVsbGUgOiBQYXNzXHUwMGU5IFx1MjAxMyBQclx1MDBlOXNlbnQgXHUyMDEzIEZ1dHVyIiwgInRleHQiOiAiVm91cyBcdTAwZWF0ZXMgcGx1cyBzZW5zaWJsZSBcdTAwZTAgY2UgcXVlIHZvdXMgcmVzc2VudGV6IFx1MjAxY2xcdTAwZTAgdG91dCBkZSBzdWl0ZVx1MjAxZCBxdVx1MjAxOVx1MDBlMCBkZXMgcHJvamV0cyBmdXR1cnMgPyIsICJvcmllbnRhdGlvbiI6ICJQclx1MDBlOXNlbnQifSwgeyJjYXQiOiAiT3JpZW50YXRpb24gdGVtcG9yZWxsZSA6IFBhc3NcdTAwZTkgXHUyMDEzIFByXHUwMGU5c2VudCBcdTIwMTMgRnV0dXIiLCAidGV4dCI6ICJWb3VzIHByZW5leiBzb3V2ZW50IHZvcyBkXHUwMGU5Y2lzaW9ucyBzZWxvbiBjZSBxdWkgdm91cyBwYXJhXHUwMGVldCBsZSBwbHVzIGFkYXB0XHUwMGU5IFx1MDBlMCBsXHUyMDE5aW5zdGFudCBwclx1MDBlOXNlbnQgPyIsICJvcmllbnRhdGlvbiI6ICJQclx1MDBlOXNlbnQifSwgeyJjYXQiOiAiT3JpZW50YXRpb24gdGVtcG9yZWxsZSA6IFBhc3NcdTAwZTkgXHUyMDEzIFByXHUwMGU5c2VudCBcdTIwMTMgRnV0dXIiLCAidGV4dCI6ICJWb3VzIHByb2pldGV6LXZvdXMgZmFjaWxlbWVudCBkYW5zIGxcdTIwMTlhdmVuaXIsIGF2ZWMgZGVzIHBsYW5zIG91IGRlcyBvYmplY3RpZnMgPyIsICJvcmllbnRhdGlvbiI6ICJGdXR1ciJ9LCB7ImNhdCI6ICJPcmllbnRhdGlvbiB0ZW1wb3JlbGxlIDogUGFzc1x1MDBlOSBcdTIwMTMgUHJcdTAwZTlzZW50IFx1MjAxMyBGdXR1ciIsICJ0ZXh0IjogIlZvdXMgXHUwMGVhdGVzIHNvdXZlbnQgXHUwMGUwIHBlbnNlciBcdTAwZTAgY2UgcXVlIFx1MjAxY3ZvdXMgcG91cnJpZXogZmFpcmUgcGx1cyB0YXJkXHUyMDFkID8iLCAib3JpZW50YXRpb24iOiAiRnV0dXIifSwgeyJjYXQiOiAiT3JpZW50YXRpb24gdGVtcG9yZWxsZSA6IFBhc3NcdTAwZTkgXHUyMDEzIFByXHUwMGU5c2VudCBcdTIwMTMgRnV0dXIiLCAidGV4dCI6ICJWb3VzIFx1MDBlYXRlcyBtb3Rpdlx1MDBlOShlKSBwYXIgbFx1MjAxOWlkXHUwMGU5ZSBkXHUyMDE5YW50aWNpcGVyLCBkZSBwclx1MDBlOXBhcmVyIGxhIHN1aXRlID8iLCAib3JpZW50YXRpb24iOiAiRnV0dXIifSwgeyJjYXQiOiAiT3JpZW50YXRpb24gdGVtcG9yZWxsZSA6IFBhc3NcdTAwZTkgXHUyMDEzIFByXHUwMGU5c2VudCBcdTIwMTMgRnV0dXIiLCAidGV4dCI6ICJBaW1lei12b3VzIHJcdTAwZWF2ZXIsIHBsYW5pZmllciwgcHJcdTAwZTl2b2lyIGNlIHF1aSBwb3VycmFpdCBhcnJpdmVyID8iLCAib3JpZW50YXRpb24iOiAiRnV0dXIifSwgeyJjYXQiOiAiT3JpZW50YXRpb24gdGVtcG9yZWxsZSA6IFBhc3NcdTAwZTkgXHUyMDEzIFByXHUwMGU5c2VudCBcdTIwMTMgRnV0dXIiLCAidGV4dCI6ICJWb3VzIHZvdXMgc2VudGV6IFx1MDBlMCBsXHUyMDE5YWlzZSBkYW5zIGRlcyBlbnZpcm9ubmVtZW50cyB0b3Vyblx1MDBlOXMgdmVycyBsXHUyMDE5aW5ub3ZhdGlvbiBvdSBsYSBwcm9zcGVjdGl2ZSA/IiwgIm9yaWVudGF0aW9uIjogIkZ1dHVyIn0sIHsiY2F0IjogIkFjY2Vzc2lvbiBhdSB0ZW1wcyA6IFNcdTAwZTlxdWVudGllbCBcdTIwMTMgU2ltdWx0YW5cdTAwZTkiLCAidGV4dCI6ICJWb3VzIGFpbWV6IGZhaXJlIHVuZSBjaG9zZSBhcHJcdTAwZThzIGxcdTIwMTlhdXRyZSwgZGFucyB1biBvcmRyZSBwclx1MDBlOWNpcyA/IiwgIm9yaWVudGF0aW9uIjogIlNcdTAwZTlxdWVudGllbCJ9LCB7ImNhdCI6ICJBY2Nlc3Npb24gYXUgdGVtcHMgOiBTXHUwMGU5cXVlbnRpZWwgXHUyMDEzIFNpbXVsdGFuXHUwMGU5IiwgInRleHQiOiAiVm91cyBhdmV6IGR1IG1hbCBcdTAwZTAgcGFzc2VyIFx1MDBlMCB1bmUgbm91dmVsbGUgdFx1MDBlMmNoZSBzaSBsYSBwclx1MDBlOWNcdTAwZTlkZW50ZSBuXHUyMDE5ZXN0IHBhcyBmaW5pZSA/IiwgIm9yaWVudGF0aW9uIjogIlNcdTAwZTlxdWVudGllbCJ9LCB7ImNhdCI6ICJBY2Nlc3Npb24gYXUgdGVtcHMgOiBTXHUwMGU5cXVlbnRpZWwgXHUyMDEzIFNpbXVsdGFuXHUwMGU5IiwgInRleHQiOiAiVm91cyBcdTAwZWF0ZXMgcGx1cyBcdTAwZTAgbFx1MjAxOWFpc2UgYXZlYyBkZXMgYWdlbmRhcyBzdHJ1Y3R1clx1MDBlOXMgZXQgZGVzIHRvLWRvIGxpc3RlcyBjaHJvbm9sb2dpcXVlcyA/IiwgIm9yaWVudGF0aW9uIjogIlNcdTAwZTlxdWVudGllbCJ9LCB7ImNhdCI6ICJBY2Nlc3Npb24gYXUgdGVtcHMgOiBTXHUwMGU5cXVlbnRpZWwgXHUyMDEzIFNpbXVsdGFuXHUwMGU5IiwgInRleHQiOiAiVm91cyBhdmV6IHNvdXZlbnQgYmVzb2luIGRlIFx1MjAxY2NsXHUwMGY0dHVyZXJcdTIwMWQgYXZhbnQgZGUgXHUyMDFjY29tbWVuY2VyIGF1dHJlIGNob3NlXHUyMDFkID8iLCAib3JpZW50YXRpb24iOiAiU1x1MDBlOXF1ZW50aWVsIn0sIHsiY2F0IjogIkFjY2Vzc2lvbiBhdSB0ZW1wcyA6IFNcdTAwZTlxdWVudGllbCBcdTIwMTMgU2ltdWx0YW5cdTAwZTkiLCAidGV4dCI6ICJMZSByZXNwZWN0IGRcdTIwMTl1biB0aW1pbmcgb3UgZFx1MjAxOXVuIGRcdTAwZTlyb3VsXHUwMGU5IHZvdXMgc2VtYmxlIGltcG9ydGFudCA/IiwgIm9yaWVudGF0aW9uIjogIlNcdTAwZTlxdWVudGllbCJ9LCB7ImNhdCI6ICJBY2Nlc3Npb24gYXUgdGVtcHMgOiBTXHUwMGU5cXVlbnRpZWwgXHUyMDEzIFNpbXVsdGFuXHUwMGU5IiwgInRleHQiOiAiVm91cyBcdTAwZWF0ZXMgXHUwMGUwIGxcdTIwMTlhaXNlIGF2ZWMgcGx1c2lldXJzIHRcdTAwZTJjaGVzIFx1MDBlMCBsYSBmb2lzLCBlbiBwYXJhbGxcdTAwZThsZSA/IiwgIm9yaWVudGF0aW9uIjogIlNpbXVsdGFuXHUwMGU5In0sIHsiY2F0IjogIkFjY2Vzc2lvbiBhdSB0ZW1wcyA6IFNcdTAwZTlxdWVudGllbCBcdTIwMTMgU2ltdWx0YW5cdTAwZTkiLCAidGV4dCI6ICJWb3VzIGdcdTAwZTlyZXogZmFjaWxlbWVudCBkaWZmXHUwMGU5cmVudHMgcHJvamV0cyBzYW5zIG9yZHJlIHByXHUwMGU5Y2lzID8iLCAib3JpZW50YXRpb24iOiAiU2ltdWx0YW5cdTAwZTkifSwgeyJjYXQiOiAiQWNjZXNzaW9uIGF1IHRlbXBzIDogU1x1MDBlOXF1ZW50aWVsIFx1MjAxMyBTaW11bHRhblx1MDBlOSIsICJ0ZXh0IjogIlZvdXMgYXZleiBzb3V2ZW50IHVuZSBhcHByb2NoZSBcdTIwMWNnbG9iYWxlXHUyMDFkLCBlbiB0cmFpdGFudCBwbHVzaWV1cnMgc3VqZXRzIFx1MDBlMCBsYSBmb2lzID8iLCAib3JpZW50YXRpb24iOiAiU2ltdWx0YW5cdTAwZTkifSwgeyJjYXQiOiAiQWNjZXNzaW9uIGF1IHRlbXBzIDogU1x1MDBlOXF1ZW50aWVsIFx1MjAxMyBTaW11bHRhblx1MDBlOSIsICJ0ZXh0IjogIlZvdXMgcG91dmV6IGludGVycm9tcHJlIHVuZSBhY3Rpdml0XHUwMGU5IHNhbnMgcGVyZHJlIGxlIGZpbCA/IiwgIm9yaWVudGF0aW9uIjogIlNpbXVsdGFuXHUwMGU5In0sIHsiY2F0IjogIkFjY2Vzc2lvbiBhdSB0ZW1wcyA6IFNcdTAwZTlxdWVudGllbCBcdTIwMTMgU2ltdWx0YW5cdTAwZTkiLCAidGV4dCI6ICJWb3VzIHRyb3V2ZXogcGFyZm9pcyBlbm51eWV1eCBkZSBkZXZvaXIgc3VpdnJlIHVuIG9yZHJlIFx1MDBlOXRhYmxpID8iLCAib3JpZW50YXRpb24iOiAiU2ltdWx0YW5cdTAwZTkifSwgeyJjYXQiOiAiQWxsZXIgdmVycyAvIFNcdTIwMTlcdTAwZTlsb2lnbmVyIGRlIiwgInRleHQiOiAiTG9yc3F1ZSB2b3VzIHByZW5leiB1bmUgZFx1MDBlOWNpc2lvbiBpbXBvcnRhbnRlLCBlc3QtY2UgcG91ciBvYnRlbmlyIHF1ZWxxdWUgY2hvc2UgcXVlIHZvdXMgZFx1MDBlOXNpcmV6ID8iLCAib3JpZW50YXRpb24iOiAiQWxsZXIgdmVycyAobW90aXZhdGlvbiBkXHUyMDE5YWxsZXIgdmVycyB1biBvYmplY3RpZiwgdW4gZFx1MDBlOXNpcikifSwgeyJjYXQiOiAiQWxsZXIgdmVycyAvIFNcdTIwMTlcdTAwZTlsb2lnbmVyIGRlIiwgInRleHQiOiAiVm91cyB2b3VzIGZpeGV6IGZhY2lsZW1lbnQgZGVzIG9iamVjdGlmcyBwclx1MDBlOWNpcyBcdTAwZTAgYXR0ZWluZHJlID8iLCAib3JpZW50YXRpb24iOiAiQWxsZXIgdmVycyAobW90aXZhdGlvbiBkXHUyMDE5YWxsZXIgdmVycyB1biBvYmplY3RpZiwgdW4gZFx1MDBlOXNpcikifSwgeyJjYXQiOiAiQWxsZXIgdmVycyAvIFNcdTIwMTlcdTAwZTlsb2lnbmVyIGRlIiwgInRleHQiOiAiVm91cyBcdTAwZWF0ZXMgbW90aXZcdTAwZTkoZSkgcGFyIGNlIHF1ZSB2b3VzIHBvdXJyaWV6IGdhZ25lciwgZFx1MDBlOWNvdXZyaXIgb3UgYWNjb21wbGlyID8iLCAib3JpZW50YXRpb24iOiAiQWxsZXIgdmVycyAobW90aXZhdGlvbiBkXHUyMDE5YWxsZXIgdmVycyB1biBvYmplY3RpZiwgdW4gZFx1MDBlOXNpcikifSwgeyJjYXQiOiAiQWxsZXIgdmVycyAvIFNcdTIwMTlcdTAwZTlsb2lnbmVyIGRlIiwgInRleHQiOiAiRmFjZSBcdTAwZTAgdW4gbm91dmVhdSBwcm9qZXQsIHZvdXMgdmlzdWFsaXNleiBjZSBxdVx1MjAxOWlsIHZvdXMgYXBwb3J0ZXJhIGRlIHBvc2l0aWYgPyIsICJvcmllbnRhdGlvbiI6ICJBbGxlciB2ZXJzIChtb3RpdmF0aW9uIGRcdTIwMTlhbGxlciB2ZXJzIHVuIG9iamVjdGlmLCB1biBkXHUwMGU5c2lyKSJ9LCB7ImNhdCI6ICJBbGxlciB2ZXJzIC8gU1x1MjAxOVx1MDBlOWxvaWduZXIgZGUiLCAidGV4dCI6ICJWb3VzIGZvbmN0aW9ubmV6IGRhdmFudGFnZSBcdTAwZTAgbGEgY2Fyb3R0ZSBxdVx1MjAxOWF1IGJcdTAwZTJ0b24gPyIsICJvcmllbnRhdGlvbiI6ICJBbGxlciB2ZXJzIChtb3RpdmF0aW9uIGRcdTIwMTlhbGxlciB2ZXJzIHVuIG9iamVjdGlmLCB1biBkXHUwMGU5c2lyKSJ9LCB7ImNhdCI6ICJBbGxlciB2ZXJzIC8gU1x1MjAxOVx1MDBlOWxvaWduZXIgZGUiLCAidGV4dCI6ICJWb3VzIHByZW5leiBzb3V2ZW50IHZvcyBkXHUwMGU5Y2lzaW9ucyBwb3VyIFx1MDBlOXZpdGVyIHVuIHByb2JsXHUwMGU4bWUgb3UgdW5lIGRpZmZpY3VsdFx1MDBlOSA/IiwgIm9yaWVudGF0aW9uIjogIlNcdTIwMTlcdTAwZTlsb2lnbmVyIGRlIChtb3RpdmF0aW9uIHBhciBsYSBwZXVyLCBsYSBwcm90ZWN0aW9uLCBsYSBmdWl0ZSBkXHUyMDE5dW4gcmlzcXVlKSJ9LCB7ImNhdCI6ICJBbGxlciB2ZXJzIC8gU1x1MjAxOVx1MDBlOWxvaWduZXIgZGUiLCAidGV4dCI6ICJcdTAwY2F0ZXMtdm91cyBwbHVzIHJcdTAwZTlhY3RpZih2ZSkgZmFjZSBcdTAwZTAgdW4gZGFuZ2VyIG91IHVuZSBjb250cmFpbnRlIHF1XHUyMDE5XHUwMGUwIHVuZSBvcHBvcnR1bml0XHUwMGU5ID8iLCAib3JpZW50YXRpb24iOiAiU1x1MjAxOVx1MDBlOWxvaWduZXIgZGUgKG1vdGl2YXRpb24gcGFyIGxhIHBldXIsIGxhIHByb3RlY3Rpb24sIGxhIGZ1aXRlIGRcdTIwMTl1biByaXNxdWUpIn0sIHsiY2F0IjogIkFsbGVyIHZlcnMgLyBTXHUyMDE5XHUwMGU5bG9pZ25lciBkZSIsICJ0ZXh0IjogIlZvdXMgXHUwMGVhdGVzIHBsdXMgYXR0ZW50aWYodmUpIGF1eCByaXNxdWVzIHF1XHUyMDE5YXV4IGJcdTAwZTluXHUwMGU5ZmljZXMgPyIsICJvcmllbnRhdGlvbiI6ICJTXHUyMDE5XHUwMGU5bG9pZ25lciBkZSAobW90aXZhdGlvbiBwYXIgbGEgcGV1ciwgbGEgcHJvdGVjdGlvbiwgbGEgZnVpdGUgZFx1MjAxOXVuIHJpc3F1ZSkifSwgeyJjYXQiOiAiQWxsZXIgdmVycyAvIFNcdTIwMTlcdTAwZTlsb2lnbmVyIGRlIiwgInRleHQiOiAiVm91cyB2b3VzIG1ldHRleiBlbiBtb3V2ZW1lbnQgc3VydG91dCBxdWFuZCBpbCB5IGEgdW5lIHVyZ2VuY2Ugb3UgdW5lIG1lbmFjZSA/IiwgIm9yaWVudGF0aW9uIjogIlNcdTIwMTlcdTAwZTlsb2lnbmVyIGRlIChtb3RpdmF0aW9uIHBhciBsYSBwZXVyLCBsYSBwcm90ZWN0aW9uLCBsYSBmdWl0ZSBkXHUyMDE5dW4gcmlzcXVlKSJ9LCB7ImNhdCI6ICJBbGxlciB2ZXJzIC8gU1x1MjAxOVx1MDBlOWxvaWduZXIgZGUiLCAidGV4dCI6ICJWb3VzIGF2ZXogdGVuZGFuY2UgXHUwMGUwIHBlbnNlciBcdTIwMWNxdVx1MjAxOWVzdC1jZSBxdWkgcG91cnJhaXQgbWFsIHRvdXJuZXIgP1x1MjAxZCBhdmFudCBkZSBkaXJlIG91aSA/IiwgIm9yaWVudGF0aW9uIjogIlNcdTIwMTlcdTAwZTlsb2lnbmVyIGRlIChtb3RpdmF0aW9uIHBhciBsYSBwZXVyLCBsYSBwcm90ZWN0aW9uLCBsYSBmdWl0ZSBkXHUyMDE5dW4gcmlzcXVlKSJ9LCB7ImNhdCI6ICJPcHRpb24gLyBQcm9jXHUwMGU5ZHVyZSIsICJ0ZXh0IjogIlZvdXMgYWltZXogYXZvaXIgcGx1c2lldXJzIHNvbHV0aW9ucyBwb3NzaWJsZXMgYXZhbnQgZGUgdHJhbmNoZXIgPyIsICJvcmllbnRhdGlvbiI6ICJPcHRpb24gKHZvdXMgY2hlcmNoZXogXHUwMGUwIGF2b2lyIGxlIGNob2l4LCBsYSBsaWJlcnRcdTAwZTksIGxcdTIwMTlleHBsb3JhdGlvbikifSwgeyJjYXQiOiAiT3B0aW9uIC8gUHJvY1x1MDBlOWR1cmUiLCAidGV4dCI6ICJWb3VzIHByXHUwMGU5Zlx1MDBlOXJleiBpbnZlbnRlciB2b3RyZSBwcm9wcmUgbVx1MDBlOXRob2RlIHBsdXRcdTAwZjR0IHF1ZSBzdWl2cmUgdW4gcHJvdG9jb2xlIGV4aXN0YW50ID8iLCAib3JpZW50YXRpb24iOiAiT3B0aW9uICh2b3VzIGNoZXJjaGV6IFx1MDBlMCBhdm9pciBsZSBjaG9peCwgbGEgbGliZXJ0XHUwMGU5LCBsXHUyMDE5ZXhwbG9yYXRpb24pIn0sIHsiY2F0IjogIk9wdGlvbiAvIFByb2NcdTAwZTlkdXJlIiwgInRleHQiOiAiVm91cyBhdmV6IGR1IG1hbCBcdTAwZTAgc3VpdnJlIGRlcyBpbnN0cnVjdGlvbnMgXHUwMGU5dGFwZSBwYXIgXHUwMGU5dGFwZSBzYW5zIGFkYXB0ZXIgXHUwMGUwIHZvdHJlIHNhdWNlID8iLCAib3JpZW50YXRpb24iOiAiT3B0aW9uICh2b3VzIGNoZXJjaGV6IFx1MDBlMCBhdm9pciBsZSBjaG9peCwgbGEgbGliZXJ0XHUwMGU5LCBsXHUyMDE5ZXhwbG9yYXRpb24pIn0sIHsiY2F0IjogIk9wdGlvbiAvIFByb2NcdTAwZTlkdXJlIiwgInRleHQiOiAiVm91cyB2b3VzIHNlbnRleiBmcnVzdHJcdTAwZTkoZSkgcXVhbmQgb24gdm91cyBpbXBvc2UgdW4gc2V1bCBjaGVtaW4gPyIsICJvcmllbnRhdGlvbiI6ICJPcHRpb24gKHZvdXMgY2hlcmNoZXogXHUwMGUwIGF2b2lyIGxlIGNob2l4LCBsYSBsaWJlcnRcdTAwZTksIGxcdTIwMTlleHBsb3JhdGlvbikifSwgeyJjYXQiOiAiT3B0aW9uIC8gUHJvY1x1MDBlOWR1cmUiLCAidGV4dCI6ICJWb3VzIGFpbWV6IHNvcnRpciBkZXMgc2VudGllcnMgYmF0dHVzLCBtXHUwMGVhbWUgc2kgXHUwMGU3YSBwcmVuZCBwbHVzIGRlIHRlbXBzID8iLCAib3JpZW50YXRpb24iOiAiT3B0aW9uICh2b3VzIGNoZXJjaGV6IFx1MDBlMCBhdm9pciBsZSBjaG9peCwgbGEgbGliZXJ0XHUwMGU5LCBsXHUyMDE5ZXhwbG9yYXRpb24pIn0sIHsiY2F0IjogIk9wdGlvbiAvIFByb2NcdTAwZTlkdXJlIiwgInRleHQiOiAiVm91cyB2b3VzIHNlbnRleiBwbHVzIGVmZmljYWNlIGVuIHN1aXZhbnQgdW5lIG1cdTAwZTl0aG9kZSBjbGFpcmUsIGRcdTAwZTlqXHUwMGUwIFx1MDBlOXByb3V2XHUwMGU5ZSA/IiwgIm9yaWVudGF0aW9uIjogIlByb2NcdTAwZTlkdXJlICh2b3VzIHN1aXZleiBkZXMgXHUwMGU5dGFwZXMgXHUwMGU5dGFibGllcywgdm91cyBcdTAwZWF0ZXMgXHUwMGUwIGxcdTIwMTlhaXNlIGRhbnMgdW4gY2FkcmUgc3RydWN0dXJcdTAwZTkpIn0sIHsiY2F0IjogIk9wdGlvbiAvIFByb2NcdTAwZTlkdXJlIiwgInRleHQiOiAiVm91cyBhaW1leiBxdVx1MjAxOW9uIHZvdXMgZG9ubmUgZGVzIGluc3RydWN0aW9ucyBwclx1MDBlOWNpc2VzID8iLCAib3JpZW50YXRpb24iOiAiUHJvY1x1MDBlOWR1cmUgKHZvdXMgc3VpdmV6IGRlcyBcdTAwZTl0YXBlcyBcdTAwZTl0YWJsaWVzLCB2b3VzIFx1MDBlYXRlcyBcdTAwZTAgbFx1MjAxOWFpc2UgZGFucyB1biBjYWRyZSBzdHJ1Y3R1clx1MDBlOSkifSwgeyJjYXQiOiAiT3B0aW9uIC8gUHJvY1x1MDBlOWR1cmUiLCAidGV4dCI6ICJWb3VzIHRyb3V2ZXogcmFzc3VyYW50IGRcdTIwMTlhdmFuY2VyIHBhciBcdTAwZTl0YXBlcywgZGFucyB1biBvcmRyZSBsb2dpcXVlID8iLCAib3JpZW50YXRpb24iOiAiUHJvY1x1MDBlOWR1cmUgKHZvdXMgc3VpdmV6IGRlcyBcdTAwZTl0YXBlcyBcdTAwZTl0YWJsaWVzLCB2b3VzIFx1MDBlYXRlcyBcdTAwZTAgbFx1MjAxOWFpc2UgZGFucyB1biBjYWRyZSBzdHJ1Y3R1clx1MDBlOSkifSwgeyJjYXQiOiAiT3B0aW9uIC8gUHJvY1x1MDBlOWR1cmUiLCAidGV4dCI6ICJWb3VzIGF2ZXogdGVuZGFuY2UgXHUwMGUwIGZhaXJlIGxlcyBjaG9zZXMgZGFucyBsZSBtXHUwMGVhbWUgb3JkcmUsIG1cdTAwZWFtZSBpbmNvbnNjaWVtbWVudCA/IiwgIm9yaWVudGF0aW9uIjogIlByb2NcdTAwZTlkdXJlICh2b3VzIHN1aXZleiBkZXMgXHUwMGU5dGFwZXMgXHUwMGU5dGFibGllcywgdm91cyBcdTAwZWF0ZXMgXHUwMGUwIGxcdTIwMTlhaXNlIGRhbnMgdW4gY2FkcmUgc3RydWN0dXJcdTAwZTkpIn0sIHsiY2F0IjogIk9wdGlvbiAvIFByb2NcdTAwZTlkdXJlIiwgInRleHQiOiAiUXVhbmQgdm91cyBkXHUwMGU5bWFycmV6IHF1ZWxxdWUgY2hvc2UsIHZvdXMgYWltZXogc2F2b2lyIGRcdTAwZThzIGxlIGRcdTAwZTlwYXJ0IHBhciBxdW9pIGNvbW1lbmNlciBldCBwYXIgcXVvaSBmaW5pciA/IiwgIm9yaWVudGF0aW9uIjogIlByb2NcdTAwZTlkdXJlICh2b3VzIHN1aXZleiBkZXMgXHUwMGU5dGFwZXMgXHUwMGU5dGFibGllcywgdm91cyBcdTAwZWF0ZXMgXHUwMGUwIGxcdTIwMTlhaXNlIGRhbnMgdW4gY2FkcmUgc3RydWN0dXJcdTAwZTkpIn0sIHsiY2F0IjogIlByb2FjdGlmIC8gUlx1MDBlOWFjdGlmIiwgInRleHQiOiAiVm91cyBwcmVuZXogc291dmVudCBsZXMgZGV2YW50cyBzYW5zIHF1XHUyMDE5b24gYWl0IGJlc29pbiBkZSB2b3VzIGxlIGRlbWFuZGVyID8iLCAib3JpZW50YXRpb24iOiAiUHJvYWN0aWYgKHZvdXMgYWdpc3NleiBkZSB2b3VzLW1cdTAwZWFtZSwgdm91cyBpbml0aWV6IGxlcyBhY3Rpb25zKSJ9LCB7ImNhdCI6ICJQcm9hY3RpZiAvIFJcdTAwZTlhY3RpZiIsICJ0ZXh0IjogIlZvdXMgYWltZXogXHUwMGVhdHJlIFx1MDBlMCBsXHUyMDE5b3JpZ2luZSBkZXMgcHJvamV0cywgZGVzIGlkXHUwMGU5ZXMgPyIsICJvcmllbnRhdGlvbiI6ICJQcm9hY3RpZiAodm91cyBhZ2lzc2V6IGRlIHZvdXMtbVx1MDBlYW1lLCB2b3VzIGluaXRpZXogbGVzIGFjdGlvbnMpIn0sIHsiY2F0IjogIlByb2FjdGlmIC8gUlx1MDBlOWFjdGlmIiwgInRleHQiOiAiVm91cyB2b3VzIHNlbnRleiBmcnVzdHJcdTAwZTkoZSkgcXVhbmQgdm91cyBkZXZleiBhdHRlbmRyZSBxdWUgbGVzIGNob3NlcyB2aWVubmVudCBcdTAwZTAgdm91cyA/IiwgIm9yaWVudGF0aW9uIjogIlByb2FjdGlmICh2b3VzIGFnaXNzZXogZGUgdm91cy1tXHUwMGVhbWUsIHZvdXMgaW5pdGlleiBsZXMgYWN0aW9ucykifSwgeyJjYXQiOiAiUHJvYWN0aWYgLyBSXHUwMGU5YWN0aWYiLCAidGV4dCI6ICJWb3VzIFx1MDBlYXRlcyBkdSBnZW5yZSBcdTAwZTAgYW50aWNpcGVyLCBcdTAwZTAgcHJvcG9zZXIsIFx1MDBlMCBkXHUwMGU5Y2xlbmNoZXIgPyIsICJvcmllbnRhdGlvbiI6ICJQcm9hY3RpZiAodm91cyBhZ2lzc2V6IGRlIHZvdXMtbVx1MDBlYW1lLCB2b3VzIGluaXRpZXogbGVzIGFjdGlvbnMpIn0sIHsiY2F0IjogIlByb2FjdGlmIC8gUlx1MDBlOWFjdGlmIiwgInRleHQiOiAiVm91cyBkXHUwMGU5dGVzdGV6IGxcdTIwMTlpbmFjdGlvbiBvdSBsXHUyMDE5aW5kXHUwMGU5Y2lzaW9uIGNoZXogbGVzIGF1dHJlcyA/IiwgIm9yaWVudGF0aW9uIjogIlByb2FjdGlmICh2b3VzIGFnaXNzZXogZGUgdm91cy1tXHUwMGVhbWUsIHZvdXMgaW5pdGlleiBsZXMgYWN0aW9ucykifSwgeyJjYXQiOiAiUHJvYWN0aWYgLyBSXHUwMGU5YWN0aWYiLCAidGV4dCI6ICJWb3VzIHZvdXMgc2VudGV6IHBsdXMgXHUwMGUwIGxcdTIwMTlhaXNlIHF1YW5kIG9uIHZvdXMgc29sbGljaXRlIHBsdXRcdTAwZjR0IHF1ZSBkZSB2b3VzIGltcG9zZXIgPyIsICJvcmllbnRhdGlvbiI6ICJSXHUwMGU5YWN0aWYgKHZvdXMgclx1MDBlOXBvbmRleiBcdTAwZTAgY2UgcXVpIGFycml2ZSwgdm91cyBhdHRlbmRleiBsZXMgc29sbGljaXRhdGlvbnMpIn0sIHsiY2F0IjogIlByb2FjdGlmIC8gUlx1MDBlOWFjdGlmIiwgInRleHQiOiAiVm91cyBhdmV6IGJlc29pbiBkXHUyMDE5dW4gXHUwMGU5bFx1MDBlOW1lbnQgZFx1MDBlOWNsZW5jaGV1ciAoZGVtYW5kZSwgdXJnZW5jZSwgb3Bwb3J0dW5pdFx1MDBlOSkgcG91ciB2b3VzIG1ldHRyZSBlbiBtb3V2ZW1lbnQgPyIsICJvcmllbnRhdGlvbiI6ICJSXHUwMGU5YWN0aWYgKHZvdXMgclx1MDBlOXBvbmRleiBcdTAwZTAgY2UgcXVpIGFycml2ZSwgdm91cyBhdHRlbmRleiBsZXMgc29sbGljaXRhdGlvbnMpIn0sIHsiY2F0IjogIlByb2FjdGlmIC8gUlx1MDBlOWFjdGlmIiwgInRleHQiOiAiVm91cyBwclx1MDBlOWZcdTAwZTlyZXogclx1MDBlOWFnaXIgcXVlIHByZW5kcmUgZGVzIGluaXRpYXRpdmVzIGRhbnMgbFx1MjAxOWluY2VydGl0dWRlID8iLCAib3JpZW50YXRpb24iOiAiUlx1MDBlOWFjdGlmICh2b3VzIHJcdTAwZTlwb25kZXogXHUwMGUwIGNlIHF1aSBhcnJpdmUsIHZvdXMgYXR0ZW5kZXogbGVzIHNvbGxpY2l0YXRpb25zKSJ9LCB7ImNhdCI6ICJQcm9hY3RpZiAvIFJcdTAwZTlhY3RpZiIsICJ0ZXh0IjogIlZvdXMgYXZleiB0ZW5kYW5jZSBcdTAwZTAgb2JzZXJ2ZXIgYXZhbnQgZFx1MjAxOWFnaXIgPyIsICJvcmllbnRhdGlvbiI6ICJSXHUwMGU5YWN0aWYgKHZvdXMgclx1MDBlOXBvbmRleiBcdTAwZTAgY2UgcXVpIGFycml2ZSwgdm91cyBhdHRlbmRleiBsZXMgc29sbGljaXRhdGlvbnMpIn0sIHsiY2F0IjogIlByb2FjdGlmIC8gUlx1MDBlOWFjdGlmIiwgInRleHQiOiAiT24gdm91cyBkaXQgcGFyZm9pcyBxdWUgdm91cyBcdTAwZWF0ZXMgcHJ1ZGVudChlKSBvdSBhdHRlbnRpc3RlID8iLCAib3JpZW50YXRpb24iOiAiUlx1MDBlOWFjdGlmICh2b3VzIHJcdTAwZTlwb25kZXogXHUwMGUwIGNlIHF1aSBhcnJpdmUsIHZvdXMgYXR0ZW5kZXogbGVzIHNvbGxpY2l0YXRpb25zKSJ9LCB7ImNhdCI6ICJRdW9pIC8gQ29tbWVudCIsICJ0ZXh0IjogIlZvdXMgYXZleiBiZXNvaW4gZGUgY29ubmFcdTAwZWV0cmUgbGUgYnV0IGF2YW50IGRlIHZvdXMgbGFuY2VyIGRhbnMgdW4gcHJvamV0ID8iLCAib3JpZW50YXRpb24iOiAiUXVvaSAobW90aXZcdTAwZTkgcGFyIGxlIHJcdTAwZTlzdWx0YXQsIGxlIGJ1dCBmaW5hbCwgbGEgdmlzaW9uIGRcdTIwMTllbnNlbWJsZSkifSwgeyJjYXQiOiAiUXVvaSAvIENvbW1lbnQiLCAidGV4dCI6ICJWb3VzIHBvc2V6IHNvdXZlbnQgbGEgcXVlc3Rpb24gOiBcdTIwMWNQb3VycXVvaSBvbiBmYWl0IFx1MDBlN2EgP1x1MjAxZCBvdSBcdTIwMWNRdWVsIGVzdCBsXHUyMDE5b2JqZWN0aWYgP1x1MjAxZCA/IiwgIm9yaWVudGF0aW9uIjogIlF1b2kgKG1vdGl2XHUwMGU5IHBhciBsZSByXHUwMGU5c3VsdGF0LCBsZSBidXQgZmluYWwsIGxhIHZpc2lvbiBkXHUyMDE5ZW5zZW1ibGUpIn0sIHsiY2F0IjogIlF1b2kgLyBDb21tZW50IiwgInRleHQiOiAiVm91cyBcdTAwZWF0ZXMgcGx1cyBcdTAwZTAgbFx1MjAxOWFpc2UgYXZlYyBsZXMgaWRcdTAwZTllcyBxdVx1MjAxOWF2ZWMgbGVzIGRcdTAwZTl0YWlscyB0ZWNobmlxdWVzID8iLCAib3JpZW50YXRpb24iOiAiUXVvaSAobW90aXZcdTAwZTkgcGFyIGxlIHJcdTAwZTlzdWx0YXQsIGxlIGJ1dCBmaW5hbCwgbGEgdmlzaW9uIGRcdTIwMTllbnNlbWJsZSkifSwgeyJjYXQiOiAiUXVvaSAvIENvbW1lbnQiLCAidGV4dCI6ICJWb3VzIGF2ZXogdGVuZGFuY2UgXHUwMGUwIGRcdTAwZTlsXHUwMGU5Z3VlciBsYSBtaXNlIGVuIFx1MDE1M3V2cmUgcXVhbmQgdm91cyBhdmV6IGNsYXJpZmlcdTAwZTkgbGUgYnV0ID8iLCAib3JpZW50YXRpb24iOiAiUXVvaSAobW90aXZcdTAwZTkgcGFyIGxlIHJcdTAwZTlzdWx0YXQsIGxlIGJ1dCBmaW5hbCwgbGEgdmlzaW9uIGRcdTIwMTllbnNlbWJsZSkifSwgeyJjYXQiOiAiUXVvaSAvIENvbW1lbnQiLCAidGV4dCI6ICJDZSBxdWkgdm91cyBtb3RpdmUsIGNcdTIwMTllc3QgbGUgclx1MDBlOXN1bHRhdCBhdHRlbmR1LCBwYXMgbGVzIG1veWVucyBlbXBsb3lcdTAwZTlzID8iLCAib3JpZW50YXRpb24iOiAiUXVvaSAobW90aXZcdTAwZTkgcGFyIGxlIHJcdTAwZTlzdWx0YXQsIGxlIGJ1dCBmaW5hbCwgbGEgdmlzaW9uIGRcdTIwMTllbnNlbWJsZSkifSwgeyJjYXQiOiAiUXVvaSAvIENvbW1lbnQiLCAidGV4dCI6ICJWb3VzIGF2ZXogYmVzb2luIGRlIHNhdm9pciBwclx1MDBlOWNpc1x1MDBlOW1lbnQgY29tbWVudCBmYWlyZSBhdmFudCBkZSBjb21tZW5jZXIgPyIsICJvcmllbnRhdGlvbiI6ICJDb21tZW50IChtb3Rpdlx1MDBlOSBwYXIgbGUgcHJvY2Vzc3VzLCBsYSBtXHUwMGU5dGhvZGUsIGxhIGZhXHUwMGU3b24gZGUgZmFpcmUpIn0sIHsiY2F0IjogIlF1b2kgLyBDb21tZW50IiwgInRleHQiOiAiVm91cyBhaW1leiBjb21wcmVuZHJlIGxlcyBcdTAwZTl0YXBlcywgbGVzIGRcdTAwZTl0YWlscywgbGVzIHJvdWFnZXMgPyIsICJvcmllbnRhdGlvbiI6ICJDb21tZW50IChtb3Rpdlx1MDBlOSBwYXIgbGUgcHJvY2Vzc3VzLCBsYSBtXHUwMGU5dGhvZGUsIGxhIGZhXHUwMGU3b24gZGUgZmFpcmUpIn0sIHsiY2F0IjogIlF1b2kgLyBDb21tZW50IiwgInRleHQiOiAiVm91cyBcdTAwZWF0ZXMgXHUwMGUwIGxcdTIwMTlhaXNlIGF2ZWMgbGVzIHByb3RvY29sZXMsIGxlcyBwbGFucyBkXHUyMDE5YWN0aW9uIGRcdTAwZTl0YWlsbFx1MDBlOXMgPyIsICJvcmllbnRhdGlvbiI6ICJDb21tZW50IChtb3Rpdlx1MDBlOSBwYXIgbGUgcHJvY2Vzc3VzLCBsYSBtXHUwMGU5dGhvZGUsIGxhIGZhXHUwMGU3b24gZGUgZmFpcmUpIn0sIHsiY2F0IjogIlF1b2kgLyBDb21tZW50IiwgInRleHQiOiAiVm91cyB2b3VzIHNlbnRleiByYXNzdXJcdTAwZTkoZSkgcXVhbmQgdG91dCBlc3QgYmllbiBzdHJ1Y3R1clx1MDBlOSA/IiwgIm9yaWVudGF0aW9uIjogIkNvbW1lbnQgKG1vdGl2XHUwMGU5IHBhciBsZSBwcm9jZXNzdXMsIGxhIG1cdTAwZTl0aG9kZSwgbGEgZmFcdTAwZTdvbiBkZSBmYWlyZSkifSwgeyJjYXQiOiAiUXVvaSAvIENvbW1lbnQiLCAidGV4dCI6ICJDZSBxdWkgdm91cyBtb3RpdmUsIGNcdTIwMTllc3QgZGUgZmFpcmUgYmllbiwgcGx1cyBxdWUgZGUgZmFpcmUgdml0ZSA/IiwgIm9yaWVudGF0aW9uIjogIkNvbW1lbnQgKG1vdGl2XHUwMGU5IHBhciBsZSBwcm9jZXNzdXMsIGxhIG1cdTAwZTl0aG9kZSwgbGEgZmFcdTAwZTdvbiBkZSBmYWlyZSkifSwgeyJjYXQiOiAiQ2FuYWwgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlZvdXMgYXZleiBiZXNvaW4gZGUgdm9pciBsZXMgY2hvc2VzIHBvdXIgeSBjcm9pcmUgPyIsICJvcmllbnRhdGlvbiI6ICJWb2lyICh2aXN1ZWwpIn0sIHsiY2F0IjogIkNhbmFsIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJVbiBncmFwaGlxdWUsIHVuZSBpbWFnZSBvdSB1bmUgdmlkXHUwMGU5byB2b3VzIHBhcmxlIHBsdXMgcXVcdTIwMTl1biBsb25nIGRpc2NvdXJzID8iLCAib3JpZW50YXRpb24iOiAiVm9pciAodmlzdWVsKSJ9LCB7ImNhdCI6ICJDYW5hbCBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiVm91cyByZXRlbmV6IG1pZXV4IGxlcyB2aXNhZ2VzIHF1ZSBsZXMgbm9tcyA/IiwgIm9yaWVudGF0aW9uIjogIlZvaXIgKHZpc3VlbCkifSwgeyJjYXQiOiAiQ2FuYWwgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlF1YW5kIG9uIHZvdXMgZXhwbGlxdWUgcXVlbHF1ZSBjaG9zZSwgdm91cyBpbWFnaW5leiB1bmUgaW1hZ2UgZGFucyB2b3RyZSB0XHUwMGVhdGUgPyIsICJvcmllbnRhdGlvbiI6ICJWb2lyICh2aXN1ZWwpIn0sIHsiY2F0IjogIkNhbmFsIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJWb3VzIGF2ZXogdGVuZGFuY2UgXHUwMGUwIGRpcmUgXHUyMDFjamUgdm9pcyBjZSBxdWUgdHUgdmV1eCBkaXJlXHUyMDFkID8iLCAib3JpZW50YXRpb24iOiAiVm9pciAodmlzdWVsKSJ9LCB7ImNhdCI6ICJDYW5hbCBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiVm91cyBmYWl0ZXMgcGx1cyBjb25maWFuY2UgXHUwMGUwIGNlIHF1ZSBsZXMgZ2VucyB2b3VzIGRpc2VudCBxdVx1MjAxOVx1MDBlMCBjZSBxdWUgdm91cyB2b3lleiA/IiwgIm9yaWVudGF0aW9uIjogIkVudGVuZHJlIChhdWRpdGlmKSJ9LCB7ImNhdCI6ICJDYW5hbCBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiVm91cyBcdTAwZWF0ZXMgc2Vuc2libGUgYXUgdG9uIGRlIGxhIHZvaXggZXQgYXV4IG1vdHMgZW1wbG95XHUwMGU5cyA/IiwgIm9yaWVudGF0aW9uIjogIkVudGVuZHJlIChhdWRpdGlmKSJ9LCB7ImNhdCI6ICJDYW5hbCBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiVW5lIGNvbnZlcnNhdGlvbiBmcmFuY2hlIHZvdXMgY29udmFpbmMgcGx1cyBxdVx1MjAxOXVuIHJhcHBvcnQgXHUwMGU5Y3JpdCA/IiwgIm9yaWVudGF0aW9uIjogIkVudGVuZHJlIChhdWRpdGlmKSJ9LCB7ImNhdCI6ICJDYW5hbCBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiVm91cyBhaW1leiBleHBsaXF1ZXIgbGVzIGNob3NlcyBvcmFsZW1lbnQgcGx1dFx1MDBmNHQgcXVlIHBhciBcdTAwZTljcml0ID8iLCAib3JpZW50YXRpb24iOiAiRW50ZW5kcmUgKGF1ZGl0aWYpIn0sIHsiY2F0IjogIkNhbmFsIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJWb3VzIGRpdGVzIHNvdXZlbnQgOiBcdTIwMWNcdTAwYzdhIHNvbm5lIGp1c3RlXHUyMDFkIG91IFx1MjAxY0pcdTIwMTllbnRlbmRzIGJpZW4gY2UgcXVlIHR1IGRpc1x1MjAxZCA/IiwgIm9yaWVudGF0aW9uIjogIkVudGVuZHJlIChhdWRpdGlmKSJ9LCB7ImNhdCI6ICJDYW5hbCBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiVm91cyBwclx1MDBlOWZcdTAwZTlyZXogcmVjZXZvaXIgbGVzIGluZm9ybWF0aW9ucyBwYXIgXHUwMGU5Y3JpdCBwb3VyIGxlcyBhc3NpbWlsZXIgXHUwMGUwIHZvdHJlIHJ5dGhtZSA/IiwgIm9yaWVudGF0aW9uIjogIkxpcmUifSwgeyJjYXQiOiAiQ2FuYWwgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlZvdXMgcmVsaXNleiBzb3V2ZW50IHVuIGRvY3VtZW50IGltcG9ydGFudCBwb3VyIGJpZW4gbGUgY29tcHJlbmRyZSA/IiwgIm9yaWVudGF0aW9uIjogIkxpcmUifSwgeyJjYXQiOiAiQ2FuYWwgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlZvdXMgYXZleiBkdSBtYWwgXHUwMGUwIHJldGVuaXIgY2UgcXVcdTIwMTlvbiB2b3VzIGRpdCBzaSBjZSBuXHUyMDE5ZXN0IHBhcyBcdTAwZTljcml0IHF1ZWxxdWUgcGFydCA/IiwgIm9yaWVudGF0aW9uIjogIkxpcmUifSwgeyJjYXQiOiAiQ2FuYWwgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlZvdXMgYWltZXogbGVzIHByb2NcdTAwZTlkdXJlcywgbGVzIGd1aWRlcywgbGVzIG1hbnVlbHMgPyIsICJvcmllbnRhdGlvbiI6ICJMaXJlIn0sIHsiY2F0IjogIkNhbmFsIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJWb3VzIGRpdGVzIHNvdXZlbnQgXHUyMDFjZW52b2llLW1vaSBcdTAwZTdhIHBhciBcdTAwZTljcml0XHUyMDFkIG91IFx1MjAxY2plIGxlIGxpcmFpIHRyYW5xdWlsbGVtZW50XHUyMDFkID8iLCAib3JpZW50YXRpb24iOiAiTGlyZSJ9LCB7ImNhdCI6ICJDYW5hbCBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiVm91cyBuZSBjcm95ZXogdnJhaW1lbnQgcXVlIGNlIHF1ZSB2b3VzIGF2ZXogdGVzdFx1MDBlOSB2b3VzLW1cdTAwZWFtZSA/IiwgIm9yaWVudGF0aW9uIjogIkZhaXJlIChleHBcdTAwZTlyaWVudGllbCkifSwgeyJjYXQiOiAiQ2FuYWwgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlZvdXMgXHUwMGVhdGVzIGR1IGdlbnJlIFx1MDBlMCBkaXJlIFx1MjAxY2plIHZldXggdm9pciBwYXIgbW9pLW1cdTAwZWFtZVx1MjAxZCBvdSBcdTIwMWNqZSB2YWlzIGVzc2F5ZXIgcG91ciBtZSBmYWlyZSB1bmUgaWRcdTAwZTllXHUyMDFkID8iLCAib3JpZW50YXRpb24iOiAiRmFpcmUgKGV4cFx1MDBlOXJpZW50aWVsKSJ9LCB7ImNhdCI6ICJDYW5hbCBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiTGVzIGF2aXMgb3UgbGVzIGV4cFx1MDBlOXJpZW5jZXMgZGVzIGF1dHJlcyBuZSB2b3VzIHN1ZmZpc2VudCBwYXMgcG91ciBcdTAwZWF0cmUgY29udmFpbmN1KGUpID8iLCAib3JpZW50YXRpb24iOiAiRmFpcmUgKGV4cFx1MDBlOXJpZW50aWVsKSJ9LCB7ImNhdCI6ICJDYW5hbCBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiVm91cyBhdmV6IGJlc29pbiBkXHUyMDE5YWdpciwgZGUgbWFuaXB1bGVyLCBkXHUyMDE5ZXhwXHUwMGU5cmltZW50ZXIgcG91ciBjb21wcmVuZHJlIHF1ZWxxdWUgY2hvc2UgPyIsICJvcmllbnRhdGlvbiI6ICJGYWlyZSAoZXhwXHUwMGU5cmllbnRpZWwpIn0sIHsiY2F0IjogIkNhbmFsIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJWb3VzIGFwcHJlbmV6IG1pZXV4IGVuIHByYXRpcXVhbnQgcXVcdTIwMTllbiBcdTAwZTljb3V0YW50IG91IGVuIGxpc2FudCA/IiwgIm9yaWVudGF0aW9uIjogIkZhaXJlIChleHBcdTAwZTlyaWVudGllbCkifSwgeyJjYXQiOiAiTW9kZSBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiSWwgdm91cyBzdWZmaXQgZFx1MjAxOXVuIGluc3RhbnQsIGRcdTIwMTl1biBcdTAwZTljaGFuZ2Ugb3UgZFx1MjAxOXVuZSBpbXByZXNzaW9uIHBvdXIgXHUwMGVhdHJlIGNvbnZhaW5jdShlKSA/IiwgIm9yaWVudGF0aW9uIjogIkF1dG9tYXRpcXVlIChsYSBjb252aWN0aW9uIHNlIGZvcm1lIHRyXHUwMGU4cyB2aXRlLCBwYXJmb2lzIGVuIHVuZSBmb2lzKSJ9LCB7ImNhdCI6ICJNb2RlIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJWb3VzIHNlbnRleiB0clx1MDBlOHMgdml0ZSBzaSB2b3VzIHBvdXZleiBmYWlyZSBjb25maWFuY2Ugb3Ugbm9uIFx1MDBlMCBxdWVscXVcdTIwMTl1biA/IiwgIm9yaWVudGF0aW9uIjogIkF1dG9tYXRpcXVlIChsYSBjb252aWN0aW9uIHNlIGZvcm1lIHRyXHUwMGU4cyB2aXRlLCBwYXJmb2lzIGVuIHVuZSBmb2lzKSJ9LCB7ImNhdCI6ICJNb2RlIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJWb3VzIHZvdXMgZmlleiBiZWF1Y291cCBcdTAwZTAgdm90cmUgaW50dWl0aW9uID8iLCAib3JpZW50YXRpb24iOiAiQXV0b21hdGlxdWUgKGxhIGNvbnZpY3Rpb24gc2UgZm9ybWUgdHJcdTAwZThzIHZpdGUsIHBhcmZvaXMgZW4gdW5lIGZvaXMpIn0sIHsiY2F0IjogIk1vZGUgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlZvdXMgZGl0ZXMgcGFyZm9pcyBcdTIwMWNqZSBsZSBzZW5zIHRvdXQgZGUgc3VpdGVcdTIwMWQgb3UgXHUyMDFjXHUwMGU3YSBwYXNzZSBvdSBcdTAwZTdhIGNhc3NlXHUyMDFkID8iLCAib3JpZW50YXRpb24iOiAiQXV0b21hdGlxdWUgKGxhIGNvbnZpY3Rpb24gc2UgZm9ybWUgdHJcdTAwZThzIHZpdGUsIHBhcmZvaXMgZW4gdW5lIGZvaXMpIn0sIHsiY2F0IjogIk1vZGUgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlZvdXMgYXZleiByYXJlbWVudCBiZXNvaW4gZGUgdlx1MDBlOXJpZmllciBwbHVzaWV1cnMgZm9pcyBwb3VyIGNyb2lyZSBxdWVscXVlIGNob3NlID8iLCAib3JpZW50YXRpb24iOiAiQXV0b21hdGlxdWUgKGxhIGNvbnZpY3Rpb24gc2UgZm9ybWUgdHJcdTAwZThzIHZpdGUsIHBhcmZvaXMgZW4gdW5lIGZvaXMpIn0sIHsiY2F0IjogIk1vZGUgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlZvdXMgYXZleiBiZXNvaW4gZGUgdml2cmUgcGx1c2lldXJzIGZvaXMgbGEgbVx1MDBlYW1lIGNob3NlIGF2YW50IGRcdTIwMTl5IGNyb2lyZSB2cmFpbWVudCA/IiwgIm9yaWVudGF0aW9uIjogIk5vbWJyZSBkXHUyMDE5ZXhwXHUwMGU5cmllbmNlcyAoYmVzb2luIGRlIHBsdXNpZXVycyBvY2N1cnJlbmNlcyBwb3VyIFx1MDBlYXRyZSBjb252YWluY3UpIn0sIHsiY2F0IjogIk1vZGUgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlVuZSBzZXVsZSBib25uZSBpbXByZXNzaW9uIG5lIHN1ZmZpdCBwYXMgXHUwMGUwIHZvdXMgZmFpcmUgY2hhbmdlciBkXHUyMDE5YXZpcyA/IiwgIm9yaWVudGF0aW9uIjogIk5vbWJyZSBkXHUyMDE5ZXhwXHUwMGU5cmllbmNlcyAoYmVzb2luIGRlIHBsdXNpZXVycyBvY2N1cnJlbmNlcyBwb3VyIFx1MDBlYXRyZSBjb252YWluY3UpIn0sIHsiY2F0IjogIk1vZGUgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlZvdXMgdm91cyBkaXRlcyBzb3V2ZW50IFx1MjAxY29uIHZlcnJhIGF2ZWMgbGUgdGVtcHNcdTIwMWQgPyIsICJvcmllbnRhdGlvbiI6ICJOb21icmUgZFx1MjAxOWV4cFx1MDBlOXJpZW5jZXMgKGJlc29pbiBkZSBwbHVzaWV1cnMgb2NjdXJyZW5jZXMgcG91ciBcdTAwZWF0cmUgY29udmFpbmN1KSJ9LCB7ImNhdCI6ICJNb2RlIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJJbCB2b3VzIGZhdXQgZGVzIHByZXV2ZXMgclx1MDBlOXBcdTAwZTl0XHUwMGU5ZXMgcG91ciBmYWlyZSBjb25maWFuY2UgXHUwMGUwIHF1ZWxxdVx1MjAxOXVuIG91IFx1MDBlMCB1bmUgbVx1MDBlOXRob2RlID8iLCAib3JpZW50YXRpb24iOiAiTm9tYnJlIGRcdTIwMTlleHBcdTAwZTlyaWVuY2VzIChiZXNvaW4gZGUgcGx1c2lldXJzIG9jY3VycmVuY2VzIHBvdXIgXHUwMGVhdHJlIGNvbnZhaW5jdSkifSwgeyJjYXQiOiAiTW9kZSBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiVm91cyBkaXRlcyBwYXJmb2lzIFx1MjAxY3VuZSBmb2lzLCBcdTAwZTdhIHBldXQgXHUwMGVhdHJlIHVuIGhhc2FyZFx1MjAyNiBkZXV4IG91IHRyb2lzIGZvaXMsIGNcdTIwMTllc3QgZGlmZlx1MDBlOXJlbnRcdTIwMWQgPyIsICJvcmllbnRhdGlvbiI6ICJOb21icmUgZFx1MjAxOWV4cFx1MDBlOXJpZW5jZXMgKGJlc29pbiBkZSBwbHVzaWV1cnMgb2NjdXJyZW5jZXMgcG91ciBcdTAwZWF0cmUgY29udmFpbmN1KSJ9LCB7ImNhdCI6ICJNb2RlIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJWb3VzIGNyb3lleiBcdTAwZTAgcXVlbHF1ZSBjaG9zZSBzZXVsZW1lbnQgc2kgXHUwMGU3YSB0aWVudCBkYW5zIGxhIGR1clx1MDBlOWUgPyIsICJvcmllbnRhdGlvbiI6ICJEdXJcdTAwZTllIChjb252aWN0aW9uIGFjcXVpc2UgYXUgZmlsIGR1IHRlbXBzLCBwYXIgc3RhYmlsaXRcdTAwZTkpIn0sIHsiY2F0IjogIk1vZGUgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlZvdXMgXHUwMGVhdGVzIGF0dGVudGlmKHZlKSBcdTAwZTAgbGEgY29uc3RhbmNlIGRcdTIwMTl1biBjb21wb3J0ZW1lbnQgcG91ciBhY2NvcmRlciB2b3RyZSBjb25maWFuY2UgPyIsICJvcmllbnRhdGlvbiI6ICJEdXJcdTAwZTllIChjb252aWN0aW9uIGFjcXVpc2UgYXUgZmlsIGR1IHRlbXBzLCBwYXIgc3RhYmlsaXRcdTAwZTkpIn0sIHsiY2F0IjogIk1vZGUgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIlZvdXMgZGl0ZXMgc291dmVudCBcdTIwMWNvbiB2YSB2b2lyIHN1ciBsYSBkdXJcdTAwZTllXHUyMDFkID8iLCAib3JpZW50YXRpb24iOiAiRHVyXHUwMGU5ZSAoY29udmljdGlvbiBhY3F1aXNlIGF1IGZpbCBkdSB0ZW1wcywgcGFyIHN0YWJpbGl0XHUwMGU5KSJ9LCB7ImNhdCI6ICJNb2RlIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJWb3VzIGF2ZXogZHUgbWFsIFx1MDBlMCBjcm9pcmUgZW4gcXVlbHF1ZSBjaG9zZSBxdWkgY2hhbmdlIHRyb3Agdml0ZSA/IiwgIm9yaWVudGF0aW9uIjogIkR1clx1MDBlOWUgKGNvbnZpY3Rpb24gYWNxdWlzZSBhdSBmaWwgZHUgdGVtcHMsIHBhciBzdGFiaWxpdFx1MDBlOSkifSwgeyJjYXQiOiAiTW9kZSBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiVm91cyBwZW5zZXogcXVcdTIwMTl1bmUgcmVsYXRpb24sIHVuZSBpZFx1MDBlOWUgb3UgdW5lIG1cdTAwZTl0aG9kZSBuZSB2YXV0IHF1ZSBzaSBlbGxlIGR1cmUgPyIsICJvcmllbnRhdGlvbiI6ICJEdXJcdTAwZTllIChjb252aWN0aW9uIGFjcXVpc2UgYXUgZmlsIGR1IHRlbXBzLCBwYXIgc3RhYmlsaXRcdTAwZTkpIn0sIHsiY2F0IjogIk1vZGUgZGUgY29udmljdGlvbiIsICJ0ZXh0IjogIk1cdTAwZWFtZSBhcHJcdTAwZThzIHBsdXNpZXVycyBwcmV1dmVzLCB2b3VzIGdhcmRleiB1biBkb3V0ZSA/IiwgIm9yaWVudGF0aW9uIjogIkNvbnN0YW50IChsYSBwZXJzb25uZSBuXHUyMDE5ZXN0IGphbWFpcyB0b3RhbGVtZW50IGNvbnZhaW5jdWUgOiBpbCBmYXV0IHRvdWpvdXJzIHJlY29uZmlybWVyKSJ9LCB7ImNhdCI6ICJNb2RlIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJWb3VzIGF2ZXogYmVzb2luIHF1XHUyMDE5b24gdm91cyByYXNzdXJlIHNvdXZlbnQsIG1cdTAwZWFtZSBzaSB0b3V0IHNlbWJsZSBhbGxlciA/IiwgIm9yaWVudGF0aW9uIjogIkNvbnN0YW50IChsYSBwZXJzb25uZSBuXHUyMDE5ZXN0IGphbWFpcyB0b3RhbGVtZW50IGNvbnZhaW5jdWUgOiBpbCBmYXV0IHRvdWpvdXJzIHJlY29uZmlybWVyKSJ9LCB7ImNhdCI6ICJNb2RlIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJWb3VzIHZvdXMgZGl0ZXMgclx1MDBlOWd1bGlcdTAwZThyZW1lbnQgXHUyMDFjb3VpIG1haXNcdTIwMjYgZXQgc2kgXHUwMGU3YSBjaGFuZ2VhaXQgP1x1MjAxZCA/IiwgIm9yaWVudGF0aW9uIjogIkNvbnN0YW50IChsYSBwZXJzb25uZSBuXHUyMDE5ZXN0IGphbWFpcyB0b3RhbGVtZW50IGNvbnZhaW5jdWUgOiBpbCBmYXV0IHRvdWpvdXJzIHJlY29uZmlybWVyKSJ9LCB7ImNhdCI6ICJNb2RlIGRlIGNvbnZpY3Rpb24iLCAidGV4dCI6ICJWb3VzIHJlbWV0dGV6IGxlcyBjaG9zZXMgZW4gcXVlc3Rpb24gbVx1MDBlYW1lIHF1YW5kIGVsbGVzIHNlbWJsZW50IFx1MDBlOXRhYmxpZXMgPyIsICJvcmllbnRhdGlvbiI6ICJDb25zdGFudCAobGEgcGVyc29ubmUgblx1MjAxOWVzdCBqYW1haXMgdG90YWxlbWVudCBjb252YWluY3VlIDogaWwgZmF1dCB0b3Vqb3VycyByZWNvbmZpcm1lcikifSwgeyJjYXQiOiAiTW9kZSBkZSBjb252aWN0aW9uIiwgInRleHQiOiAiT24gdm91cyByZXByb2NoZSBwYXJmb2lzIGRlIG5lIGphbWFpcyBcdTAwZWF0cmUgY29tcGxcdTAwZTh0ZW1lbnQgY29udmFpbmN1KGUpIG91IHNhdGlzZmFpdChlKSA/IiwgIm9yaWVudGF0aW9uIjogIkNvbnN0YW50IChsYSBwZXJzb25uZSBuXHUyMDE5ZXN0IGphbWFpcyB0b3RhbGVtZW50IGNvbnZhaW5jdWUgOiBpbCBmYXV0IHRvdWpvdXJzIHJlY29uZmlybWVyKSJ9XQ=='));
+// We'll shuffle once per session
+const questionOrder = [...BONUS_QUESTIONS.keys()];
+for(let i=questionOrder.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [questionOrder[i],questionOrder[j]] = [questionOrder[j],questionOrder[i]]; }
+
+let currentIndex=0;
+const answers = [];
+function renderPage(){
+  const quizBody = document.getElementById('quizBody');
+  quizBody.innerHTML='';
+  // show 5 questions per page
+  const start = currentIndex;
+  const end = Math.min(currentIndex+5, BONUS_QUESTIONS.length);
+  for(let i=start;i<end;i++){
+    const qObj = BONUS_QUESTIONS[questionOrder[i]];
+    const div = document.createElement('div');
+    div.className='question';
+    const legend=document.createElement('p');
+    legend.textContent = (i+1)+'. '+qObj.text;
+    div.appendChild(legend);
+    const optsDiv=document.createElement('div');
+    optsDiv.className='options';
+    ['Oui','Non'].forEach(opt=>{
+      const id='q'+i+'_'+opt;
+      const label=document.createElement('label');
+      label.className='option';
+      const input=document.createElement('input');
+      input.type='radio';
+      input.name='q'+i;
+      input.value=opt;
+      input.addEventListener('change',()=>{ answers[i] = {orientation:qObj.orientation, value:(opt==='Oui'), meta:qObj.cat}; });
+      label.appendChild(input);
+      label.appendChild(document.createTextNode(opt));
+      optsDiv.appendChild(label);
+    });
+    div.appendChild(optsDiv);
+    quizBody.appendChild(div);
+  }
+  // update progress bar
+  const progress = document.getElementById('progressBar');
+  const perc = (Math.min(end, BONUS_QUESTIONS.length) / BONUS_QUESTIONS.length) * 100;
+  progress.style.width = perc + '%';
+  // next button label
+  const btnNext=document.getElementById('btnNext');
+  if(end >= BONUS_QUESTIONS.length){ btnNext.textContent='Terminer'; } else { btnNext.textContent='Suivant'; }
+}
+
+document.getElementById('btnNext').addEventListener('click', ()=>{
+  const nextIndex = currentIndex + 5;
+  if(nextIndex >= BONUS_QUESTIONS.length){
+    // check if all answered
+    if(answers.length < BONUS_QUESTIONS.length){ alert('Merci de répondre à toutes les questions.'); return; }
+    // Show email form
+    document.getElementById('quiz').hidden=true;
+    document.getElementById('collectEmail').hidden=false;
+    return;
+  }
+  // Ensure current page answered
+  for(let i=currentIndex;i<currentIndex+5;i++){
+    if(!answers[i]){ alert('Merci de répondre à toutes les questions.'); return; }
+  }
+  currentIndex = nextIndex;
+  renderPage();
+});
+
+// Send results
+function computeResults(){
+  const metaStats = {};
+  const orientStats = {};
+  BONUS_QUESTIONS.forEach((q,i)=>{
+    const ans = answers[i];
+    if(!ans) return;
+    // orientation yes counts: value true means orientation selected
+    if(ans.value){
+      orientStats[ans.orientation] = (orientStats[ans.orientation]||0) + 1;
+      if(!metaStats[ans.meta]) metaStats[ans.meta] = {};
+      metaStats[ans.meta][ans.orientation] = (metaStats[ans.meta][ans.orientation]||0) + 1;
+    }
+  });
+  // compute percentages per meta
+  const metaPercent = {};
+  for(const meta in metaStats){
+    const orients = metaStats[meta];
+    const totalQs = 0;
+  }
+  return {metaStats, orientStats};
+}
+
+document.getElementById('btnSend').addEventListener('click', ()=>{
+  const email=document.getElementById('email').value.trim();
+  const consent=document.getElementById('consent').checked;
+  if(!email || !consent){ alert('Veuillez renseigner votre e‑mail et accepter la clause.'); return; }
+  const {metaStats, orientStats} = computeResults();
+  // Prepare segments (orientation names with highest counts)
+  const segments = [];
+  for(const meta in metaStats){
+    const orients=metaStats[meta];
+    let bestOrient='', max=0;
+    for(const o in orients){
+      if(orients[o] > max){ max = orients[o]; bestOrient = o; }
+    }
+    if(bestOrient) segments.push(meta+':'+bestOrient);
+  }
+  const payload={ email: email, metaStats, orientStats, segments };
+  // send to backend
+  if(SUBMIT_URL){
+    fetch(SUBMIT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(err=>{});
+  }
+  if(window.emailjs && EMAILJS.ENABLED){
+    emailjs.send(EMAILJS.SERVICE_ID, EMAILJS.TEMPLATE_ID, {to_email: email, results: JSON.stringify(metaStats), segments: segments.join(', ')});
+  }
+  document.getElementById('collectEmail').hidden=true;
+  document.getElementById('thanks').hidden=false;
+  document.getElementById('toEmail').textContent=email;
+});
+
+// Initialize
+renderPage();
+</script>
 </body>
 </html>
