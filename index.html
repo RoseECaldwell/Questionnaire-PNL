@@ -2,100 +2,1073 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MetaLove - Test de métaprogrammes</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #111;
-            color: #fff;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        .card {
-            background-color: #1c1c1e;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-        h1 {
-            text-align: center;
-            color: #ff6ec7;
-            margin-bottom: 2rem;
-        }
-        .question {
-            margin-bottom: 1rem;
-        }
-        .question p {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        .question label {
-            display: block;
-            margin: 0.25rem 0;
-            cursor: pointer;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 3rem;
-            font-size: 0.85rem;
-            color: #aaa;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test MetaLove - Métaprogrammes</title>
+  <style>
+    body { background-color: #121212; color: #fff; font-family: 'Segoe UI', sans-serif; }
+    .container { max-width: 900px; margin: 2rem auto; padding: 1rem; background: #1e1e1e; border-radius: 10px; }
+    .question-block { margin-bottom: 2rem; }
+    .question-text { font-size: 1.2rem; font-weight: bold; }
+    .answers label { display: block; margin: 0.5rem 0; }
+    .pagination { text-align: center; margin-top: 2rem; }
+    .progress-bar { height: 10px; background: #333; border-radius: 5px; overflow: hidden; }
+    .progress-bar-inner { height: 100%; background: #ff69b4; width: 0%; transition: width 0.3s ease; }
+    .email-block { margin-top: 2rem; }
+    button { background-color: #ff69b4; border: none; padding: 0.7rem 1.5rem; color: white; font-size: 1rem; border-radius: 5px; cursor: pointer; }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>💖 Test MetaLove</h1>
-        <div id="quiz-container"></div>
-        <div class="footer">Répondez honnêtement, il n’y a pas de bonnes ou mauvaises réponses.</div>
+  <div class="container">
+    <h1>Test des Métaprogrammes - MetaLove 💘</h1>
+    <div id="progress" class="progress-bar"><div id="progress-inner" class="progress-bar-inner"></div></div>
+    <div id="quiz"></div>
+    <div class="pagination">
+      <button onclick="prevPage()">← Précédent</button>
+      <span id="page-indicator">Page 1</span>
+      <button onclick="nextPage()">Suivant →</button>
     </div>
+    <div id="email-block" class="email-block" style="display: none;">
+      <p>Merci d'avoir terminé le test. Veuillez entrer votre adresse e-mail pour recevoir vos résultats :</p>
+      <input type="email" id="email" placeholder="Votre e-mail" />
+      <div id="email-error" style="color: red;"></div>
+      <button onclick="submitResults()">Envoyer mes résultats</button>
+    </div>
+  </div>
 
-    <script>
-        const questions = [
-            "Dans un achat, vous privilégiez…",
-            "En audit, regardez-vous d’abord…",
-            "Au quotidien, vous…",
-            "Au dépannage, tentez-vous plusieurs pistes ou…",
-            "Dans un incident, vous gérez…",
-            "Lors d’une réunion, vous intervenez…",
-            "Dans un projet, vous préférez…",
-            "Quand vous organisez votre journée…",
-            "Face à un problème complexe…",
-            "Lors d’une discussion difficile, vous…"
-        ];
-
-        const choices = ["Oui", "Souvent", "Rarement", "Non"];
-
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
+<script>
+const questions = [
+{
+            question: "Vous souvenez-vous plus facilement des visages que des noms ?",
+            meta: "Visuel",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Aimez-vous organiser votre espace de travail de façon esthétique et harmonieuse ?",
+            meta: "Visuel",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Choisissez-vous vos vêtements principalement en fonction de leur apparence visuelle ?",
+            meta: "Visuel",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Lorsqu&#x27;on vous explique quelque chose, préférez-vous voir un schéma ou un dessin à la place ?",
+            meta: "Visuel",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous tendance à visualiser mentalement vos projets ou vos idées ?",
+            meta: "Visuel",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Lorsque vous entendez une voix familière, la reconnaissez-vous rapidement, même sans voir la personne ?",
+            meta: "Auditif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Entendez-vous une voix intérieure qui accompagne votre lecture, comme si vous vous racontiez l’histoire à vous-même ?",
+            meta: "Auditif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Lorsqu’on vous donne des consignes, les retenir à l’oral vous est-il facile ?",
+            meta: "Auditif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Le bruit de fond vous gêne-t-il facilement pour vous concentrer ?",
+            meta: "Auditif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous besoin de verbaliser vos idées à haute voix pour les clarifier ?",
+            meta: "Auditif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Êtes-vous particulièrement sensible à la texture des vêtements que vous portez ?",
+            meta: "Kinesthésique",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous du mal à rester concentré(e) sans bouger, même légèrement ?",
+            meta: "Kinesthésique",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Apprenez-vous plus facilement en manipulant ou en expérimentant directement ?",
+            meta: "Kinesthésique",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous besoin de ressentir physiquement un lieu pour savoir si vous vous y sentez bien ?",
+            meta: "Kinesthésique",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Évitez-vous certains vêtements, même beaux, s’ils sont trop serrés ou inconfortables ?",
+            meta: "Kinesthésique",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Aimez-vous avoir plusieurs manières possibles d’aborder une même tâche ?",
+            meta: "Option",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Préférez-vous improviser plutôt que suivre une méthode fixe ?",
+            meta: "Option",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous sentez-vous limité(e) lorsqu’on vous impose une seule façon de faire ?",
+            meta: "Option",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous tendance à adapter les règles plutôt qu’à les suivre strictement ?",
+            meta: "Option",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Appréciez-vous les formations ouvertes plutôt que très structurées ?",
+            meta: "Option",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous besoin de consignes claires avant de commencer une tâche ?",
+            meta: "Procédure",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Préférez-vous suivre une méthode pas à pas plutôt que d’improviser ?",
+            meta: "Procédure",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Est-ce que l’absence de cadre vous déstabilise ?",
+            meta: "Procédure",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Aimez-vous quand les choses sont bien organisées et logiques ?",
+            meta: "Procédure",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous sentez-vous plus efficace avec un plan établi à l’avance ?",
+            meta: "Procédure",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Prenez-vous souvent les devants pour résoudre un problème ?",
+            meta: "Proactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Initiez-vous souvent les projets ou les discussions ?",
+            meta: "Proactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous tendance à agir plutôt qu’attendre ?",
+            meta: "Proactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Êtes-vous à l’aise dans les situations qui demandent de la réactivité ?",
+            meta: "Proactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Cherchez-vous rapidement des solutions quand un obstacle survient ?",
+            meta: "Proactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous besoin de prendre le temps de réfléchir avant d’agir ?",
+            meta: "Réactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Préférez-vous observer avant de vous lancer dans une nouvelle activité ?",
+            meta: "Réactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous tendance à réagir plutôt qu’à initier ?",
+            meta: "Réactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Est-ce que vous vous sentez plus à l’aise lorsqu’un cadre est déjà posé ?",
+            meta: "Réactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "L’attente d’un déclencheur extérieur vous rassure-t-elle avant de commencer ?",
+            meta: "Réactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Souhaitez-vous influencer les décisions dans un groupe ?",
+            meta: "Pouvoir",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous sentez-vous motivé(e) par le fait d’être reconnu(e) comme leader ?",
+            meta: "Pouvoir",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous besoin d’avoir le contrôle sur ce que vous entreprenez ?",
+            meta: "Pouvoir",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Est-ce que relever des défis vous stimule ?",
+            meta: "Pouvoir",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous tendance à vouloir réaliser ce qu’on vous croit incapable de faire ?",
+            meta: "Pouvoir",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous fixez-vous des buts clairs avant d’agir ?",
+            meta: "Objectif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous besoin d’un résultat concret pour vous sentir motivé(e) ?",
+            meta: "Objectif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Est-ce que la performance pour vous s’évalue par l’atteinte d’un résultat plutôt que par ce que vous avez appris ?",
+            meta: "Objectif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Planifiez-vous vos actions avec une idée précise du résultat attendu ?",
+            meta: "Objectif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous sentez-vous plus à l’aise quand vous savez exactement où vous allez ?",
+            meta: "Objectif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Est-il important pour vous d’être bien intégré(e) dans un groupe ?",
+            meta: "Affiliation",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Cherchez-vous à créer des liens avant tout dans un nouveau contexte ?",
+            meta: "Affiliation",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Préférez-vous collaborer que réussir seul(e) ?",
+            meta: "Affiliation",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "L’ambiance dans une équipe est-elle plus importante que le salaire que vous gagnez ?",
+            meta: "Affiliation",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Faites-vous attention à ne pas blesser les autres dans vos choix ?",
+            meta: "Affiliation",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous appuyez-vous sur vos expériences pour prendre des décisions ?",
+            meta: "Passé",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous tendance à vous référer à ce que vous connaissez déjà ?",
+            meta: "Passé",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Préférez-vous les traditions aux nouveautés ?",
+            meta: "Passé",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Revenez-vous souvent sur des événements passés pour comprendre le présent ?",
+            meta: "Passé",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Est-ce que vos souvenirs guident souvent vos choix ?",
+            meta: "Passé",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous concentrez-vous davantage sur ce que vous vivez ici et maintenant ?",
+            meta: "Présent",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous du mal à faire des plans à long terme ?",
+            meta: "Présent",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Est-ce que vous agissez surtout en fonction de ce qui se passe aujourd’hui ?",
+            meta: "Présent",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous sentez-vous guidé(e) par vos ressentis du moment ?",
+            meta: "Présent",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Réagissez-vous davantage à ce qui se passe tout de suite qu’à ce qui pourrait arriver ?",
+            meta: "Présent",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Faites-vous souvent des projets à long terme ?",
+            meta: "Futur",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous besoin de visualiser l’avenir pour vous sentir motivé(e) ?",
+            meta: "Futur",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Planifiez-vous beaucoup ce que vous allez faire dans les semaines à venir ?",
+            meta: "Futur",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Pensez-vous souvent à ce que vous voulez devenir ?",
+            meta: "Futur",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Anticipez-vous les conséquences futures de vos décisions ?",
+            meta: "Futur",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Les odeurs influencent-elles facilement votre humeur ?",
+            meta: "Olfactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Êtes-vous très sensible aux parfums ou aux odeurs fortes ?",
+            meta: "Olfactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous rappelez-vous facilement d’une personne grâce à son odeur ?",
+            meta: "Olfactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous des odeurs préférées qui vous apaisent ou vous stimulent ?",
+            meta: "Olfactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Une odeur peut-elle suffire à vous rappeler un souvenir ?",
+            meta: "Olfactif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Le goût influence-t-il fortement votre expérience d’un moment ?",
+            meta: "Gustatif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Choisissez-vous des lieux ou événements selon ce que vous allez y manger ?",
+            meta: "Gustatif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous arrive-t-il de manger juste pour le plaisir du goût, sans faim ?",
+            meta: "Gustatif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Un bon plat peut-il améliorer votre humeur ?",
+            meta: "Gustatif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Le partage de repas est-il un moment important pour vous ?",
+            meta: "Gustatif",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Pensez-vous d’abord à vous avant d’aider les autres ?",
+            meta: "Tourné vers soi",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Votre propre bien-être passe-t-il en priorité dans vos décisions ?",
+            meta: "Tourné vers soi",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous besoin d’être aligné(e) avec vous-même avant d’agir ?",
+            meta: "Tourné vers soi",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Votre confort personnel est-il une condition essentielle à votre implication ?",
+            meta: "Tourné vers soi",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Faites-vous passer vos besoins en premier dans un groupe ?",
+            meta: "Tourné vers soi",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Anticipez-vous souvent les besoins ou attentes des autres ?",
+            meta: "Tourné vers les autres",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vos choix sont-ils souvent guidés par le plaisir que cela procurera aux autres ?",
+            meta: "Tourné vers les autres",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Préférez-vous faire plaisir quitte à vous contraindre un peu ?",
+            meta: "Tourné vers les autres",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous sentez-vous responsable du bien-être des autres ?",
+            meta: "Tourné vers les autres",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Est-il important pour vous d’être perçu(e) comme quelqu’un d’attentionné ?",
+            meta: "Tourné vers les autres",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Aimez-vous comprendre les grandes lignes avant d’entrer dans les détails ?",
+            meta: "Global",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Préférez-vous les visions d’ensemble aux explications minutieuses ?",
+            meta: "Global",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous besoin de situer les choses dans un cadre général ?",
+            meta: "Global",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Est-ce que les détails vous intéressent surtout une fois la vue d’ensemble comprise ?",
+            meta: "Global",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous du mal à rester concentré(e) sur des choses trop précises ?",
+            meta: "Global",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Aimez-vous décortiquer les choses en éléments précis ?",
+            meta: "Détail",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Sur un mur nouvellement peint, allez-vous voir instantanément le petit détail mal fait ?",
+            meta: "Détail",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous attachez-vous aux détails avant d’embrasser une vision globale ?",
+            meta: "Détail",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Les choses inexactes ou floues vous mettent-elles mal à l’aise ?",
+            meta: "Détail",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous sentez-vous rassuré(e) par des données précises ?",
+            meta: "Détail",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous besoin de calme pour vous ressourcer ?",
+            meta: "Introverti",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Préférez-vous les interactions en petit comité ?",
+            meta: "Introverti",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Le temps seul(e) est-il vital pour votre équilibre ?",
+            meta: "Introverti",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Trouvez-vous fatigantes les réunions sociales prolongées ?",
+            meta: "Introverti",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous sentez-vous plus vous-même dans l’intimité que dans un groupe ?",
+            meta: "Introverti",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Vous sentez-vous énergisé(e) par la présence des autres ?",
+            meta: "Extraverti",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Avez-vous tendance à parler pour réfléchir ?",
+            meta: "Extraverti",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Cherchez-vous la compagnie plutôt que la solitude ?",
+            meta: "Extraverti",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Les environnements dynamiques vous stimulent-ils ?",
+            meta: "Extraverti",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
+        },{
+            question: "Préférez-vous partager vos pensées plutôt que les garder pour vous ?",
+            meta: "Extraverti",
+            answers: [
+                { text: "Oui (100%)", value: 100 },
+                { text: "Souvent (50%)", value: 50 },
+                { text: "Rarement (25%)", value: 25 },
+                { text: "Non (0%)", value: 0 }
+            ]
         }
+];
 
-        shuffle(questions);
+let currentPage = 0;
+const questionsPerPage = 5;
+let answers = Array(questions.length).fill(null);
 
-        const container = document.getElementById("quiz-container");
-
-        questions.forEach((q, index) => {
-            const card = document.createElement("div");
-            card.className = "card";
-            card.innerHTML = `<div class="question">
-                <p>${index + 1}. ${q}</p>
-                ${choices.map((c, i) => `
-                    <label><input type="radio" name="q${index}" value="${i}"> ${c}</label>
-                `).join("")}
-            </div>`;
-            container.appendChild(card);
+function renderPage() {
+    const quiz = document.getElementById("quiz");
+    quiz.innerHTML = "";
+    const start = currentPage * questionsPerPage;
+    const end = Math.min(start + questionsPerPage, questions.length);
+    for (let i = start; i < end; i++) {
+        const q = questions[i];
+        const div = document.createElement("div");
+        div.className = "question-block";
+        div.innerHTML = `<div class="question-text">${i + 1}. ${q.question}</div>`;
+        q.answers.forEach((a, idx) => {
+            const id = `q${i}_a${idx}`;
+            div.innerHTML += `
+                <div class="answers">
+                  <label><input type="radio" name="q${i}" value="${a.value}" onchange="recordAnswer(${i}, ${a.value})"> ${a.text}</label>
+                </div>`;
         });
-    </script>
+        quiz.appendChild(div);
+    }
+
+    document.getElementById("page-indicator").innerText = `Page ${currentPage + 1} / ${Math.ceil(questions.length / questionsPerPage)}`;
+    document.getElementById("progress-inner").style.width = `${((currentPage + 1) / Math.ceil(questions.length / questionsPerPage)) * 100}%`;
+
+    if (end === questions.length) {
+        document.getElementById("email-block").style.display = "block";
+    } else {
+        document.getElementById("email-block").style.display = "none";
+    }
+}
+
+function nextPage() {
+    if ((currentPage + 1) * questionsPerPage < questions.length) {
+        currentPage++;
+        renderPage();
+    }
+}
+
+function prevPage() {
+    if (currentPage > 0) {
+        currentPage--;
+        renderPage();
+    }
+}
+
+function recordAnswer(qIdx, value) {
+    answers[qIdx] = value;
+}
+
+function submitResults() {
+    const email = document.getElementById("email").value;
+    const error = document.getElementById("email-error");
+    error.textContent = "";
+
+    if (!email.includes("@")) {
+        error.textContent = "Veuillez entrer une adresse e-mail valide.";
+        return;
+    }
+
+    const payload = {
+        email: email,
+        responses: answers
+    };
+
+    fetch("https://hook.eu1.make.com/XXXXXXX", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(() => {
+        alert("Vos résultats ont été envoyés !");
+    })
+    .catch(() => {
+        error.textContent = "Erreur d'envoi. Réessayez.";
+    });
+}
+
+renderPage();
+</script>
 </body>
 </html>
