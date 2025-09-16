@@ -205,11 +205,38 @@ document.getElementById('btnSend').addEventListener('click', ()=>{
 
 // send to backend
 if (SUBMIT_URL) {
+    body: JSON.stringify(payload)
+  });
+  // send to backend
+if (SUBMIT_URL) {
   fetch(SUBMIT_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
+  })
+  .then(res => res.json())
+  .then(data => {
+    // Supprimer ancien message d'erreur s'il existe
+    const oldMsg = document.getElementById("email-error");
+    if (oldMsg) oldMsg.remove();
+
+    if (data.status === "duplicate") {
+      document.getElementById("email").insertAdjacentHTML(
+        "afterend",
+        "<p id='email-error' style='color:red; font-size:14px; margin-top:5px;'>⚠️ Cette adresse e-mail a déjà été utilisée pour passer ce test.</p>"
+      );
+    } else if (data.status === "ok") {
+      document.getElementById("collectEmail").hidden = true;
+      document.getElementById("thanks").hidden = false;
+    } else {
+      alert("Une erreur est survenue. Merci de réessayer.");
+    }
+  })
+  .catch(err => {
+    console.error("Erreur envoi :", err);
+    alert("Impossible d’envoyer le formulaire.");
   });
+}
 }
 
 if (window.emailjs && EMAILJS.ENABLED) {
