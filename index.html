@@ -177,36 +177,34 @@ function computeResults(){
   }
   return {metaStats, orientStats};
 }
-
+// ---- bouton "Envoyer mon analyse" ----
 document.getElementById('btnSend').addEventListener('click', () => {
-  const email = document.getElementById('email').value.trim();
+  const email   = document.getElementById('email').value.trim();
   const consent = document.getElementById('consent').checked;
   if (!email || !consent) {
     alert('Veuillez renseigner votre e-mail et accepter la clause.');
     return;
   }
 
-  // Calcul des résultats
+  // 1) Calcul des résultats (fonction déjà définie au-dessus)
   const { metaStats, orientStats } = computeResults();
 
-  // Prépare les segments dominants
+  // 2) Segments dominants
   const segments = [];
   for (const meta in metaStats) {
     const orients = metaStats[meta];
     let bestOrient = '', max = 0;
     for (const o in orients) {
-      if (orients[o] > max) {
-        max = orients[o];
-        bestOrient = o;
-      }
+      if (orients[o] > max) { max = orients[o]; bestOrient = o; }
     }
     if (bestOrient) segments.push(meta + ':' + bestOrient);
   }
 
-  // Token reCAPTCHA (si dispo)
-  const captchaToken = document.getElementById('g-recaptcha-response')?.value || '';
+  // 3) Token reCAPTCHA (si présent)
+  const captchaTokenEl = document.getElementById('g-recaptcha-response');
+  const captchaToken = captchaTokenEl ? captchaTokenEl.value : '';
 
-  // Préparation des données
+  // 4) Charge utile envoyée au webhook
   const payload = {
     email,
     metaStats,
@@ -216,7 +214,7 @@ document.getElementById('btnSend').addEventListener('click', () => {
     response: captchaToken
   };
 
-  // Envoi unique
+  // 5) Envoi vers SUBMIT_URL
   fetch(SUBMIT_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -224,22 +222,23 @@ document.getElementById('btnSend').addEventListener('click', () => {
   })
   .then(res => res.json())
   .then(data => {
-    // Nettoyer ancien message d’erreur
+    // Nettoyer l'ancien message d'erreur s'il existe
     const oldMsg = document.getElementById('email-error');
     if (oldMsg) oldMsg.remove();
 
     if (data.status === 'duplicate') {
       document.getElementById('email').insertAdjacentHTML(
         'afterend',
-        '<p id="email-error" style="color:red; font-size:14px; margin-top:5px;">⚠️ Cette adresse e-mail a déjà été utilisée pour passer ce test.</p>'
+        '<p id="email-error" style="color:red; font-size:14px; margin-top:5px;">⚠️ Cette adresse e-mail a déjà été utilisée pour passer ce test, merci de mettre une autre adresse.</p>'
       );
     } else if (data.status === 'ok') {
       document.getElementById('collectEmail').hidden = true;
       document.getElementById('thanks').hidden = false;
       document.getElementById('toEmail').textContent = email;
 
-      if (window.emailJs && EMAILJS_ENABLED) {
-        emailJs.send(EMAILJS.SERVICE_ID, EMAILJS.TEMPLATE_ID, {
+      // Envoi EmailJS éventuel (config plus haut)
+      if (window.emailjs && EMAILJS.ENABLED) {
+        emailjs.send(EMAILJS.SERVICE_ID, EMAILJS.TEMPLATE_ID, {
           to_email: email,
           results: JSON.stringify(metaStats),
           segments: segments.join(', ')
@@ -257,7 +256,7 @@ document.getElementById('btnSend').addEventListener('click', () => {
   });
 });
 
-// Appel correct de la fonction
+// 6) Afficher la première page de questions
 renderPage();
 </script>
   
