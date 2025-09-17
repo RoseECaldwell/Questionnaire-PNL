@@ -202,14 +202,6 @@ document.getElementById('btnSend').addEventListener('click', ()=>{
   bonus_id: "tome1" 
 };
 
-// send to backend
-if (SUBMIT_URL) {
-    body: JSON.stringify(payload)
-  });
-  // send to backend
-if (SUBMIT_URL) {
-  fetch(SUBMIT_URL, {
-    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   })
