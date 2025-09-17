@@ -136,7 +136,6 @@ function renderPage(){
   // next button label
   const btnNext=document.getElementById('btnNext');
   if(end >= BONUS_QUESTIONS.length){ btnNext.textContent='Terminer'; } else { btnNext.textContent='Suivant'; }
-}
 
 document.getElementById('btnNext').addEventListener('click', ()=>{
   const nextIndex = currentIndex + 5;
@@ -178,30 +177,46 @@ function computeResults(){
   }
   return {metaStats, orientStats};
 }
-
-document.getElementById('btnSend').addEventListener('click', ()=>{
-  const email=document.getElementById('email').value.trim();
-  const consent=document.getElementById('consent').checked;
-  if(!email || !consent){ alert('Veuillez renseigner votre e‑mail et accepter la clause.'); return; }
-  const {metaStats, orientStats} = computeResults();
-  // Prepare segments (orientation names with highest counts)
-  const segments = [];
-  for(const meta in metaStats){
-    const orients=metaStats[meta];
-    let bestOrient='', max=0;
-    for(const o in orients){
-      if(orients[o] > max){ max = orients[o]; bestOrient = o; }
-    }
-    if(bestOrient) segments.push(meta+':'+bestOrient);
+<script>
+document.getElementById('btnSend').addEventListener('click', () => {
+  const email = document.getElementById('email').value.trim();
+  const consent = document.getElementById('consent').checked;
+  if (!email || !consent) {
+    alert('Veuillez renseigner votre e-mail et accepter la clause.');
+    return;
   }
+
+  // Calcul des résultats
+  const { metaStats, orientStats } = computeResults();
+
+  // Prépare les segments dominants
+  const segments = [];
+  for (const meta in metaStats) {
+    const orients = metaStats[meta];
+    let bestOrient = '', max = 0;
+    for (const o in orients) {
+      if (orients[o] > max) {
+        max = orients[o];
+        bestOrient = o;
+      }
+    }
+    if (bestOrient) segments.push(meta + ':' + bestOrient);
+  }
+
+  // Token reCAPTCHA (si dispo)
+  const captchaToken = document.getElementById('g-recaptcha-response')?.value || '';
+
+  // Préparation des données
   const payload = {
-  email: email,
-  metaStats,
-  orientStats,
-  segments,
-  bonus_id: "tome1"
-};
-if (SUBMIT_URL) {
+    email,
+    metaStats,
+    orientStats,
+    segments,
+    bonus_id: 'tome1',
+    response: captchaToken
+  };
+
+  // Envoi unique
   fetch(SUBMIT_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -209,49 +224,40 @@ if (SUBMIT_URL) {
   })
   .then(res => res.json())
   .then(data => {
-    // Supprimer ancien message d'erreur s'il existe
-    const oldMsg = document.getElementById("email-error");
+    // Nettoyer ancien message d’erreur
+    const oldMsg = document.getElementById('email-error');
     if (oldMsg) oldMsg.remove();
 
-    if (data.status === "duplicate") {
-      document.getElementById("email").insertAdjacentHTML(
-        "afterend",
-        "<p id='email-error' style='color:red; font-size:14px; margin-top:5px;'>⚠️ Cette adresse e-mail a déjà été utilisée pour passer ce test.</p>"
+    if (data.status === 'duplicate') {
+      document.getElementById('email').insertAdjacentHTML(
+        'afterend',
+        '<p id="email-error" style="color:red; font-size:14px; margin-top:5px;">⚠️ Cette adresse e-mail a déjà été utilisée pour passer ce test.</p>'
       );
-    } else if (data.status === "ok") {
-      document.getElementById("collectEmail").hidden = true;
-      document.getElementById("thanks").hidden = false;
-    } else if (data.status === "captcha_failed") {
-      alert("Captcha invalide. Merci de réessayer.");
+    } else if (data.status === 'ok') {
+      document.getElementById('collectEmail').hidden = true;
+      document.getElementById('thanks').hidden = false;
+      document.getElementById('toEmail').textContent = email;
+
+      if (window.emailJs && EMAILJS_ENABLED) {
+        emailJs.send(EMAILJS.SERVICE_ID, EMAILJS.TEMPLATE_ID, {
+          to_email: email,
+          results: JSON.stringify(metaStats),
+          segments: segments.join(', ')
+        });
+      }
+    } else if (data.status === 'captcha_failed') {
+      alert('Captcha invalide. Merci de réessayer.');
     } else {
-      alert("Une erreur est survenue. Merci de réessayer.");
+      alert('Une erreur est survenue. Merci de réessayer.');
     }
   })
   .catch(err => {
-    console.error("Erreur envoi :", err);
+    console.error('Erreur envoi :', err);
     alert("Impossible d’envoyer le formulaire.");
   });
-
-if (window.emailjs && EMAILJS.ENABLED) {
-  emailjs.send(EMAILJS.SERVICE_ID, EMAILJS.TEMPLATE_ID, {
-    to_email: email,
-    results: JSON.stringify(metaStats)
-  });
-}
-
-document.getElementById('collectEmail').hidden = true;
-document.getElementById('thanks').hidden = false;
-document.getElementById('toEmail').textContent = email;
-{
-    fetch(SUBMIT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(err=>{});
-  }
-  if(window.emailjs && EMAILJS.ENABLED){
-    emailjs.send(EMAILJS.SERVICE_ID, EMAILJS.TEMPLATE_ID, {to_email: email, results: JSON.stringify(metaStats), segments: segments.join(', ')});
-  }
-  document.getElementById('collectEmail').hidden=true;
-  document.getElementById('thanks').hidden=false;
-  document.getElementById('toEmail').textContent=email;
 });
+</script>
+
 // Initialize
 renderPage();
 </script>
