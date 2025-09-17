@@ -201,7 +201,6 @@ document.getElementById('btnSend').addEventListener('click', ()=>{
   segments,
   bonus_id: "tome1"
 };
-
 if (SUBMIT_URL) {
   fetch(SUBMIT_URL, {
     method: 'POST',
@@ -222,8 +221,8 @@ if (SUBMIT_URL) {
     } else if (data.status === "ok") {
       document.getElementById("collectEmail").hidden = true;
       document.getElementById("thanks").hidden = false;
-      } else if (data.status === "captcha_failed") {
-  alert("Captcha invalide. Merci de réessayer.");
+    } else if (data.status === "captcha_failed") {
+      alert("Captcha invalide. Merci de réessayer.");
     } else {
       alert("Une erreur est survenue. Merci de réessayer.");
     }
@@ -232,7 +231,6 @@ if (SUBMIT_URL) {
     console.error("Erreur envoi :", err);
     alert("Impossible d’envoyer le formulaire.");
   });
-}
 
 if (window.emailjs && EMAILJS.ENABLED) {
   emailjs.send(EMAILJS.SERVICE_ID, EMAILJS.TEMPLATE_ID, {
