@@ -56,20 +56,34 @@
   }
 
   /* Bouton suivant */
-  .next-btn {
-    background: #222;
-    color: white;
+  
+.next-btn {
+    background: #222 !important;
+    color: #fff !important;
     padding: 12px 25px;
     border: none;
     border-radius: 25px;
     font-size: 1em;
     cursor: pointer;
-    margin: 20px auto;
-    display: block;
+    margin: 20px auto !important;
+    display: block !important;
+    text-align: center;
     position: relative;
     overflow: hidden;
     transition: background 0.3s ease-in-out, transform 0.2s;
-  }
+}
+.next-btn:hover {
+    background: #333 !important;
+    transform: scale(1.05);
+}
+.next-btn::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -2px; height: 3px;
+    background: linear-gradient(90deg, pink, turquoise, lightgreen);
+    border-radius: 2px;
+}
+
   .next-btn:hover {
     background: #333;
     transform: scale(1.05);
@@ -157,20 +171,34 @@
   }
 
   /* Bouton suivant */
-  .next-btn {
-    background: #222;
-    color: white;
+  
+.next-btn {
+    background: #222 !important;
+    color: #fff !important;
     padding: 12px 25px;
     border: none;
     border-radius: 25px;
     font-size: 1em;
     cursor: pointer;
-    margin: 20px auto;
-    display: block;
+    margin: 20px auto !important;
+    display: block !important;
+    text-align: center;
     position: relative;
     overflow: hidden;
     transition: background 0.3s ease-in-out, transform 0.2s;
-  }
+}
+.next-btn:hover {
+    background: #333 !important;
+    transform: scale(1.05);
+}
+.next-btn::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -2px; height: 3px;
+    background: linear-gradient(90deg, pink, turquoise, lightgreen);
+    border-radius: 2px;
+}
+
   .next-btn:hover {
     background: #333;
     transform: scale(1.05);
@@ -258,20 +286,34 @@
   }
 
   /* Bouton suivant */
-  .next-btn {
-    background: #222;
-    color: white;
+  
+.next-btn {
+    background: #222 !important;
+    color: #fff !important;
     padding: 12px 25px;
     border: none;
     border-radius: 25px;
     font-size: 1em;
     cursor: pointer;
-    margin: 20px auto;
-    display: block;
+    margin: 20px auto !important;
+    display: block !important;
+    text-align: center;
     position: relative;
     overflow: hidden;
     transition: background 0.3s ease-in-out, transform 0.2s;
-  }
+}
+.next-btn:hover {
+    background: #333 !important;
+    transform: scale(1.05);
+}
+.next-btn::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -2px; height: 3px;
+    background: linear-gradient(90deg, pink, turquoise, lightgreen);
+    border-radius: 2px;
+}
+
   .next-btn:hover {
     background: #333;
     transform: scale(1.05);
@@ -325,17 +367,7 @@
 </div>
 
 <div id="collectEmail" hidden>
-  <p>Merci d'avoir répondu ! Pour recevoir votre profil amoureux personnalisé, indiquez votre e-mail :</p>
-  <input type="email" id="email" placeholder="Votre e-mail" required>
-  <br><label><input type="checkbox" id="consent"> J’accepte que mes données soient utilisées dans le cadre de ce test.</label>
-  <div class="g-recaptcha" data-sitekey="6LcQg8srAAAAAEbCEDo9kJus8GhqO5r0PHM9cIb-"></div>
-  <input type="hidden" id="g-recaptcha-response">
-  <button id="btnSend">Envoyer</button>
-</div>
-
-<div id="thanks">
-  <h2>Merci 🎉</h2>
-  <p>Votre analyse personnalisée a été envoyée à <span id="toEmail"></span>.</p>
+  <p></p>
 </div>
 
 <script>
@@ -1085,7 +1117,7 @@ function validatePage(pageIndex) {
     const inputs = q.querySelectorAll('input[type="radio"]');
     const checked = Array.from(inputs).some(i => i.checked);
     if (!checked) {
-      alert("⚠️ Merci de répondre à toutes les questions avant de continuer.");
+      alert("💡 Merci de répondre à toutes les questions pour continuer, cela rendra votre profil plus précis ❤️");
       return false;
     }
   }
