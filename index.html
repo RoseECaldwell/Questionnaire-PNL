@@ -1085,7 +1085,7 @@ function validatePage(pageIndex) {
     const inputs = q.querySelectorAll('input[type="radio"]');
     const checked = Array.from(inputs).some(i => i.checked);
     if (!checked) {
-      alert("💡 Merci de répondre à toutes les questions pour continuer, cela rendra votre profil plus précis ❤️");
+      alert("⚠️ Merci de répondre à toutes les questions avant de continuer.");
       return false;
     }
   }
