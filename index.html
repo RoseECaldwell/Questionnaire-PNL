@@ -493,7 +493,7 @@
       // Énergie
       ["Introverti","Avez-vous besoin de calme pour vous ressourcer ?"],
       ["Introverti","Préférez-vous les interactions en petit comité ?"],
-      ["Introverti","Du temps seul(e) est-il vital pour votre équilibre ?"],
+      ["Introverti","Le temps seul(e) est-il vital pour votre équilibre ?"],
       ["Introverti","Trouvez-vous fatigantes les réunions sociales prolongées ?"],
       ["Introverti","Vous sentez-vous plus vous-même dans l’intimité que dans un groupe ?"],
       ["Extraverti","Vous sentez-vous énergisé(e) par la présence des autres ?"],
@@ -754,12 +754,12 @@
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify(payload)
       })
-      .then(r=>r.json())
-      .then(data=>{
-        if(data.status==="duplicate"){
+      .then(r => r.text())
+      .then(responseText => {
+        if(responseText.includes("duplicate")){
           emailDupMsg.textContent = "⚠️ Cette adresse e-mail a déjà servi pour un test 💡. Merci d’en indiquer une autre afin de recevoir une nouvelle interprétation.";
           emailDupMsg.style.display = 'block';
-        }else if(data.status==="captcha_failed"){
+        }else if(responseText.includes("captcha_failed")){
           alert("Captcha invalide. Merci de réessayer.");
         }else{
           // Success
