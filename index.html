@@ -92,6 +92,17 @@
   }
 </style>
 
+
+<style>
+  .page {
+    opacity: 0;
+    transition: opacity 0.6s ease-in-out;
+  }
+  .page.active {
+    opacity: 1;
+  }
+</style>
+
 </head>
 <body>
 
@@ -845,6 +856,21 @@ function generateInterpretation(metaPercent) {
 
 // INIT
 renderPage(0);
+</script>
+
+
+<script>
+function showPage(pageIndex) {
+  const pages = document.querySelectorAll('.page');
+  pages.forEach((page, i) => {
+    if (i === pageIndex) {
+      page.classList.add('active');
+    } else {
+      page.classList.remove('active');
+    }
+  });
+  updateProgress(pageIndex + 1, pages.length);
+}
 </script>
 
 </body>
