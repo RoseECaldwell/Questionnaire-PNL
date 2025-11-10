@@ -414,43 +414,85 @@
   <div class="progress-bar-bg"><div id="progress-bar" class="progress-bar"></div></div>
 
   <script>
-    // --- DATASETS (same as before, see previous code for full arrays) ---
-    const questionsRaw = [
-      ["Visuel","Vous souvenez-vous plus facilement des visages que des noms ?"],
-      ["Kinesthésique","Évitez-vous certains vêtements, même beaux, s’ils sont trop serrés ou inconfortables ?"],
-      ["Option","Aimez-vous avoir plusieurs manières possibles d’aborder une même tâche ?"]
-    ];
-    const panToMeta = {
-      "Visuel": "VAKOG", "Auditif": "VAKOG", "Kinesthésique": "VAKOG", "Olfactif": "VAKOG", "Gustatif": "VAKOG",
-      "Procédure": "Procédure/Option", "Option": "Procédure/Option",
-      "Proactif": "Proactif/Réactif", "Réactif": "Proactif/Réactif",
-      "Passé": "Rapport au temps", "Présent": "Rapport au temps", "Futur": "Rapport au temps",
-      "Pouvoir": "Motivation", "Objectif": "Motivation", "Affiliation": "Motivation",
-      "Tourné vers soi": "Orientation", "Tourné vers les autres": "Orientation",
-      "Introverti": "Énergie", "Extraverti": "Énergie",
-      "Détail": "Focus", "Global": "Focus"
-    };
-    const metaprogrammePans = {
-      "Procédure/Option":["Procédure","Option"],
-      "Motivation":["Pouvoir","Objectif","Affiliation"],
-      "Énergie":["Introverti","Extraverti"],
-      "Proactif/Réactif": ["Proactif","Réactif"],
-      "Rapport au temps": ["Passé","Présent","Futur"],
-      "Orientation": ["Tourné vers soi","Tourné vers les autres"],
-      "VAKOG": ["Visuel","Auditif","Kinesthésique","Olfactif","Gustatif"],
-      "Focus": ["Détail","Global"]
-    };
-    const exampleSegments = [
-      "« Votre profil amoureux révèle une énergie singulière. Si la Motivation Pouvoir domine, vous êtes attiré(e) par l’influence et l’affirmation de soi, ce qui peut séduire mais aussi générer des tensions si votre partenaire partage la même intensité. L’équilibre naît lorsque Pouvoir rencontre Objectif ou Affiliation, car l’un apporte direction et l’autre connexion. Un Objectif dominant offre clarté et progression, idéalement complété par une Affiliation chaleureuse qui renforce la complicité. »",
-      "« Votre dynamique Proactif / Réactif façonne votre rythme amoureux. Deux Proactifs créent une relation passionnée et stimulante, mais peuvent parfois foncer tête baissée. Deux Réactifs privilégient la sécurité et la stabilité, au risque de manquer d’élan. La combinaison des deux offre souvent le meilleur équilibre : l’un initie, l’autre tempère. Votre couple trouve ainsi une cadence naturelle entre action et réflexion, gage de longévité et d’harmonie. »",
-      "« Le duo Procédure / Option reflète votre rapport aux règles et à la créativité. Deux profils Procédure partagent une rigueur rassurante, mais peuvent s’enfermer dans la routine. Deux Option vivent l’instant, cultivant la liberté, mais risquent l’instabilité. Un couple mixte allie solidité et spontanéité, permettant d’évoluer dans un cadre souple. Si vous êtes majoritairement Option, cherchez un(e) partenaire qui saura canaliser vos élans sans brider votre inspiration. »",
-      "« Enfin, votre rapport au Temps et à l’Énergie influence la compatibilité. Deux Présents vivent une intensité grisée, mais peuvent manquer de projection. Le Passé s’attache aux racines, le Futur bâtit des projets : ces visions différentes nécessitent dialogue pour s’harmoniser. Côté Énergie, deux Introvertis s’accordent dans une bulle intime, deux Extravertis partagent une complicité vive. Les écarts trop marqués (60%+ Introverti vs 60%+ Extraverti) exigent plus d’efforts de compréhension. »"
-    ];
+    // Métaprogrammes :
+    //
+    // [VAKOG]
+    // v : visuel
+    // a : auditif
+    // k : kinesthésique
+    // o : olfactif
+    // g : gustatif
+    //
+    // [Procédure/Option]
+    // proc : procédure
+    // opt : option
+    //
+    // [Proactif/Réactif]
+    // proa : proactif
+    // rea : réactif
+    //
+    // [Rapport au temps]
+    // past : passé
+    // now : présent
+    // futur : futur
+    //
+    // [Motivation]
+    // pv : pouvoir
+    // obj : objectif
+    // aff : affiliation
+    //
+    // [Orientation]
+    // vs : vers soi
+    // va : vers les autres
+    //
+    // [Énergie]
+    // int : introverti
+    // ext : extraverti
+    //
+    // [Focus]
+    // d : détail
+    // gbl : global
 
-    let currentQ = 0;
-    let answers = [];
-    let selected = null;
+    // Scores pour chaque métaprogramme
+    // Au fur et à mesure des questions et des réponses choisies, on incrémentera la clé correspondante au métaprogramme de la question en cours
+    const GLOBAL_SCORES= {
+      v: 0,
+      a: 0,
+      k: 0,
+      o: 0,
+      g: 0,
+      proc: 0,
+      opt: 0,
+      proa: 0,
+      rea: 0,
+      past: 0,
+      now: 0,
+      futur: 0,
+      pv: 0,
+      obj: 0,
+      aff: 0,
+      vs: 0,
+      va: 0,
+      int: 0,
+      ext: 0,
+      d: 0,
+      gbl: 0
+    };
 
+    // Tableau contenant toutes les questions
+    // Accès à une question : 
+    // allQuestions[index][0] = métaprogramme (v, a, k, o, g, proc, ...)
+    // allQuestions[index][1] = intitulé de la question
+    const allQuestions = [
+      ["v","Vous souvenez-vous plus facilement des visages que des noms ?"],
+      ["k","Évitez-vous certains vêtements, même beaux, s’ils sont trop serrés ou inconfortables ?"],
+      ["opt","Aimez-vous avoir plusieurs manières possibles d’aborder une même tâche ?"]
+    ];
+    
+    // Question courante, qui sera incrémentée au fur et à mesure
+    const currentQ = 0;
+
+    // Fonction de mélange aléatoire
     function shuffleArray(arr) {
       let a = arr.slice();
       for (let i = a.length - 1; i > 0; i--) {
@@ -459,130 +501,183 @@
       }
       return a;
     }
-    const questions = shuffleArray(questionsRaw);
+    
+    // Questions qui seront affichées aléatoirement
+    // Accès à une question : 
+    // questions[index][0] = métaprogramme (v, a, k, o, g, proc, ...)
+    // questions[index][1] = intitulé de la question
+    const questions = shuffleArray(allQuestions);
 
-    const qCard = document.getElementById('question-card');
-    const qNumber = document.getElementById('question-number');
-    const qText = document.getElementById('question-text');
-    const answerBtns = Array.from(document.getElementsByClassName('answer-btn'));
-    const nextBtn = document.getElementById('next-btn');
-    const alertBox = document.getElementById('alert');
-    const progressBar = document.getElementById('progress-bar');
-    const inspiration = document.getElementById('inspiration-text');
+    // Vérifie si une réponse a été sélectionnée
+    const selected = null; // Par défaut, aucune réponse sélectionnée
+    
+    const exampleSegments = [
+      "« Votre profil amoureux révèle une énergie singulière. Si la Motivation Pouvoir domine, vous êtes attiré(e) par l’influence et l’affirmation de soi, ce qui peut séduire mais aussi générer des tensions si votre partenaire partage la même intensité. L’équilibre naît lorsque Pouvoir rencontre Objectif ou Affiliation, car l’un apporte direction et l’autre connexion. Un Objectif dominant offre clarté et progression, idéalement complété par une Affiliation chaleureuse qui renforce la complicité. »",
+      "« Votre dynamique Proactif / Réactif façonne votre rythme amoureux. Deux Proactifs créent une relation passionnée et stimulante, mais peuvent parfois foncer tête baissée. Deux Réactifs privilégient la sécurité et la stabilité, au risque de manquer d’élan. La combinaison des deux offre souvent le meilleur équilibre : l’un initie, l’autre tempère. Votre couple trouve ainsi une cadence naturelle entre action et réflexion, gage de longévité et d’harmonie. »",
+      "« Le duo Procédure / Option reflète votre rapport aux règles et à la créativité. Deux profils Procédure partagent une rigueur rassurante, mais peuvent s’enfermer dans la routine. Deux Option vivent l’instant, cultivant la liberté, mais risquent l’instabilité. Un couple mixte allie solidité et spontanéité, permettant d’évoluer dans un cadre souple. Si vous êtes majoritairement Option, cherchez un(e) partenaire qui saura canaliser vos élans sans brider votre inspiration. »",
+      "« Enfin, votre rapport au Temps et à l’Énergie influence la compatibilité. Deux Présents vivent une intensité grisée, mais peuvent manquer de projection. Le Passé s’attache aux racines, le Futur bâtit des projets : ces visions différentes nécessitent dialogue pour s’harmoniser. Côté Énergie, deux Introvertis s’accordent dans une bulle intime, deux Extravertis partagent une complicité vive. Les écarts trop marqués (60%+ Introverti vs 60%+ Extraverti) exigent plus d’efforts de compréhension. »"
+    ];
 
-    const resultBlock = document.getElementById('result-block');
-    const emailInput = document.getElementById('email');
-    const consentBox = document.getElementById('consent');
-    const emailDupMsg = document.getElementById('email-duplicate-msg');
-    const successMsg = document.getElementById('success-msg');
-    const errorMsg = document.getElementById('error-msg');
-    const submitBtn = document.getElementById('submit-btn');
-    const submitSpinner = document.getElementById('submit-spinner');
+    // Variables DOM HTML
+    const qCard = document.getElementById('question-card'); // bloc HTML correspondant à la carte de la question
+    const qNumber = document.getElementById('question-number'); // numéro de la question
+    const qText = document.getElementById('question-text'); // texte de la question (intitulé)
+    const answerBtns = Array.from(document.getElementsByClassName('answer-btn')); // tableau des boutons de réponses
+    const nextBtn = document.getElementById('next-btn'); // bouton suivant
+    const alertBox = document.getElementById('alert'); // message d'alerte en cas d'erreur
+    const progressBar = document.getElementById('progress-bar'); // barre de progression
+    const inspiration = document.getElementById('inspiration-text'); // texte sous le titre principal (info/conseil)
 
-    let isSubmitting = false;
+    const resultBlock = document.getElementById('result-block'); // bloc HTML pour l'envoi des résultats (à la fin des questions)
+    const emailInput = document.getElementById('email'); // champ email du formulaire
+    const consentBox = document.getElementById('consent'); // checkbox de consentement
+    const emailDupMsg = document.getElementById('email-duplicate-msg'); // message d'erreur si le mail a déjà été utilisé
+    const successMsg = document.getElementById('success-msg'); // message en cas de succès
+    const errorMsg = document.getElementById('error-msg'); // message en cas d'erreur
+    const submitBtn = document.getElementById('submit-btn'); // bouton d'envoi du formulaire(envoi des résultats après avoir indiqué le mail)
+    const submitSpinner = document.getElementById('submit-spinner'); // loader
 
+    let isSubmitting = false; // Par défaut, formulaire et résultats non envoyés
+
+    // Fonction d'affichage des questions
     function showQuestion(idx) {
+      // On masque la carte par un effet de fondu
       qCard.classList.add('question-fade');
       setTimeout(()=>{
+        // On affiche le numéro de la question en cours
         qNumber.textContent = (idx+1) + ".";
+        // On affiche l'intitulé de la question
         qText.textContent = questions[idx][1];
+        // On affiche les boutons des réponses, en les désélectionnant
         answerBtns.forEach(btn => btn.classList.remove('selected'));
         selected = null;
+        // On masque le message d'alerte éventuel
         alertBox.classList.remove('show-alert');
+        // On supprime la classe masquant la carte pour la réafficher, maintenant qu'elle a été mise à jour
         qCard.classList.remove('question-fade');
+        // On fait avancer la barre de progression
         progressBar.style.width = ((idx/105)*100).toFixed(2) + "%";
       }, 210);
-    }
+    } // Fin de fonction (affichag d'une question)
 
+    // On affiche la première question :
+    showQuestion(0);
+
+    // Pour chaque bouton de réponse
     answerBtns.forEach(btn => {
+      // On ajoute un écouteur d'évènement : dès qu'on clique sur une réponse
       btn.addEventListener('click', function() {
+        // On déselectionne toutes les réponses afin de mettre à jour (s'il y a changement de réponse)
         answerBtns.forEach(b=>b.classList.remove('selected'));
+        // On sélectionne l'élément qui vient d'être cliqué
         this.classList.add('selected');
+        // On récupère la valeur/pondération de la réponse choisie (0, 25, 75 ou 100), de l'attribut data-value correspondant
         selected = parseInt(this.dataset.value);
+        // On masque le message d'alert s'il était affiché
         alertBox.classList.remove('show-alert');
       });
-    });
+    }); // Fin de fonction (boutons de réponses)
 
+    // Lorsque l'on clique sur le bouton "Suivant"
     nextBtn.addEventListener('click', function() {
+      // Si aucune réponse n'a été sélectionnée
       if(selected === null){
+        // On affiche l'alerte
         alertBox.classList.add('show-alert');
-        return;
+        return; // On quitte la fonction
       }
-      answers[currentQ] = { pan: questions[currentQ][0], value: selected };
+      // Si une réponse a été sélectionnée
+      /* ANCIENNE MÉTHODE : answers[currentQ] = { pan: questions[currentQ][0], value: selected }; */
+      
+      // On incrémente de la valeur de la réponse sélectionnée le score correspondant au métaprogramme de la question
+      GLOBAL_SCORES[questions[currentQ][0]] += selected;
+      // On incrémente le compteur des questions pour passer à la suivante
       currentQ++;
+      // Si toutes les questions n'ont pas encore été affichées, on affiche la question en cours
       if(currentQ < questions.length){
         showQuestion(currentQ);
       }else{
+        // Plus aucune question à afficher
+        // On masque la carte de la question par un effet de fondu
         qCard.classList.add('question-fade');
         setTimeout(()=>{
           qCard.style.display = 'none';
+          // On affiche le bloc pour l'envoi des résultats (formulaire avec l'email)
           resultBlock.style.display = 'flex';
+          // Barre de progression à 100% : test terminé
           progressBar.style.width = "100%";
+          // Si le message sous le titre existe, on le masque
           if (inspiration) inspiration.classList.add('hide');
+          // Peu importe où l'on se trouve dans le scroll de la page, on remonte tout en haut
           window.scrollTo({top:0,behavior:'smooth'});
         },300);
       }
-    });
+    }); // Fin de fonction (clic sur le bouton "Suivant")
 
     showQuestion(0);
 
+    // Fonction permettant de calculer les résultats donnés
     function computeResults() {
-      const panTotals = {};
-      const panCounts = {};
-      answers.forEach(({pan,value})=>{
-        panTotals[pan] = (panTotals[pan]||0) + value;
-        panCounts[pan] = (panCounts[pan]||0) + 1;
+      const totalQuestions = {}; // Objet qui contiendra, pour chaque métaprogramme, le nombre total de questions correspondantes
+      // Pour chaque question de la liste initiale, on récupère le métaprogramme correspondant
+      allQuestions.forEach( ([meta]) => {
+        totalQuestions[meta] = (totalQuestions[meta] || 0) + 1; // On incrémente (en partant de 0 si aucune itération du métaprogramme en cours n'est pas encore apparue)
       });
-      const metaScores = {};
-      Object.keys(metaprogrammePans).forEach(meta=>{
-        const pans = metaprogrammePans[meta];
-        let total = 0;
-        let panRaw = pans.map(p=>panTotals[p]||0);
-        total = panRaw.reduce((a,b)=>a+b,0);
-        metaScores[meta] = {};
-        pans.forEach((p,i)=>{
-          let norm = total>0 ? Math.round(100*panRaw[i]/total) : 0;
-          metaScores[meta][p] = norm;
-        });
+
+      // On récupère, pour chaque métaprogramme, le score correspondant :
+      
+      const metaScores = {}; // Contiendra le score calculé pour chaque métaprogramme
+
+      // Pour chaque entrée (métaprogramme) des scores, on calcule le pourcentage
+      Object.keys(GLOBAL_SCORES).forEach( meta => {
+        // Le pourcentage calculé du métaprogramme = score du métaprogramme divisé par le nombre total de questions relatives au métaprogrammefois 100
+        // Le tout multiplié par 100 pour avoir le pourcentage
+        // S'il n'y a aucune question pour un métaprogramme, alors le résultat sera 0 (division par 0 impossible)
+        metaScores[meta] = (totalQuestions[meta] == 0 ) ? 0 : Math.round(( GLOBAL_SCORES[meta] / ( totalQuestions[meta] * 100 ) ) * 100);
       });
+      
+      // On renvoie le résultat des scores
       return metaScores;
-    }
+    } // Fin de fonction (calcul des résultats)
+    
     function buildInterpretationSegments(scores, partIdx){
       return exampleSegments[partIdx];
     }
+
+    // Fonction construisant l'objet à renvoyer au webhook
     function buildPayload(email) {
       const scores = computeResults();
       return {
         bonus_id: "tome1",
         response: "no-captcha",
         email,
-        "procedure_score": scores["Procédure/Option"]["Procédure"],
-        "option_score": scores["Procédure/Option"]["Option"],
-        "pouvoir_score": scores["Motivation"]["Pouvoir"],
-        "objectif_score": scores["Motivation"]["Objectif"],
-        "affiliation_score": scores["Motivation"]["Affiliation"],
-        "introverti_score": scores["Énergie"]["Introverti"],
-        "extraverti_score": scores["Énergie"]["Extraverti"],
-        "proactif_score": scores["Proactif/Réactif"]["Proactif"],
-        "reactif_score": scores["Proactif/Réactif"]["Réactif"],
-        "passe_score": scores["Rapport au temps"]["Passé"],
-        "present_score": scores["Rapport au temps"]["Présent"],
-        "futur_score": scores["Rapport au temps"]["Futur"],
-        "vers_soi_score": scores["Orientation"]["Tourné vers soi"],
-        "vers_autres_score": scores["Orientation"]["Tourné vers les autres"],
-        "visuel_score": scores["VAKOG"]["Visuel"],
-        "auditif_score": scores["VAKOG"]["Auditif"],
-        "kinesthesique_score": scores["VAKOG"]["Kinesthésique"],
-        "olfactif_score": scores["VAKOG"]["Olfactif"],
-        "gustatif_score": scores["VAKOG"]["Gustatif"],
-        "detail_score": scores["Focus"]["Détail"],
-        "global_score": scores["Focus"]["Global"],
+        "procedure_score": metaScores["proc"],
+        "option_score": metaScores["opt"],
+        "pouvoir_score": metaScores["pv"],
+        "objectif_score": metaScores["obj"],
+        "affiliation_score": metaScores["aff"],
+        "introverti_score": metaScores["int"],
+        "extraverti_score": metaScores["ext"],
+        "proactif_score": metaScores["proa"],
+        "reactif_score": metaScores["rea"],
+        "passe_score": metaScores["past"],
+        "present_score": metaScores["now"],
+        "futur_score": metaScores["futur"],
+        "vers_soi_score": metaScores["vs"],
+        "vers_autres_score": metaScores["va"],
+        "visuel_score": metaScores["v"],
+        "auditif_score": metaScores["a"],
+        "kinesthesique_score": metaScores["k"],
+        "olfactif_score": metaScores["o"],
+        "gustatif_score": metaScores["g"],
+        "detail_score": metaScores["d"],
+        "global_score": metaScores["gbl"],
         "segments_part1": buildInterpretationSegments(scores,0),
         "segments_part2": buildInterpretationSegments(scores,1),
         "segments_part3": buildInterpretationSegments(scores,2),
         "segments_part4": buildInterpretationSegments(scores,3)
       };
-    }
+    } // Fin de fonction (construction de l'objet à retourner au webhook)
 
     function validateEmail(email) {
       // Simple RFC5322 version
@@ -626,7 +721,7 @@
 
       const payload = buildPayload(email);
 
-      console.log("[Form] Submission started. Payload:", payload);
+      //console.log("[Form] Submission started. Payload:", payload);
 
       let timeoutId;
       try {
