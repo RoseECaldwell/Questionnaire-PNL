@@ -496,7 +496,7 @@
     // allQuestions[index][0] = métaprogramme (v, a, k, o, g, proc, ...)
     // allQuestions[index][1] = intitulé de la question
     const allQuestions = [
-      ["v","Vous souvenez-vous plus facilement des visages que des noms ?"]/*,
+      ["v","Vous souvenez-vous plus facilement des visages que des noms ?"],
       ["v","Aimez-vous organiser votre espace de travail de façon esthétique et harmonieuse ?"],
       ["v","Choisissez-vous vos vêtements principalement en fonction de leur apparence visuelle ?"],
       ["v","Lorsqu'on vous explique quelque chose, préférez-vous voir un schéma ou un dessin à la place ?"],
@@ -600,7 +600,7 @@
       ["ext","Avez-vous tendance à parler pour réfléchir ?"],
       ["ext","Cherchez-vous la compagnie plutôt que la solitude ?"],
       ["ext","Les environnements dynamiques vous stimulent-ils ?"],
-      ["ext","Préférez-vous partager vos pensées plutôt que les garder pour vous ?"]*/
+      ["ext","Préférez-vous partager vos pensées plutôt que les garder pour vous ?"]
     ];
     
     // Question courante, qui sera incrémentée au fur et à mesure
@@ -732,7 +732,7 @@
 
     // Fonction qui retourne le pan correspondant à un métaprogramme
     function getPan(meta) {
-      // Pour chaque association [clé, valeur] ([pan, liste des métaprogrammes associés]
+      // Pour chaque association [clé, valeur] ([pan, liste des métaprogrammes associés]) de l'objet GLOBAL_PANS
       for (const [pan, metas] of Object.entries(GLOBAL_PANS)) {
         // Si la liste des métaprogrammes contien le métaprogramme recherché (en paramètre)
         if (metas.includes(meta)) {
@@ -752,7 +752,7 @@
       // On vérifie pour chaque question (q) en cours que le premier élément (q[0]) — donc le métaprogramme — fait partie de la liste des métaprogrammes du pan
       // Si le filtre est valide (le métaprogramme appartient bien au pan), alors on stocke la question dans le tableau
       return allQuestions.filter(q => metas.includes(q[0])).length; // On renvoie la longueur du tableau (nombre de questions stockées/filtrées)
-    };
+    }; // Fin  de fonction (nombre total de questions d'un pan donné)
 
     // Fonction permettant de calculer les résultats donnés
     function computeResults() {
