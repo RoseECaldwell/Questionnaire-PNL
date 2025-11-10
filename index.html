@@ -455,7 +455,7 @@
 
     // Scores pour chaque métaprogramme
     // Au fur et à mesure des questions et des réponses choisies, on incrémentera la clé correspondante au métaprogramme de la question en cours
-    const GLOBAL_SCORES= {
+    const GLOBAL_SCORES = {
       v: 0,
       a: 0,
       k: 0,
@@ -477,6 +477,18 @@
       ext: 0,
       d: 0,
       gbl: 0
+    };
+
+    // Liste des pans et des métaprogrammes qu'ils contiennent
+    const GLOBAL_PANS = {
+      vakog: ["v", "a", "k", "o", "g"],
+      proc_opt: ["proc", "opt"],
+      proa_rea: ["proa", "rea"],
+      temps: ["past", "now", "futur"],
+      motiv: ["pv", "obj", "aff"],
+      orientation: ["vs", "va"],
+      energie: ["int", "ext"],
+      focus: ["d", "gbl"]
     };
 
     // Tableau contenant toutes les questions
@@ -718,24 +730,56 @@
 
     showQuestion(0);
 
+    // Fonction qui retourne le pan correspondant à un métaprogramme
+    function getPan(meta) {
+      // Pour chaque association [clé, valeur] ([pan, liste des métaprogrammes associés]
+      for (const [pan, metas] of Object.entries(GLOBAL_PANS)) {
+        // Si la liste des métaprogrammes contien le métaprogramme recherché (en paramètre)
+        if (metas.includes(meta)) {
+          return pan; // On retourne le nom du pan (clé)
+        }
+      }
+      return null;
+    }; // Fin de fonction (récuparation du nom du pan)
+
+    // Fonction récupérant le nombre de questions pour chaque Pan
+    function totalQuestionsPan(pan) {
+      // On récupère la liste des métaprogrammes du pan en paramètre
+      const metas = GLOBAL_PANS[pan];
+      if (!metas) return 0; // Si aucun métaprogramme, on renvoie 0
+      
+      // On crée un filtre, qui ne conservera que les questions dont le métaprogramme appartient au pan (métaprogramme inclus dans la liste des métaprogrammes du pan)
+      // On vérifie pour chaque question (q) en cours que le premier élément (q[0]) — donc le métaprogramme — fait partie de la liste des métaprogrammes du pan
+      // Si le filtre est valide (le métaprogramme appartient bien au pan), alors on stocke la question dans le tableau
+      return allQuestions.filter(q => metas.includes(q[0])).length; // On renvoie la longueur du tableau (nombre de questions stockées/filtrées)
+    };
+
     // Fonction permettant de calculer les résultats donnés
     function computeResults() {
+      /*
+       *
+      ANCIENNE MÉTHODE DE CALCUL (PONDÉRATION PAR MÉTAPROGRAMME INDIVIDUEL AU LIEU DU PAN ENTIER
+      
       const totalQuestions = {}; // Objet qui contiendra, pour chaque métaprogramme, le nombre total de questions correspondantes
-      // Pour chaque question de la liste initiale, on récupère le métaprogramme correspondant
+      
+      
+      // Pour chaque question de la liste initiale, on compte le nombre de questions
       allQuestions.forEach( ([meta]) => {
         totalQuestions[meta] = (totalQuestions[meta] || 0) + 1; // On incrémente (en partant de 0 si aucune itération du métaprogramme en cours n'est pas encore apparue)
       });
 
-      // On récupère, pour chaque métaprogramme, le score correspondant :
+      *
+      */
       
+      // On récupère, pour chaque métaprogramme, le score correspondant pondéré par rapport au pan auquel il appartient :
       const metaScores = {}; // Contiendra le score calculé pour chaque métaprogramme
 
       // Pour chaque entrée (métaprogramme) des scores, on calcule le pourcentage
       Object.keys(GLOBAL_SCORES).forEach( meta => {
-        // Le pourcentage calculé du métaprogramme = score du métaprogramme divisé par le nombre total de questions relatives au métaprogramme fois 100
+        // Le pourcentage calculé du métaprogramme = score du métaprogramme divisé par le nombre total de questions du pan fois 100
         // Le tout multiplié par 100 pour avoir le pourcentage
-        // S'il n'y a aucune question pour un métaprogramme, alors le résultat sera 0 (division par 0 impossible)
-        metaScores[meta] = (totalQuestions[meta] == 0 ) ? 0 : Math.round(( GLOBAL_SCORES[meta] / ( totalQuestions[meta] * 100 ) ) * 100);
+        // S'il n'y a aucune question pour un pan, alors le résultat sera 0 (division par 0 impossible)
+        metaScores[meta] = (totalQuestionsPan(getPan(meta)) == 0 ) ? 0 : Math.round(( GLOBAL_SCORES[meta] / ( totalQuestionsPan(getPan(meta)) * 100 ) ) * 100);
       });
       
       // On renvoie le résultat des scores
