@@ -630,7 +630,7 @@
 
       // Pour chaque entrée (métaprogramme) des scores, on calcule le pourcentage
       Object.keys(GLOBAL_SCORES).forEach( meta => {
-        // Le pourcentage calculé du métaprogramme = score du métaprogramme divisé par le nombre total de questions relatives au métaprogrammefois 100
+        // Le pourcentage calculé du métaprogramme = score du métaprogramme divisé par le nombre total de questions relatives au métaprogramme fois 100
         // Le tout multiplié par 100 pour avoir le pourcentage
         // S'il n'y a aucune question pour un métaprogramme, alors le résultat sera 0 (division par 0 impossible)
         metaScores[meta] = (totalQuestions[meta] == 0 ) ? 0 : Math.round(( GLOBAL_SCORES[meta] / ( totalQuestions[meta] * 100 ) ) * 100);
