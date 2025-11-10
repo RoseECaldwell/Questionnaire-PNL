@@ -490,7 +490,7 @@
     ];
     
     // Question courante, qui sera incrémentée au fur et à mesure
-    const currentQ = 0;
+    let currentQ = 0;
 
     // Fonction de mélange aléatoire
     function shuffleArray(arr) {
@@ -509,7 +509,7 @@
     const questions = shuffleArray(allQuestions);
 
     // Vérifie si une réponse a été sélectionnée
-    const selected = null; // Par défaut, aucune réponse sélectionnée
+    let selected = null; // Par défaut, aucune réponse sélectionnée
     
     const exampleSegments = [
       "« Votre profil amoureux révèle une énergie singulière. Si la Motivation Pouvoir domine, vous êtes attiré(e) par l’influence et l’affirmation de soi, ce qui peut séduire mais aussi générer des tensions si votre partenaire partage la même intensité. L’équilibre naît lorsque Pouvoir rencontre Objectif ou Affiliation, car l’un apporte direction et l’autre connexion. Un Objectif dominant offre clarté et progression, idéalement complété par une Affiliation chaleureuse qui renforce la complicité. »",
