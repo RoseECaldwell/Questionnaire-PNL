@@ -850,7 +850,7 @@
           alert("Captcha invalide. Merci de réessayer.");
         } else {
           Array.from(resultBlock.querySelectorAll('input,button')).forEach(el=>el.style.display='none');
-          successMsg.textContent = "Merci ❤️ Votre analyse personnalisée a été envoyée à " + email + ".";
+          successMsg.textContent = "Merci ❤️ Votre analyse personnalisée a été envoyée à " + email + "(pensez à vérifier vos spams).";
           successMsg.style.display = 'block';
           setTimeout(() => {
             resultBlock.reset && resultBlock.reset();
