@@ -755,6 +755,7 @@
     }; // Fin  de fonction (nombre total de questions d'un pan donné)
 
     // Fonction permettant de calculer les résultats donnés
+    // pour chaque métaprogramme
     function computeResults() {
       /*
        *
@@ -785,6 +786,44 @@
       // On renvoie le résultat des scores
       return metaScores;
     } // Fin de fonction (calcul des résultats)
+
+    // Fonction permettant de calculer le score total (/100) d'un pan complet, quel que soit le nombre de métaprogrammes qu'il contient
+    // et peu importe le nombre de questions associées
+    function computePanResults() {
+
+      const panScores = {}; // Tableau qui contiendra les différents scores de chaque pan
+    
+      // Pour chaque pan
+      Object.keys(GLOBAL_PANS).forEach(pan => {
+    
+        const metas = GLOBAL_PANS[pan]; // On récupère les métaprogrammes correspondants
+    
+        // On récupère la somme totale brute des scores obtenus dans tous les métaprogrammes
+        // Par exemple, pour le pan VAKOG, on récupère la somme totale des scores des métaprogrammes V + A + K + O + G
+        const totalBrut = metas.reduce((sum, meta) => {
+          return sum + (GLOBAL_SCORES[meta] || 0);
+        }, 0);
+    
+        // Nombre total de questions du pan complet
+        const totalQuestions = totalQuestionsPan(pan);
+    
+        // Score maximum possible
+        // Par exemple, si 15 questions (3 métaprogrammes de 5 questions chacun),
+        // Le score maximal étant 100 (note de 0, 25, 75 ou 100) pour chaque question, la note max d'un pan serait 15 x 100 = 1500
+        const maxBrut = totalQuestions * 100;
+    
+        // On calcule le score du pan
+        // Si aucune question, on retourne 0
+        // Sinon, on calcule le total obtenu / note maximale possible, et on multiplie par 100 pour ramener le tout sur 100 et avoir le pourcentage
+        const scorePan = ( maxBrut === 0 ) ? 0 : Math.round((totalBrut / maxBrut) * 100);
+
+        // On affecte le score du pan dans le tableau des scores/pan
+        panScores[pan] = scorePan;
+      });
+
+      // On retourne le tableau des scores/pan
+      return panScores;
+    } // Fin de fonction (calcul du score d'un pan complet)
     
     function buildInterpretationSegments(scores, partIdx){
       return exampleSegments[partIdx];
@@ -793,6 +832,8 @@
     // Fonction construisant l'objet à renvoyer au webhook
     function buildPayload(email) {
       const scores = computeResults();
+      const scoresPan = computePanResults();
+      
       return {
         bonus_id: "tome1",
         response: "no-captcha",
@@ -818,6 +859,14 @@
         "gustatif_score": scores["g"],
         "detail_score": scores["d"],
         "global_score": scores["gbl"],
+        "vakog_score": scoresPan["vakog"],
+        "proc_opt_score": scoresPan["proc_opt"],
+        "proa_rea_score": scoresPan["proa_rea"],
+        "temps_score": scoresPan["temps"],
+        "motiv_score": scoresPan["motiv"],
+        "orientation_score": scoresPan["orientation"],
+        "energie_score": scoresPan["energie"],
+        "focus_score": scoresPan["focus"],
         "segments_part1": buildInterpretationSegments(scores,0),
         "segments_part2": buildInterpretationSegments(scores,1),
         "segments_part3": buildInterpretationSegments(scores,2),
