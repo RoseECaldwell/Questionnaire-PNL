@@ -742,7 +742,10 @@
       return null;
     }; // Fin de fonction (récuparation du nom du pan)
 
-    // Fonction récupérant le nombre de questions pour chaque Pan
+    /*
+     *
+     * Fonction récupérant le nombre de questions pour chaque Pan
+     */
     function totalQuestionsPan(pan) {
       // On récupère la liste des métaprogrammes du pan en paramètre
       const metas = GLOBAL_PANS[pan];
@@ -754,8 +757,26 @@
       return allQuestions.filter(q => metas.includes(q[0])).length; // On renvoie la longueur du tableau (nombre de questions stockées/filtrées)
     }; // Fin  de fonction (nombre total de questions d'un pan donné)
 
-    // Fonction permettant de calculer les résultats donnés
-    // pour chaque métaprogramme
+    /*
+     *
+     * Fonction récupérant le nombre de questions pour chaque métaprogramme
+     */
+    function totalQuestionsMeta(meta) {
+
+      const totalQuestions = {}; // Objet qui contiendra, pour chaque métaprogramme, le nombre total de questions correspondantes
+      
+      // Pour chaque question de la liste initiale, on compte le nombre de questions
+      allQuestions.forEach( ([meta]) => {
+        totalQuestions[meta] = (totalQuestions[meta] || 0) + 1; // On incrémente (en partant de 0 si aucune itération du métaprogramme en cours n'est pas encore apparue)
+      });
+      
+    }; // Fin  de fonction (nombre total de questions d'un métaprogramme donné)
+
+    /*
+     *
+     * Fonction permettant de calculer les résultats donnés
+     * pour chaque métaprogramme
+     */
     function computeResults() {
       /*
        *
@@ -777,18 +798,26 @@
 
       // Pour chaque entrée (métaprogramme) des scores, on calcule le pourcentage
       Object.keys(GLOBAL_SCORES).forEach( meta => {
-        // Le pourcentage calculé du métaprogramme = score du métaprogramme divisé par le nombre total de questions du pan fois 100
+        // Le pourcentage calculé du métaprogramme = score du métaprogramme divisé par le nombre total de questions du métaprogramme fois 100 (= moyenne)
         // Le tout multiplié par 100 pour avoir le pourcentage
         // S'il n'y a aucune question pour un pan, alors le résultat sera 0 (division par 0 impossible)
-        metaScores[meta] = (totalQuestionsPan(getPan(meta)) == 0 ) ? 0 : Math.round(( GLOBAL_SCORES[meta] / ( totalQuestionsPan(getPan(meta)) * 100 ) ) * 100);
+        /*
+         * ANCIENNE MÉTHODE : SCORE DU MÉTAPROGRAMME PAR RAPPORT AU PAN COMPLET
+         *
+         * metaScores[meta] = (totalQuestionsPan(getPan(meta)) == 0 ) ? 0 : Math.round(( GLOBAL_SCORES[meta] / ( totalQuestionsPan(getPan(meta)) * 100 ) ) * 100);
+         */
+        metaScores[meta] = (totalQuestionsMeta(meta) == 0 ) ? 0 : Math.round(( GLOBAL_SCORES[meta] / ( totalQuestionsMeta(meta) * 100 ) ) * 100);
       });
+      
       
       // On renvoie le résultat des scores
       return metaScores;
     } // Fin de fonction (calcul des résultats)
 
-    // Fonction permettant de calculer le score total (/100) d'un pan complet, quel que soit le nombre de métaprogrammes qu'il contient
-    // et peu importe le nombre de questions associées
+    /*
+     * Fonction permettant de calculer le score total (/100) d'un pan complet, quel que soit le nombre de métaprogrammes qu'il contient
+     * et peu importe le nombre de questions associées
+     */
     function computePanResults() {
 
       const panScores = {}; // Tableau qui contiendra les différents scores de chaque pan
@@ -832,7 +861,7 @@
     // Fonction construisant l'objet à renvoyer au webhook
     function buildPayload(email) {
       const scores = computeResults();
-      const scoresPan = computePanResults();
+      //const scoresPan = computePanResults();
       
       return {
         bonus_id: "tome1",
@@ -859,14 +888,14 @@
         "gustatif_score": scores["g"],
         "detail_score": scores["d"],
         "global_score": scores["gbl"],
-        "vakog_score": scoresPan["vakog"],
+        /*"vakog_score": scoresPan["vakog"],
         "proc_opt_score": scoresPan["proc_opt"],
         "proa_rea_score": scoresPan["proa_rea"],
         "temps_score": scoresPan["temps"],
         "motiv_score": scoresPan["motiv"],
         "orientation_score": scoresPan["orientation"],
         "energie_score": scoresPan["energie"],
-        "focus_score": scoresPan["focus"],
+        "focus_score": scoresPan["focus"],*/
         "segments_part1": buildInterpretationSegments(scores,0),
         "segments_part2": buildInterpretationSegments(scores,1),
         "segments_part3": buildInterpretationSegments(scores,2),
