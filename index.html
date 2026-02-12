@@ -763,6 +763,11 @@
      */
     function totalQuestionsMeta(meta) {
 /*
+
+DEBUG 12/02/2026
+MISE EN COMMENTAIRE
+AJOUT DU RETURN allQuestions.filter(q => q[0] === meta).length;
+
       const totalQuestions = {}; // Objet qui contiendra, pour chaque métaprogramme, le nombre total de questions correspondantes
       
       // Pour chaque question de la liste initiale, on compte le nombre de questions
@@ -770,6 +775,9 @@
         totalQuestions[meta] = (totalQuestions[meta] || 0) + 1; // On incrémente (en partant de 0 si aucune itération du métaprogramme en cours n'est pas encore apparue)
       });
       //return totalQuestions;
+
+      
+/ DEBUG 12/02/2026
 
   */
       return allQuestions.filter(q => q[0] === meta).length;
