@@ -762,14 +762,17 @@
      * Fonction récupérant le nombre de questions pour chaque métaprogramme
      */
     function totalQuestionsMeta(meta) {
-
+/*
       const totalQuestions = {}; // Objet qui contiendra, pour chaque métaprogramme, le nombre total de questions correspondantes
       
       // Pour chaque question de la liste initiale, on compte le nombre de questions
       allQuestions.forEach( ([meta]) => {
         totalQuestions[meta] = (totalQuestions[meta] || 0) + 1; // On incrémente (en partant de 0 si aucune itération du métaprogramme en cours n'est pas encore apparue)
       });
-      
+      //return totalQuestions;
+
+  */
+      return allQuestions.filter(q => q[0] === meta).length;
     }; // Fin  de fonction (nombre total de questions d'un métaprogramme donné)
 
     /*
